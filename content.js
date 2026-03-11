@@ -28,49 +28,71 @@ const COMPACT_POINTS_ICON_XPATH =
 const COMPACT_BUTTONS_OUTER_WRAPPER_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]";
 
-const ORIGINAL_STYLE_ATTR = "data-twitch-minifier-original-style";
-const HIDDEN_ATTR = "data-twitch-minifier-hidden";
+const STYLE_ID = "twitch-minifier-style";
+const LEGACY_STYLE_ID = "twitch-minifier-compact-style";
 const NULL_STYLE_VALUE = "__NULL__";
 
-const COMPACT_STYLE_ID = "twitch-minifier-compact-style";
-const COMPACT_ROOT_ATTR = "data-twitch-minifier-compact-root";
-const COMPACT_ROW_ATTR = "data-twitch-minifier-compact-row";
-const COMPACT_INPUT_ATTR = "data-twitch-minifier-compact-input";
-const COMPACT_BUTTONS_ATTR = "data-twitch-minifier-compact-buttons";
-const COMPACT_INLINE_STYLE_ATTR = "data-twitch-minifier-compact-inline-style";
-const COMPACT_INLINE_STYLE_ORIGINAL_ATTR =
-  "data-twitch-minifier-compact-inline-style-original";
+const CLASSES = {
+  hideEnabled: "tm-hide-enabled",
+  compactEnabled: "tm-compact-enabled",
+  hideTarget: "tm-hide-target",
+  compactRoot: "tm-compact-root",
+  compactRow: "tm-compact-row",
+  compactInput: "tm-compact-input",
+  compactButtons: "tm-compact-buttons",
+  compactHide: "tm-compact-hide",
+  compactOuterWrapper: "tm-compact-outer-wrapper",
+  pointsButton: "tm-points-button",
+  pointsKeep: "tm-points-keep",
+  pointsIcon: "tm-points-icon"
+};
 
-const COMPACT_CHAT_CSS = `
-[${COMPACT_ROOT_ATTR}="true"] {
+const LEGACY_ATTRIBUTES = [
+  "data-twitch-minifier-original-style",
+  "data-twitch-minifier-hidden",
+  "data-twitch-minifier-compact-root",
+  "data-twitch-minifier-compact-row",
+  "data-twitch-minifier-compact-input",
+  "data-twitch-minifier-compact-buttons",
+  "data-twitch-minifier-compact-inline-style",
+  "data-twitch-minifier-compact-inline-style-original"
+];
+
+const STYLES = `
+html.${CLASSES.hideEnabled} .${CLASSES.hideTarget} {
+  display: none !important;
+}
+
+html.${CLASSES.compactEnabled} .${CLASSES.compactRoot} {
   padding-top: 8px !important;
 }
 
-[${COMPACT_ROW_ATTR}="true"] {
+html.${CLASSES.compactEnabled} .${CLASSES.compactRow} {
   display: flex !important;
   align-items: flex-end !important;
   gap: 8px !important;
   width: 100% !important;
 }
 
-[${COMPACT_INPUT_ATTR}="true"] {
+html.${CLASSES.compactEnabled} .${CLASSES.compactInput} {
   flex: 1 1 auto !important;
   min-width: 0 !important;
   width: auto !important;
 }
 
-[${COMPACT_INPUT_ATTR}="true"] > * {
+html.${CLASSES.compactEnabled} .${CLASSES.compactInput} > * {
   width: 100% !important;
 }
 
-[${COMPACT_INPUT_ATTR}="true"] .chat-input__textarea,
-[${COMPACT_INPUT_ATTR}="true"] .chat-wysiwyg-input-box,
-[${COMPACT_INPUT_ATTR}="true"] .chat-wysiwyg-input-box > div:first-child {
+html.${CLASSES.compactEnabled} .${CLASSES.compactInput} .chat-input__textarea,
+html.${CLASSES.compactEnabled} .${CLASSES.compactInput} .chat-wysiwyg-input-box,
+html.${CLASSES.compactEnabled} .${CLASSES.compactInput} .chat-wysiwyg-input-box > div:first-child {
   min-width: 0 !important;
   width: 100% !important;
 }
 
-[${COMPACT_BUTTONS_ATTR}="true"] {
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} {
+  display: flex !important;
   flex: 0 0 auto !important;
   align-self: flex-end !important;
   justify-content: flex-start !important;
@@ -79,28 +101,28 @@ const COMPACT_CHAT_CSS = `
   overflow: hidden !important;
 }
 
-[${COMPACT_BUTTONS_ATTR}="true"] > div {
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} > div {
   display: flex !important;
   flex-wrap: nowrap !important;
   align-items: center !important;
   gap: 2px !important;
 }
 
-[${COMPACT_BUTTONS_ATTR}="true"] > div > div {
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} > div > div {
   display: flex !important;
   align-items: center !important;
   gap: 2px !important;
 }
 
-[${COMPACT_BUTTONS_ATTR}="true"] [data-test-selector="community-points-summary"] {
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="community-points-summary"] {
   margin-right: 2px !important;
   max-width: 28px !important;
   min-width: 28px !important;
   height: 28px !important;
 }
 
-[${COMPACT_BUTTONS_ATTR}="true"] [data-test-selector="community-points-summary"] > div,
-[${COMPACT_BUTTONS_ATTR}="true"] [data-test-selector="community-points-summary"] button {
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="community-points-summary"] > div,
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="community-points-summary"] button {
   max-width: 28px !important;
   min-width: 28px !important;
   width: 28px !important;
@@ -109,37 +131,101 @@ const COMPACT_CHAT_CSS = `
   border-radius: 6px !important;
 }
 
-[${COMPACT_BUTTONS_ATTR}="true"] [data-test-selector="bits-balance-string"],
-[${COMPACT_BUTTONS_ATTR}="true"] [data-test-selector="copo-balance-string"] {
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="bits-balance-string"],
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="copo-balance-string"],
+html.${CLASSES.compactEnabled} .${CLASSES.compactHide} {
   display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 0 !important;
+  overflow: hidden !important;
 }
 
-[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Chat settings"],
-[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Emote picker"] {
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Chat settings"],
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Emote picker"] {
   width: 28px !important;
   min-width: 28px !important;
   height: 28px !important;
   padding: 0 !important;
 }
 
-[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Chat settings"] {
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Chat settings"] {
   margin-left: 0 !important;
 }
 
-[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Chat settings"] svg,
-[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Emote picker"] svg {
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Chat settings"] svg,
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Emote picker"] svg {
   width: 18px !important;
   height: 18px !important;
 }
 
-[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Send Chat"] {
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Send Chat"] {
   display: none !important;
+}
+
+html.${CLASSES.compactEnabled} .${CLASSES.compactOuterWrapper} {
+  margin: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 0 !important;
+}
+
+html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  min-width: 28px !important;
+  max-width: 28px !important;
+  height: 28px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} * {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.pointsKeep},
+html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.pointsKeep} * {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  overflow: visible !important;
+}
+
+html.${CLASSES.compactEnabled} .${CLASSES.pointsIcon},
+html.${CLASSES.compactEnabled} .${CLASSES.pointsIcon} * {
+  width: 18px !important;
+  min-width: 18px !important;
+  max-width: 18px !important;
+  height: 18px !important;
 }
 `;
 
 const state = { ...DEFAULT_SETTINGS };
 
 let observer = null;
+let observerRoot = null;
 let applyQueued = false;
 
 function getNodeByXPath(xpath) {
@@ -152,192 +238,57 @@ function getNodeByXPath(xpath) {
   ).singleNodeValue;
 }
 
-function hideElement(element) {
-  if (!(element instanceof HTMLElement) || element.hasAttribute(HIDDEN_ATTR)) {
-    return;
-  }
+function ensureStyle() {
+  let style = document.getElementById(STYLE_ID);
 
-  const currentStyle = element.getAttribute("style");
-  element.setAttribute(
-    ORIGINAL_STYLE_ATTR,
-    currentStyle === null ? NULL_STYLE_VALUE : currentStyle
-  );
-  element.style.setProperty("display", "none", "important");
-  element.setAttribute(HIDDEN_ATTR, "true");
+  if (!style) {
+    style = document.createElement("style");
+    style.id = STYLE_ID;
+    style.textContent = STYLES;
+    document.documentElement.appendChild(style);
+  }
 }
 
-function restoreElement(element) {
-  if (!(element instanceof HTMLElement) || !element.hasAttribute(HIDDEN_ATTR)) {
+function restoreLegacyStyle(element, attributeName) {
+  if (!(element instanceof HTMLElement)) {
     return;
   }
 
-  const originalStyle = element.getAttribute(ORIGINAL_STYLE_ATTR);
+  const originalStyle = element.getAttribute(attributeName);
 
   if (originalStyle === NULL_STYLE_VALUE) {
     element.removeAttribute("style");
   } else if (originalStyle !== null) {
     element.setAttribute("style", originalStyle);
   }
-
-  element.removeAttribute(ORIGINAL_STYLE_ATTR);
-  element.removeAttribute(HIDDEN_ATTR);
 }
 
-function applyVisibility() {
+function cleanupLegacyArtifacts() {
+  document.getElementById(LEGACY_STYLE_ID)?.remove();
+
+  const selector = LEGACY_ATTRIBUTES.map((attribute) => `[${attribute}]`).join(", ");
+  const elements = new Set(document.querySelectorAll(selector));
+
+  for (const element of elements) {
+    restoreLegacyStyle(element, "data-twitch-minifier-compact-inline-style-original");
+    restoreLegacyStyle(element, "data-twitch-minifier-original-style");
+
+    for (const attribute of LEGACY_ATTRIBUTES) {
+      element.removeAttribute(attribute);
+    }
+  }
+}
+
+function addClass(node, className) {
+  if (node instanceof HTMLElement) {
+    node.classList.add(className);
+  }
+}
+
+function markHideTargets() {
   for (const xpath of TARGET_XPATHS) {
-    const element = getNodeByXPath(xpath);
-    if (!element) {
-      continue;
-    }
-
-    if (state[STORAGE_KEYS.hidePanels]) {
-      hideElement(element);
-    } else {
-      restoreElement(element);
-    }
+    addClass(getNodeByXPath(xpath), CLASSES.hideTarget);
   }
-}
-
-function getCompactStyleElement() {
-  return document.getElementById(COMPACT_STYLE_ID);
-}
-
-function ensureCompactStyle() {
-  let style = getCompactStyleElement();
-
-  if (!style) {
-    style = document.createElement("style");
-    style.id = COMPACT_STYLE_ID;
-    style.textContent = COMPACT_CHAT_CSS;
-    document.documentElement.appendChild(style);
-  }
-}
-
-function removeCompactStyle() {
-  getCompactStyleElement()?.remove();
-}
-
-function clearCompactMarkers() {
-  const selector = [
-    `[${COMPACT_ROOT_ATTR}]`,
-    `[${COMPACT_ROW_ATTR}]`,
-    `[${COMPACT_INPUT_ATTR}]`,
-    `[${COMPACT_BUTTONS_ATTR}]`
-  ].join(", ");
-
-  for (const element of document.querySelectorAll(selector)) {
-    element.removeAttribute(COMPACT_ROOT_ATTR);
-    element.removeAttribute(COMPACT_ROW_ATTR);
-    element.removeAttribute(COMPACT_INPUT_ATTR);
-    element.removeAttribute(COMPACT_BUTTONS_ATTR);
-  }
-}
-
-function applyCompactInlineStyles(element, styles) {
-  if (!(element instanceof HTMLElement)) {
-    return;
-  }
-
-  if (!element.hasAttribute(COMPACT_INLINE_STYLE_ATTR)) {
-    const currentStyle = element.getAttribute("style");
-    element.setAttribute(
-      COMPACT_INLINE_STYLE_ORIGINAL_ATTR,
-      currentStyle === null ? NULL_STYLE_VALUE : currentStyle
-    );
-  }
-
-  for (const [property, value] of styles) {
-    element.style.setProperty(property, value, "important");
-  }
-
-  element.setAttribute(COMPACT_INLINE_STYLE_ATTR, "true");
-}
-
-function restoreCompactInlineStyles() {
-  for (const element of document.querySelectorAll(
-    `[${COMPACT_INLINE_STYLE_ATTR}="true"]`
-  )) {
-    if (!(element instanceof HTMLElement)) {
-      continue;
-    }
-
-    const originalStyle = element.getAttribute(COMPACT_INLINE_STYLE_ORIGINAL_ATTR);
-
-    if (originalStyle === NULL_STYLE_VALUE) {
-      element.removeAttribute("style");
-    } else if (originalStyle !== null) {
-      element.setAttribute("style", originalStyle);
-    }
-
-    element.removeAttribute(COMPACT_INLINE_STYLE_ATTR);
-    element.removeAttribute(COMPACT_INLINE_STYLE_ORIGINAL_ATTR);
-  }
-}
-
-function applyCompactButtonIconOnly(button, icon) {
-  if (!(button instanceof HTMLElement) || !(icon instanceof HTMLElement)) {
-    return;
-  }
-
-  for (const element of button.querySelectorAll("*")) {
-    if (element === icon || element.contains(icon) || icon.contains(element)) {
-      continue;
-    }
-
-    applyCompactInlineStyles(element, [
-      ["display", "none"],
-      ["width", "0"],
-      ["min-width", "0"],
-      ["max-width", "0"],
-      ["height", "0"],
-      ["margin", "0"],
-      ["padding", "0"],
-      ["overflow", "hidden"]
-    ]);
-  }
-
-  let current = icon;
-  while (current instanceof HTMLElement) {
-    if (current === button) {
-      applyCompactInlineStyles(current, [
-        ["display", "flex"],
-        ["align-items", "center"],
-        ["justify-content", "center"],
-        ["width", "28px"],
-        ["min-width", "28px"],
-        ["max-width", "28px"],
-        ["height", "28px"],
-        ["padding", "0"],
-        ["margin", "0"],
-        ["overflow", "hidden"]
-      ]);
-      break;
-    }
-
-    applyCompactInlineStyles(current, [
-      ["display", "flex"],
-      ["align-items", "center"],
-      ["justify-content", "center"],
-      ["margin", "0"],
-      ["padding", "0"],
-      ["min-width", "0"],
-      ["gap", "0"]
-    ]);
-
-    current = current.parentElement;
-  }
-
-  applyCompactInlineStyles(icon, [
-    ["display", "flex"],
-    ["align-items", "center"],
-    ["justify-content", "center"],
-    ["width", "18px"],
-    ["min-width", "18px"],
-    ["max-width", "18px"],
-    ["height", "18px"],
-    ["margin", "0"],
-    ["padding", "0"]
-  ]);
 }
 
 function getCompactTargets(root) {
@@ -394,17 +345,22 @@ function getCompactRoots() {
   return Array.from(roots);
 }
 
-function applyCompactInputRow() {
-  restoreCompactInlineStyles();
-  clearCompactMarkers();
-
-  if (!state[STORAGE_KEYS.compactInputRow]) {
-    removeCompactStyle();
+function markCompactPointsButton(button, icon) {
+  if (!(button instanceof HTMLElement) || !(icon instanceof HTMLElement)) {
     return;
   }
 
-  ensureCompactStyle();
+  button.classList.add(CLASSES.pointsButton);
+  icon.classList.add(CLASSES.pointsIcon);
 
+  let current = icon;
+  while (current instanceof HTMLElement && current !== button) {
+    current.classList.add(CLASSES.pointsKeep);
+    current = current.parentElement;
+  }
+}
+
+function markCompactTargets() {
   for (const root of getCompactRoots()) {
     const targets = getCompactTargets(root);
 
@@ -412,53 +368,54 @@ function applyCompactInputRow() {
       continue;
     }
 
-    targets.root.setAttribute(COMPACT_ROOT_ATTR, "true");
-    targets.row.setAttribute(COMPACT_ROW_ATTR, "true");
-    targets.inputContainer.setAttribute(COMPACT_INPUT_ATTR, "true");
-    targets.buttons.setAttribute(COMPACT_BUTTONS_ATTR, "true");
+    targets.root.classList.add(CLASSES.compactRoot);
+    targets.row.classList.add(CLASSES.compactRow);
+    targets.inputContainer.classList.add(CLASSES.compactInput);
+    targets.buttons.classList.add(CLASSES.compactButtons);
   }
 
-  applyCompactInlineStyles(getNodeByXPath(COMPACT_OPTIONAL_BUTTON_XPATH), [
-    ["display", "none"]
-  ]);
+  addClass(getNodeByXPath(COMPACT_OPTIONAL_BUTTON_XPATH), CLASSES.compactHide);
+  addClass(getNodeByXPath(COMPACT_SPACER_XPATH), CLASSES.compactHide);
+  addClass(getNodeByXPath(COMPACT_BITS_INDICATOR_XPATH), CLASSES.compactHide);
+  addClass(
+    getNodeByXPath(COMPACT_BUTTONS_OUTER_WRAPPER_XPATH),
+    CLASSES.compactOuterWrapper
+  );
 
-  applyCompactInlineStyles(getNodeByXPath(COMPACT_SPACER_XPATH), [
-    ["display", "none"],
-    ["width", "0"],
-    ["min-width", "0"],
-    ["max-width", "0"],
-    ["margin", "0"],
-    ["padding", "0"],
-    ["flex", "0 0 0"],
-    ["overflow", "hidden"]
-  ]);
-
-  applyCompactInlineStyles(getNodeByXPath(COMPACT_BITS_INDICATOR_XPATH), [
-    ["display", "none"],
-    ["width", "0"],
-    ["min-width", "0"],
-    ["max-width", "0"],
-    ["margin", "0"],
-    ["padding", "0"],
-    ["overflow", "hidden"]
-  ]);
-
-  applyCompactButtonIconOnly(
+  markCompactPointsButton(
     getNodeByXPath(COMPACT_POINTS_BUTTON_XPATH),
     getNodeByXPath(COMPACT_POINTS_ICON_XPATH)
   );
+}
 
-  applyCompactInlineStyles(getNodeByXPath(COMPACT_BUTTONS_OUTER_WRAPPER_XPATH), [
-    ["margin", "0"],
-    ["margin-left", "0"],
-    ["margin-right", "0"],
-    ["padding", "0"]
-  ]);
+function applyRootClasses() {
+  const root = document.documentElement;
+  root.classList.toggle(CLASSES.hideEnabled, state[STORAGE_KEYS.hidePanels]);
+  root.classList.toggle(
+    CLASSES.compactEnabled,
+    state[STORAGE_KEYS.compactInputRow]
+  );
 }
 
 function applyFeatures() {
-  applyVisibility();
-  applyCompactInputRow();
+  cleanupLegacyArtifacts();
+  ensureStyle();
+  markHideTargets();
+
+  if (state[STORAGE_KEYS.compactInputRow]) {
+    markCompactTargets();
+  }
+
+  applyRootClasses();
+  updateObserver();
+}
+
+function getObserverRoot() {
+  return (
+    document.querySelector('[data-a-target="right-column-chat-bar"]') ||
+    document.body ||
+    document.documentElement
+  );
 }
 
 function scheduleApply() {
@@ -477,21 +434,6 @@ function shouldObserve() {
   return state[STORAGE_KEYS.hidePanels] || state[STORAGE_KEYS.compactInputRow];
 }
 
-function startObserver() {
-  if (observer) {
-    return;
-  }
-
-  observer = new MutationObserver(() => {
-    scheduleApply();
-  });
-
-  observer.observe(document.documentElement, {
-    childList: true,
-    subtree: true
-  });
-}
-
 function stopObserver() {
   if (!observer) {
     return;
@@ -499,6 +441,26 @@ function stopObserver() {
 
   observer.disconnect();
   observer = null;
+  observerRoot = null;
+}
+
+function startObserver() {
+  const nextRoot = getObserverRoot();
+
+  if (observer && observerRoot === nextRoot) {
+    return;
+  }
+
+  stopObserver();
+  observerRoot = nextRoot;
+  observer = new MutationObserver(() => {
+    scheduleApply();
+  });
+
+  observer.observe(observerRoot, {
+    childList: true,
+    subtree: true
+  });
 }
 
 function updateObserver() {
@@ -521,7 +483,6 @@ function normalizeSettings(settings) {
 chrome.storage.local.get(DEFAULT_SETTINGS, (result) => {
   Object.assign(state, normalizeSettings(result));
   applyFeatures();
-  updateObserver();
 });
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
@@ -545,5 +506,4 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
   }
 
   applyFeatures();
-  updateObserver();
 });
