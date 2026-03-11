@@ -54,6 +54,19 @@ const CLASSES = {
   pointsIcon: "tm-points-icon"
 };
 
+const COMPACT_XPATH_CLASS_MAP = [
+  { xpath: COMPACT_OPTIONAL_BUTTON_XPATH, className: CLASSES.compactHide },
+  { xpath: COMPACT_SPACER_XPATH, className: CLASSES.compactHide },
+  { xpath: COMPACT_BITS_INDICATOR_XPATH, className: CLASSES.compactHide },
+  { xpath: COMPACT_POINTS_EXTRA_XPATH, className: CLASSES.compactHide },
+  { xpath: COMPACT_ADDITIONAL_HIDE_XPATH, className: CLASSES.compactHide },
+  {
+    xpath: COMPACT_BUTTONS_OUTER_WRAPPER_XPATH,
+    className: CLASSES.compactOuterWrapper
+  },
+  { xpath: COMPACT_ALIGN_CENTER_XPATH, className: CLASSES.compactAlignCenter }
+];
+
 const LEGACY_ATTRIBUTES = [
   "data-twitch-minifier-original-style",
   "data-twitch-minifier-hidden",
@@ -224,7 +237,6 @@ html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.pointsKeep} {
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.pointsIcon},
-html.${CLASSES.compactEnabled} .${CLASSES.pointsIcon},
 html.${CLASSES.compactEnabled} .${CLASSES.pointsIcon} svg,
 html.${CLASSES.compactEnabled} .${CLASSES.pointsIcon} path {
   display: block !important;
@@ -310,6 +322,12 @@ function cleanupLegacyArtifacts() {
 function addClass(node, className) {
   if (node instanceof HTMLElement) {
     node.classList.add(className);
+  }
+}
+
+function markXPathTargets(targets) {
+  for (const { xpath, className } of targets) {
+    addClass(getNodeByXPath(xpath), className);
   }
 }
 
@@ -402,16 +420,7 @@ function markCompactTargets() {
     targets.buttons.classList.add(CLASSES.compactButtons);
   }
 
-  addClass(getNodeByXPath(COMPACT_OPTIONAL_BUTTON_XPATH), CLASSES.compactHide);
-  addClass(getNodeByXPath(COMPACT_SPACER_XPATH), CLASSES.compactHide);
-  addClass(getNodeByXPath(COMPACT_BITS_INDICATOR_XPATH), CLASSES.compactHide);
-  addClass(getNodeByXPath(COMPACT_POINTS_EXTRA_XPATH), CLASSES.compactHide);
-  addClass(getNodeByXPath(COMPACT_ADDITIONAL_HIDE_XPATH), CLASSES.compactHide);
-  addClass(
-    getNodeByXPath(COMPACT_BUTTONS_OUTER_WRAPPER_XPATH),
-    CLASSES.compactOuterWrapper
-  );
-  addClass(getNodeByXPath(COMPACT_ALIGN_CENTER_XPATH), CLASSES.compactAlignCenter);
+  markXPathTargets(COMPACT_XPATH_CLASS_MAP);
 
   markCompactPointsButton(
     getNodeByXPath(COMPACT_POINTS_BUTTON_XPATH),
@@ -429,6 +438,7 @@ function applyRootClasses() {
 }
 
 function applyFeatures() {
+  stopObserver();
   cleanupLegacyArtifacts();
   ensureStyle();
   markHideTargets();
