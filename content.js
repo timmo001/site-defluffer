@@ -266,6 +266,12 @@ html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.compactHide} 
   padding: 0 !important;
   overflow: hidden !important;
 }
+
+.reward-center__content__with-bits-rewards {
+  height: min(90svh, 37rem) !important;
+  max-height: min(90svh, 37rem) !important;
+  overflow-y: auto !important;
+}
 `;
 
 const state = { ...DEFAULT_SETTINGS };
