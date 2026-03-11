@@ -15,6 +15,18 @@ const TARGET_XPATHS = [
 
 const COMPACT_CONTAINER_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]";
+const COMPACT_OPTIONAL_BUTTON_XPATH =
+  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[1]/div[2]/div/div/div[3]/div/div[1]/div/button";
+const COMPACT_SPACER_XPATH =
+  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[2]";
+const COMPACT_BITS_INDICATOR_XPATH =
+  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[1]";
+const COMPACT_POINTS_BUTTON_XPATH =
+  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button";
+const COMPACT_POINTS_ICON_XPATH =
+  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[1]/div/div";
+const COMPACT_BUTTONS_OUTER_WRAPPER_XPATH =
+  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]";
 
 const ORIGINAL_STYLE_ATTR = "data-twitch-minifier-original-style";
 const HIDDEN_ATTR = "data-twitch-minifier-hidden";
@@ -25,6 +37,9 @@ const COMPACT_ROOT_ATTR = "data-twitch-minifier-compact-root";
 const COMPACT_ROW_ATTR = "data-twitch-minifier-compact-row";
 const COMPACT_INPUT_ATTR = "data-twitch-minifier-compact-input";
 const COMPACT_BUTTONS_ATTR = "data-twitch-minifier-compact-buttons";
+const COMPACT_INLINE_STYLE_ATTR = "data-twitch-minifier-compact-inline-style";
+const COMPACT_INLINE_STYLE_ORIGINAL_ATTR =
+  "data-twitch-minifier-compact-inline-style-original";
 
 const COMPACT_CHAT_CSS = `
 [${COMPACT_ROOT_ATTR}="true"] {
@@ -218,6 +233,113 @@ function clearCompactMarkers() {
   }
 }
 
+function applyCompactInlineStyles(element, styles) {
+  if (!(element instanceof HTMLElement)) {
+    return;
+  }
+
+  if (!element.hasAttribute(COMPACT_INLINE_STYLE_ATTR)) {
+    const currentStyle = element.getAttribute("style");
+    element.setAttribute(
+      COMPACT_INLINE_STYLE_ORIGINAL_ATTR,
+      currentStyle === null ? NULL_STYLE_VALUE : currentStyle
+    );
+  }
+
+  for (const [property, value] of styles) {
+    element.style.setProperty(property, value, "important");
+  }
+
+  element.setAttribute(COMPACT_INLINE_STYLE_ATTR, "true");
+}
+
+function restoreCompactInlineStyles() {
+  for (const element of document.querySelectorAll(
+    `[${COMPACT_INLINE_STYLE_ATTR}="true"]`
+  )) {
+    if (!(element instanceof HTMLElement)) {
+      continue;
+    }
+
+    const originalStyle = element.getAttribute(COMPACT_INLINE_STYLE_ORIGINAL_ATTR);
+
+    if (originalStyle === NULL_STYLE_VALUE) {
+      element.removeAttribute("style");
+    } else if (originalStyle !== null) {
+      element.setAttribute("style", originalStyle);
+    }
+
+    element.removeAttribute(COMPACT_INLINE_STYLE_ATTR);
+    element.removeAttribute(COMPACT_INLINE_STYLE_ORIGINAL_ATTR);
+  }
+}
+
+function applyCompactButtonIconOnly(button, icon) {
+  if (!(button instanceof HTMLElement) || !(icon instanceof HTMLElement)) {
+    return;
+  }
+
+  for (const element of button.querySelectorAll("*")) {
+    if (element === icon || element.contains(icon) || icon.contains(element)) {
+      continue;
+    }
+
+    applyCompactInlineStyles(element, [
+      ["display", "none"],
+      ["width", "0"],
+      ["min-width", "0"],
+      ["max-width", "0"],
+      ["height", "0"],
+      ["margin", "0"],
+      ["padding", "0"],
+      ["overflow", "hidden"]
+    ]);
+  }
+
+  let current = icon;
+  while (current instanceof HTMLElement) {
+    if (current === button) {
+      applyCompactInlineStyles(current, [
+        ["display", "flex"],
+        ["align-items", "center"],
+        ["justify-content", "center"],
+        ["width", "28px"],
+        ["min-width", "28px"],
+        ["max-width", "28px"],
+        ["height", "28px"],
+        ["padding", "0"],
+        ["margin", "0"],
+        ["overflow", "hidden"]
+      ]);
+      break;
+    }
+
+    applyCompactInlineStyles(current, [
+      ["display", "flex"],
+      ["align-items", "center"],
+      ["justify-content", "center"],
+      ["margin", "0"],
+      ["padding", "0"],
+      ["min-width", "0"],
+      ["gap", "0"]
+    ]);
+
+    current = current.parentElement;
+  }
+
+  applyCompactInlineStyles(icon, [
+    ["display", "flex"],
+    ["align-items", "center"],
+    ["justify-content", "center"],
+    ["width", "18px"],
+    ["min-width", "18px"],
+    ["max-width", "18px"],
+    ["height", "18px"],
+    ["margin", "0"],
+    ["padding", "0"]
+  ]);
+}
+
 function getCompactTargets(root) {
   if (!(root instanceof HTMLElement)) {
     return null;
@@ -273,6 +395,7 @@ function getCompactRoots() {
 }
 
 function applyCompactInputRow() {
+  restoreCompactInlineStyles();
   clearCompactMarkers();
 
   if (!state[STORAGE_KEYS.compactInputRow]) {
@@ -294,6 +417,43 @@ function applyCompactInputRow() {
     targets.inputContainer.setAttribute(COMPACT_INPUT_ATTR, "true");
     targets.buttons.setAttribute(COMPACT_BUTTONS_ATTR, "true");
   }
+
+  applyCompactInlineStyles(getNodeByXPath(COMPACT_OPTIONAL_BUTTON_XPATH), [
+    ["display", "none"]
+  ]);
+
+  applyCompactInlineStyles(getNodeByXPath(COMPACT_SPACER_XPATH), [
+    ["display", "none"],
+    ["width", "0"],
+    ["min-width", "0"],
+    ["max-width", "0"],
+    ["margin", "0"],
+    ["padding", "0"],
+    ["flex", "0 0 0"],
+    ["overflow", "hidden"]
+  ]);
+
+  applyCompactInlineStyles(getNodeByXPath(COMPACT_BITS_INDICATOR_XPATH), [
+    ["display", "none"],
+    ["width", "0"],
+    ["min-width", "0"],
+    ["max-width", "0"],
+    ["margin", "0"],
+    ["padding", "0"],
+    ["overflow", "hidden"]
+  ]);
+
+  applyCompactButtonIconOnly(
+    getNodeByXPath(COMPACT_POINTS_BUTTON_XPATH),
+    getNodeByXPath(COMPACT_POINTS_ICON_XPATH)
+  );
+
+  applyCompactInlineStyles(getNodeByXPath(COMPACT_BUTTONS_OUTER_WRAPPER_XPATH), [
+    ["margin", "0"],
+    ["margin-left", "0"],
+    ["margin-right", "0"],
+    ["padding", "0"]
+  ]);
 }
 
 function applyFeatures() {
