@@ -118,7 +118,7 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} {
   justify-content: flex-start !important;
   width: auto !important;
   max-width: 112px !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} > div {
@@ -139,6 +139,7 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="c
   max-width: 28px !important;
   min-width: 28px !important;
   height: 28px !important;
+  overflow: visible !important;
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="community-points-summary"] > div,
@@ -149,6 +150,7 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="c
   height: 28px !important;
   padding: 0 !important;
   border-radius: 6px !important;
+  overflow: visible !important;
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="bits-balance-string"],
@@ -208,7 +210,7 @@ html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} {
   height: 28px !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} * {
