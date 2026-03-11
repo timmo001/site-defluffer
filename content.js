@@ -27,6 +27,8 @@ const COMPACT_POINTS_ICON_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[1]/div/div";
 const COMPACT_BUTTONS_OUTER_WRAPPER_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]";
+const COMPACT_ALIGN_CENTER_XPATH =
+  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[3]/section/div/div[6]/div[2]/div[2]";
 
 const STYLE_ID = "twitch-minifier-style";
 const LEGACY_STYLE_ID = "twitch-minifier-compact-style";
@@ -42,6 +44,7 @@ const CLASSES = {
   compactButtons: "tm-compact-buttons",
   compactHide: "tm-compact-hide",
   compactOuterWrapper: "tm-compact-outer-wrapper",
+  compactAlignCenter: "tm-compact-align-center",
   pointsButton: "tm-points-button",
   pointsKeep: "tm-points-keep",
   pointsIcon: "tm-points-icon"
@@ -94,7 +97,7 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactInput} .chat-wysiwyg-input-box 
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} {
   display: flex !important;
   flex: 0 0 auto !important;
-  align-self: flex-end !important;
+  align-self: center !important;
   justify-content: flex-start !important;
   width: auto !important;
   max-width: 112px !important;
@@ -172,6 +175,10 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactOuterWrapper} {
   margin-left: 0 !important;
   margin-right: 0 !important;
   padding: 0 !important;
+}
+
+html.${CLASSES.compactEnabled} .${CLASSES.compactAlignCenter} {
+  align-self: center !important;
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} {
@@ -381,6 +388,7 @@ function markCompactTargets() {
     getNodeByXPath(COMPACT_BUTTONS_OUTER_WRAPPER_XPATH),
     CLASSES.compactOuterWrapper
   );
+  addClass(getNodeByXPath(COMPACT_ALIGN_CENTER_XPATH), CLASSES.compactAlignCenter);
 
   markCompactPointsButton(
     getNodeByXPath(COMPACT_POINTS_BUTTON_XPATH),
