@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Twitch Minifier",
+  "version": "1.0.0",
+  "description": "Hide specific Twitch sidebar panels with a toggleable MV3 extension.",
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Twitch Minifier"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.twitch.tv/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

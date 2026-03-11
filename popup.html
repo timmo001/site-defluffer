@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Twitch Minifier</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="popup">
+      <h1>Twitch Minifier</h1>
+      <label class="toggle" for="enabled-toggle">
+        <span class="toggle__copy">
+          <span class="toggle__title">Hide the targeted Twitch panels</span>
+          <span class="toggle__hint">Enabled by default</span>
+        </span>
+        <input id="enabled-toggle" type="checkbox">
+      </label>
+      <label class="toggle" for="compact-input-toggle">
+        <span class="toggle__copy">
+          <span class="toggle__title">Keep chat input and bits on one line</span>
+          <span class="toggle__hint">Disabled by default</span>
+        </span>
+        <input id="compact-input-toggle" type="checkbox">
+      </label>
+      <p id="status" class="status"></p>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
