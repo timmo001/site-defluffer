@@ -13,20 +13,29 @@ const TARGET_XPATHS = [
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[1]"
 ];
 
+const COMPACT_CONTAINER_XPATH =
+  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]";
+
 const ORIGINAL_STYLE_ATTR = "data-twitch-minifier-original-style";
 const HIDDEN_ATTR = "data-twitch-minifier-hidden";
 const NULL_STYLE_VALUE = "__NULL__";
 
 const COMPACT_STYLE_ID = "twitch-minifier-compact-style";
+const COMPACT_ROOT_ATTR = "data-twitch-minifier-compact-root";
 const COMPACT_ROW_ATTR = "data-twitch-minifier-compact-row";
 const COMPACT_INPUT_ATTR = "data-twitch-minifier-compact-input";
 const COMPACT_BUTTONS_ATTR = "data-twitch-minifier-compact-buttons";
 
 const COMPACT_CHAT_CSS = `
+[${COMPACT_ROOT_ATTR}="true"] {
+  padding-top: 8px !important;
+}
+
 [${COMPACT_ROW_ATTR}="true"] {
   display: flex !important;
   align-items: flex-end !important;
   gap: 8px !important;
+  width: 100% !important;
 }
 
 [${COMPACT_INPUT_ATTR}="true"] {
@@ -35,10 +44,15 @@ const COMPACT_CHAT_CSS = `
   width: auto !important;
 }
 
+[${COMPACT_INPUT_ATTR}="true"] > * {
+  width: 100% !important;
+}
+
 [${COMPACT_INPUT_ATTR}="true"] .chat-input__textarea,
-[${COMPACT_INPUT_ATTR}="true"] .chat-wysiwyg-input-box {
+[${COMPACT_INPUT_ATTR}="true"] .chat-wysiwyg-input-box,
+[${COMPACT_INPUT_ATTR}="true"] .chat-wysiwyg-input-box > div:first-child {
   min-width: 0 !important;
-  width: auto !important;
+  width: 100% !important;
 }
 
 [${COMPACT_BUTTONS_ATTR}="true"] {
@@ -46,14 +60,65 @@ const COMPACT_CHAT_CSS = `
   align-self: flex-end !important;
   justify-content: flex-start !important;
   width: auto !important;
+  max-width: 112px !important;
+  overflow: hidden !important;
 }
 
 [${COMPACT_BUTTONS_ATTR}="true"] > div {
+  display: flex !important;
   flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 2px !important;
+}
+
+[${COMPACT_BUTTONS_ATTR}="true"] > div > div {
+  display: flex !important;
+  align-items: center !important;
+  gap: 2px !important;
 }
 
 [${COMPACT_BUTTONS_ATTR}="true"] [data-test-selector="community-points-summary"] {
-  margin-right: 8px !important;
+  margin-right: 2px !important;
+  max-width: 28px !important;
+  min-width: 28px !important;
+  height: 28px !important;
+}
+
+[${COMPACT_BUTTONS_ATTR}="true"] [data-test-selector="community-points-summary"] > div,
+[${COMPACT_BUTTONS_ATTR}="true"] [data-test-selector="community-points-summary"] button {
+  max-width: 28px !important;
+  min-width: 28px !important;
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  border-radius: 6px !important;
+}
+
+[${COMPACT_BUTTONS_ATTR}="true"] [data-test-selector="bits-balance-string"],
+[${COMPACT_BUTTONS_ATTR}="true"] [data-test-selector="copo-balance-string"] {
+  display: none !important;
+}
+
+[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Chat settings"],
+[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Emote picker"] {
+  width: 28px !important;
+  min-width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+}
+
+[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Chat settings"] {
+  margin-left: 0 !important;
+}
+
+[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Chat settings"] svg,
+[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Emote picker"] svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+[${COMPACT_BUTTONS_ATTR}="true"] [aria-label="Send Chat"] {
+  display: none !important;
 }
 `;
 
@@ -139,16 +204,72 @@ function removeCompactStyle() {
 
 function clearCompactMarkers() {
   const selector = [
+    `[${COMPACT_ROOT_ATTR}]`,
     `[${COMPACT_ROW_ATTR}]`,
     `[${COMPACT_INPUT_ATTR}]`,
     `[${COMPACT_BUTTONS_ATTR}]`
   ].join(", ");
 
   for (const element of document.querySelectorAll(selector)) {
+    element.removeAttribute(COMPACT_ROOT_ATTR);
     element.removeAttribute(COMPACT_ROW_ATTR);
     element.removeAttribute(COMPACT_INPUT_ATTR);
     element.removeAttribute(COMPACT_BUTTONS_ATTR);
   }
+}
+
+function getCompactTargets(root) {
+  if (!(root instanceof HTMLElement)) {
+    return null;
+  }
+
+  const row = Array.from(root.children)
+    .reverse()
+    .find(
+      (child) =>
+        child instanceof HTMLElement &&
+        child.querySelector('[data-test-selector="chat-input-buttons-container"]')
+    );
+
+  if (!(row instanceof HTMLElement)) {
+    return null;
+  }
+
+  const buttons = row.querySelector(
+    '[data-test-selector="chat-input-buttons-container"]'
+  );
+
+  if (!(buttons instanceof HTMLElement)) {
+    return null;
+  }
+
+  const inputContainer = Array.from(row.children).find((child) => child !== buttons);
+
+  if (!(inputContainer instanceof HTMLElement)) {
+    return null;
+  }
+
+  return { root, row, inputContainer, buttons };
+}
+
+function getCompactRoots() {
+  const roots = new Set();
+  const xpathRoot = getNodeByXPath(COMPACT_CONTAINER_XPATH);
+
+  if (xpathRoot instanceof HTMLElement) {
+    roots.add(xpathRoot);
+  }
+
+  for (const element of document.querySelectorAll(
+    '[data-test-selector="chat-input-buttons-container"]'
+  )) {
+    const root = element.closest(".chat-input");
+    if (root instanceof HTMLElement) {
+      roots.add(root);
+    }
+  }
+
+  return Array.from(roots);
 }
 
 function applyCompactInputRow() {
@@ -161,29 +282,17 @@ function applyCompactInputRow() {
 
   ensureCompactStyle();
 
-  for (const element of document.querySelectorAll(
-    '[data-test-selector="chat-input-buttons-container"]'
-  )) {
-    if (!(element instanceof HTMLElement)) {
+  for (const root of getCompactRoots()) {
+    const targets = getCompactTargets(root);
+
+    if (!targets) {
       continue;
     }
 
-    const row = element.parentElement;
-    if (!(row instanceof HTMLElement)) {
-      continue;
-    }
-
-    const inputContainer = Array.from(row.children).find(
-      (child) => child !== element
-    );
-
-    if (!(inputContainer instanceof HTMLElement)) {
-      continue;
-    }
-
-    row.setAttribute(COMPACT_ROW_ATTR, "true");
-    inputContainer.setAttribute(COMPACT_INPUT_ATTR, "true");
-    element.setAttribute(COMPACT_BUTTONS_ATTR, "true");
+    targets.root.setAttribute(COMPACT_ROOT_ATTR, "true");
+    targets.row.setAttribute(COMPACT_ROW_ATTR, "true");
+    targets.inputContainer.setAttribute(COMPACT_INPUT_ATTR, "true");
+    targets.buttons.setAttribute(COMPACT_BUTTONS_ATTR, "true");
   }
 }
 
