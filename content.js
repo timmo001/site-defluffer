@@ -112,7 +112,7 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} > div {
   display: flex !important;
   flex-wrap: nowrap !important;
   align-items: center !important;
-  gap: 2px !important;
+  gap: 0 !important;
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} > div > div {
