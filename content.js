@@ -25,6 +25,10 @@ const COMPACT_POINTS_BUTTON_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button";
 const COMPACT_POINTS_ICON_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[1]/div/div";
+const COMPACT_POINTS_EXTRA_XPATH =
+  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[2]";
+const COMPACT_ADDITIONAL_HIDE_XPATH =
+  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[2]/div[1]";
 const COMPACT_BUTTONS_OUTER_WRAPPER_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]";
 const COMPACT_ALIGN_CENTER_XPATH =
@@ -205,8 +209,7 @@ html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} * {
   overflow: hidden !important;
 }
 
-html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.pointsKeep},
-html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.pointsKeep} * {
+html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.pointsKeep} {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -221,11 +224,29 @@ html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.pointsKeep} *
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.pointsIcon},
-html.${CLASSES.compactEnabled} .${CLASSES.pointsIcon} * {
+html.${CLASSES.compactEnabled} .${CLASSES.pointsIcon},
+html.${CLASSES.compactEnabled} .${CLASSES.pointsIcon} svg,
+html.${CLASSES.compactEnabled} .${CLASSES.pointsIcon} path {
+  display: block !important;
   width: 18px !important;
   min-width: 18px !important;
   max-width: 18px !important;
   height: 18px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.compactHide},
+html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.compactHide} * {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
 }
 `;
 
@@ -384,6 +405,8 @@ function markCompactTargets() {
   addClass(getNodeByXPath(COMPACT_OPTIONAL_BUTTON_XPATH), CLASSES.compactHide);
   addClass(getNodeByXPath(COMPACT_SPACER_XPATH), CLASSES.compactHide);
   addClass(getNodeByXPath(COMPACT_BITS_INDICATOR_XPATH), CLASSES.compactHide);
+  addClass(getNodeByXPath(COMPACT_POINTS_EXTRA_XPATH), CLASSES.compactHide);
+  addClass(getNodeByXPath(COMPACT_ADDITIONAL_HIDE_XPATH), CLASSES.compactHide);
   addClass(
     getNodeByXPath(COMPACT_BUTTONS_OUTER_WRAPPER_XPATH),
     CLASSES.compactOuterWrapper
