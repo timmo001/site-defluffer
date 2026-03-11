@@ -25,6 +25,10 @@ const COMPACT_POINTS_BUTTON_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button";
 const COMPACT_POINTS_ICON_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[1]/div/div";
+const COMPACT_POINTS_OPEN_SELECTOR =
+  '[data-test-selector="community-points-summary"] button[aria-expanded="true"]';
+const COMPACT_POINTS_POPUP_XPATH =
+  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div[2]";
 const COMPACT_POINTS_EXTRA_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[2]";
 const COMPACT_ADDITIONAL_HIDE_XPATH =
@@ -430,12 +434,19 @@ function markCompactTargets() {
   );
 }
 
+function isPointsPopupOpen() {
+  return (
+    document.querySelector(COMPACT_POINTS_OPEN_SELECTOR) instanceof HTMLElement ||
+    getNodeByXPath(COMPACT_POINTS_POPUP_XPATH) instanceof HTMLElement
+  );
+}
+
 function applyRootClasses() {
   const root = document.documentElement;
   root.classList.toggle(CLASSES.hideEnabled, state[STORAGE_KEYS.hidePanels]);
   root.classList.toggle(
     CLASSES.compactEnabled,
-    state[STORAGE_KEYS.compactInputRow]
+    state[STORAGE_KEYS.compactInputRow] && !isPointsPopupOpen()
   );
 }
 
@@ -501,6 +512,8 @@ function startObserver() {
   });
 
   observer.observe(observerRoot, {
+    attributes: true,
+    attributeFilter: ["aria-expanded"],
     childList: true,
     subtree: true
   });
