@@ -16,6 +16,17 @@ const toggles = {
 const SETTING_KEYS = Object.values(STORAGE_KEYS);
 const status = document.getElementById("status");
 
+function setStatus(message, state = "ready") {
+  status.textContent = message;
+
+  if (state === "ready") {
+    delete status.dataset.state;
+    return;
+  }
+
+  status.dataset.state = state;
+}
+
 function normalizeSettings(settings) {
   return {
     [STORAGE_KEYS.hidePanels]: Boolean(settings[STORAGE_KEYS.hidePanels]),
@@ -27,6 +38,11 @@ function normalizeSettings(settings) {
 
 function loadSettings() {
   chrome.storage.local.get(DEFAULT_SETTINGS, (result) => {
+    if (chrome.runtime.lastError) {
+      setStatus(chrome.runtime.lastError.message || "Failed to load settings.", "error");
+      return;
+    }
+
     render(normalizeSettings(result));
   });
 }
@@ -36,21 +52,7 @@ function render(settings) {
   toggles[STORAGE_KEYS.compactInputRow].checked =
     settings[STORAGE_KEYS.compactInputRow];
 
-  const parts = [];
-
-  parts.push(
-    settings[STORAGE_KEYS.hidePanels]
-      ? "Panel hiding is on."
-      : "Panel hiding is off."
-  );
-
-  parts.push(
-    settings[STORAGE_KEYS.compactInputRow]
-      ? "Compact chat row is on."
-      : "Compact chat row is off."
-  );
-
-  status.textContent = parts.join(" ");
+  setStatus("");
 }
 
 loadSettings();
@@ -84,6 +86,23 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
 for (const [key, toggle] of Object.entries(toggles)) {
   toggle.addEventListener("change", () => {
-    chrome.storage.local.set({ [key]: toggle.checked });
+    const nextValue = toggle.checked;
+    setStatus("");
+
+    chrome.storage.local.set({ [key]: nextValue }, () => {
+      if (!chrome.runtime.lastError) {
+        render(
+          normalizeSettings({
+            [STORAGE_KEYS.hidePanels]: toggles[STORAGE_KEYS.hidePanels].checked,
+            [STORAGE_KEYS.compactInputRow]:
+              toggles[STORAGE_KEYS.compactInputRow].checked
+          })
+        );
+        return;
+      }
+
+      toggle.checked = !nextValue;
+      setStatus(chrome.runtime.lastError.message || "Failed to save setting.", "error");
+    });
   });
 }
