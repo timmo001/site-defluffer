@@ -343,9 +343,26 @@ function markXPathTargets(targets) {
   }
 }
 
+function isVodChatReplay(node) {
+  if (!(node instanceof HTMLElement)) {
+    return false;
+  }
+
+  return (
+    node.closest(".video-chat") !== null ||
+    node.querySelector(".video-chat") !== null
+  );
+}
+
 function markHideTargets() {
   for (const xpath of TARGET_XPATHS) {
-    addClass(getNodeByXPath(xpath), CLASSES.hideTarget);
+    const node = getNodeByXPath(xpath);
+
+    if (isVodChatReplay(node)) {
+      continue;
+    }
+
+    addClass(node, CLASSES.hideTarget);
   }
 }
 
