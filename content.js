@@ -87,6 +87,10 @@ html.${CLASSES.hideEnabled} .${CLASSES.hideTarget} {
   display: none !important;
 }
 
+html.${CLASSES.hideEnabled} .video-chat__header {
+  display: none !important;
+}
+
 html.${CLASSES.compactEnabled} .${CLASSES.compactRoot} {
   padding-top: 8px !important;
 }
