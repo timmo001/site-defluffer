@@ -145,6 +145,10 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactRoot} {
   padding-top: 8px !important;
 }
 
+html.${CLASSES.compactEnabled} .chat-scrollable-area__message-container {
+  padding-bottom: 0.5rem !important;
+}
+
 html.${CLASSES.compactEnabled} .${CLASSES.compactRow} {
   display: flex !important;
   align-items: flex-end !important;
