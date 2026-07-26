@@ -11,9 +11,10 @@ Site Defluffer hides and compacts distracting interface elements on supported si
 
 ## Install
 
-1. Open `chrome://extensions` in Chromium.
-2. Enable **Developer mode**.
-3. Choose **Load unpacked** and select the `extension` directory.
+1. Run `pnpm install` and `pnpm build`.
+2. Open `chrome://extensions` in Chromium.
+3. Enable **Developer mode**.
+4. Choose **Load unpacked** and select the `extension` directory.
 
 ## Add a site
 
@@ -31,9 +32,8 @@ pnpm install
 pnpm check
 ```
 
-TypeScript source lives under `src/`. `pnpm build` generates the JavaScript
-tracked under `extension/`; rebuild before reloading the unpacked extension in
-Chromium.
+TypeScript source lives under `src/`. `pnpm build` generates ignored JavaScript
+under `extension/`; rebuild before reloading the unpacked extension in Chromium.
 
 ## Icons
 

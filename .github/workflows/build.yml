@@ -17,6 +17,5 @@ jobs:
     uses: timmo001/workflows/.github/workflows/build-pnpm.yml@db1c7b0288facbdf5afe34db9135d960992049ba # master
     with:
       build-command: pnpm check
-      additional-build-commands: git diff --exit-code -- extension
       artifact-name: site-defluffer-extension
       artifact-path: extension
