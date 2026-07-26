@@ -148,11 +148,12 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactInput} .chat-wysiwyg-input-box 
 
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} {
   display: flex !important;
+  flex-wrap: nowrap !important;
   flex: 0 0 auto !important;
   align-self: center !important;
   justify-content: flex-start !important;
   width: auto !important;
-  max-width: 112px !important;
+  max-width: none !important;
   margin: 0 !important;
   overflow: visible !important;
 }
@@ -191,18 +192,6 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="c
   padding: 0 !important;
   border-radius: 6px !important;
   overflow: visible !important;
-}
-
-html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="community-points-summary"]:has([aria-label="Claim Bonus"]) {
-  width: 60px !important;
-  min-width: 60px !important;
-  max-width: 60px !important;
-}
-
-html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="community-points-summary"]:has([aria-label="Claim Bonus"]) > div {
-  width: 28px !important;
-  min-width: 28px !important;
-  max-width: 28px !important;
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="bits-balance-string"],
