@@ -126,7 +126,7 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactRoot} {
 html.${CLASSES.compactEnabled} .${CLASSES.compactRow} {
   display: flex !important;
   align-items: flex-end !important;
-  gap: 8px !important;
+  gap: 4px !important;
   width: 100% !important;
 }
 
@@ -154,6 +154,7 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} {
   justify-content: flex-start !important;
   width: auto !important;
   max-width: 112px !important;
+  margin: 0 !important;
   overflow: visible !important;
 }
 
@@ -175,7 +176,7 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} div:has(> p:empty):has
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="community-points-summary"] {
-  margin-right: 2px !important;
+  margin-right: 4px !important;
   max-width: 28px !important;
   min-width: 28px !important;
   height: 28px !important;
@@ -191,6 +192,18 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="c
   padding: 0 !important;
   border-radius: 6px !important;
   overflow: visible !important;
+}
+
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="community-points-summary"]:has([aria-label="Claim Bonus"]) {
+  width: 60px !important;
+  min-width: 60px !important;
+  max-width: 60px !important;
+}
+
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="community-points-summary"]:has([aria-label="Claim Bonus"]) > div {
+  width: 28px !important;
+  min-width: 28px !important;
+  max-width: 28px !important;
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="bits-balance-string"],
@@ -221,6 +234,10 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Emote pic
 
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Chat settings"] {
   margin-left: 0 !important;
+}
+
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Chat settings"] .tw-svg {
+  justify-content: center !important;
 }
 
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Chat settings"] svg,
@@ -311,6 +328,11 @@ html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.compactHide} 
   height: min(90svh, 37rem) !important;
   max-height: min(90svh, 37rem) !important;
   overflow-y: auto !important;
+}
+
+[role="dialog"]:has(.reward-center__content) {
+  right: 0 !important;
+  left: auto !important;
 }
 `;
 
