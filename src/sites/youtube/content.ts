@@ -52,6 +52,7 @@ html.${CLASSES.hideHeader}.${CLASSES.fillPageHeight} {
 `;
 
 const state: Settings = { ...DEFAULT_SETTINGS };
+let hideHeaderOverride: boolean | null = null;
 
 function ensureStyle() {
   if (document.getElementById(STYLE_ID)) {
@@ -68,13 +69,32 @@ function applySettings() {
   ensureStyle();
   document.documentElement.classList.toggle(
     CLASSES.hideHeader,
-    state[HIDE_HEADER.key]
+    hideHeaderOverride ?? state[HIDE_HEADER.key]
   );
   document.documentElement.classList.toggle(
     CLASSES.fillPageHeight,
     state[FILL_PAGE_HEIGHT.key]
   );
 }
+
+document.addEventListener("keydown", (event) => {
+  if (
+    event.key.toLowerCase() !== "t" ||
+    !event.altKey ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.shiftKey ||
+    event.repeat
+  ) {
+    return;
+  }
+
+  event.preventDefault();
+  hideHeaderOverride = !document.documentElement.classList.contains(
+    CLASSES.hideHeader
+  );
+  applySettings();
+});
 
 chrome.storage.local.get(DEFAULT_SETTINGS, (result) => {
   Object.assign(state, decodeSettings(YOUTUBE_SETTINGS, result));
@@ -93,5 +113,6 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
   }
 
   Object.assign(state, nextState);
+  hideHeaderOverride = null;
   applySettings();
 });

@@ -13,6 +13,7 @@ Site Defluffer hides and compacts distracting interface elements on supported si
 
 - Hide the page header.
 - Resize the watch player to fill the page height.
+- Press `Alt+T` to temporarily toggle the header on the current page.
 
 ## Install
 
