@@ -2,8 +2,8 @@
 
 Site Defluffer hides and compacts distracting interface elements on supported sites.
 
-Press `Alt+Shift+T` to enable or disable all Site Defluffer changes without
-altering individual site settings.
+Press `Alt+Shift+T` on a supported site to enable or disable Site Defluffer for
+that site without altering its individual settings.
 
 ## Supported sites
 

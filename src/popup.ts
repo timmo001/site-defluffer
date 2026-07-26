@@ -3,7 +3,7 @@ import "@awesome.me/webawesome/dist/components/accordion/accordion.js";
 import { css, html, LitElement } from "lit";
 import "./components/site-settings.js";
 import type { SettingChangeDetail } from "./components/setting-switch.js";
-import { GLOBAL_SETTING, SITE_SETTINGS } from "./popup-settings.js";
+import { SITE_SETTINGS } from "./popup-settings.js";
 import "./popup.css";
 import {
   ALL_SETTINGS,
@@ -49,15 +49,6 @@ class SiteDeflufferPopup extends LitElement {
 
     .sites {
       margin-top: 14px;
-    }
-
-    .global-setting {
-      margin-top: 14px;
-      padding-inline: 14px;
-      background: var(--wa-color-neutral-fill-quiet);
-      border: var(--wa-panel-border-width) var(--wa-panel-border-style)
-        var(--wa-color-neutral-border-quiet);
-      border-radius: var(--wa-border-radius-l);
     }
 
     wa-accordion {
@@ -191,16 +182,6 @@ class SiteDeflufferPopup extends LitElement {
       <main>
         <h1>Site Defluffer</h1>
         <p class="intro">Remove the fluff from supported sites.</p>
-
-        <div class="global-setting">
-          <setting-switch
-            setting-key=${GLOBAL_SETTING.key}
-            label=${GLOBAL_SETTING.label}
-            hint=${GLOBAL_SETTING.hint}
-            .checked=${this.settings[GLOBAL_SETTING.key]}
-            @setting-change=${this.handleSettingChange}
-          ></setting-switch>
-        </div>
 
         <wa-accordion
           class="sites"

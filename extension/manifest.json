@@ -20,7 +20,7 @@
       "suggested_key": {
         "default": "Alt+Shift+T"
       },
-      "description": "Enable or disable Site Defluffer"
+      "description": "Enable or disable Site Defluffer on the current site"
     }
   },
   "action": {

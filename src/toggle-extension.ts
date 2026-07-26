@@ -1,26 +1,25 @@
-import { SETTING_CATALOG } from "./settings.js";
+import type { SettingDefinition } from "./settings.js";
 
-const EXTENSION_ENABLED = SETTING_CATALOG.extensionEnabled;
+export const TOGGLE_EXTENSION_MESSAGE = "toggle-extension";
 
-export function toggleExtension() {
+export function toggleExtension(setting: SettingDefinition) {
   chrome.storage.local.get(
-    { [EXTENSION_ENABLED.key]: EXTENSION_ENABLED.default },
+    { [setting.key]: setting.default },
     (result) => {
       if (chrome.runtime.lastError) {
         console.error(chrome.runtime.lastError.message);
         return;
       }
 
-      const enabled = result[EXTENSION_ENABLED.key];
+      const enabled = result[setting.key];
       chrome.storage.local.set({
-        [EXTENSION_ENABLED.key]:
-          typeof enabled === "boolean" ? !enabled : !EXTENSION_ENABLED.default
+        [setting.key]: typeof enabled === "boolean" ? !enabled : !setting.default
       });
     }
   );
 }
 
-export function handleToggleShortcut(event: KeyboardEvent) {
+function handleToggleShortcut(event: KeyboardEvent, setting: SettingDefinition) {
   if (
     event.key.toLowerCase() !== "t" ||
     !event.altKey ||
@@ -33,5 +32,21 @@ export function handleToggleShortcut(event: KeyboardEvent) {
   }
 
   event.preventDefault();
-  toggleExtension();
+  toggleExtension(setting);
+}
+
+export function registerExtensionToggle(setting: SettingDefinition) {
+  document.addEventListener("keydown", (event) => {
+    handleToggleShortcut(event, setting);
+  });
+  chrome.runtime.onMessage.addListener((message: unknown) => {
+    if (
+      typeof message === "object" &&
+      message !== null &&
+      "type" in message &&
+      message.type === TOGGLE_EXTENSION_MESSAGE
+    ) {
+      toggleExtension(setting);
+    }
+  });
 }

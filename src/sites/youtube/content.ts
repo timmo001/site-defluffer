@@ -5,12 +5,14 @@ import {
   YOUTUBE_SETTINGS,
   type SettingsFor
 } from "../../settings.js";
-import { handleToggleShortcut } from "../../toggle-extension.js";
+import { registerExtensionToggle } from "../../toggle-extension.js";
 
 type Settings = SettingsFor<typeof YOUTUBE_SETTINGS>;
 
 const DEFAULT_SETTINGS = getDefaultSettings(YOUTUBE_SETTINGS);
-const [EXTENSION_ENABLED, HIDE_HEADER, FILL_PAGE_HEIGHT] = YOUTUBE_SETTINGS;
+const [SITE_ENABLED, HIDE_HEADER, FILL_PAGE_HEIGHT] = YOUTUBE_SETTINGS;
+
+registerExtensionToggle(SITE_ENABLED);
 
 const STYLE_ID = "site-defluffer-youtube-style";
 const CLASSES = {
@@ -86,13 +88,13 @@ function applySettings() {
   document.documentElement.classList.toggle(
     CLASSES.hideHeader,
     hasMainPlayer &&
-      state[EXTENSION_ENABLED.key] &&
+      state[SITE_ENABLED.key] &&
       (hideHeaderOverride ?? state[HIDE_HEADER.key])
   );
   document.documentElement.classList.toggle(
     CLASSES.fillPageHeight,
     hasMainPlayer &&
-      state[EXTENSION_ENABLED.key] &&
+      state[SITE_ENABLED.key] &&
       state[FILL_PAGE_HEIGHT.key]
   );
   applyFloatingHeader();
@@ -100,7 +102,6 @@ function applySettings() {
   requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
 }
 
-document.addEventListener("keydown", handleToggleShortcut);
 document.addEventListener("yt-navigate-finish", applySettings);
 window.addEventListener("scroll", applyFloatingHeader, { passive: true });
 

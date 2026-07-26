@@ -6,16 +6,15 @@ export interface PopupSettingDefinition {
   hint?: string;
 }
 
-export const GLOBAL_SETTING = {
-  key: SETTING_CATALOG.extensionEnabled.key,
-  label: "Enable Site Defluffer",
-  hint: "Toggle anywhere with Alt+Shift+T"
-} as const satisfies PopupSettingDefinition;
-
 export const SITE_SETTINGS = [
   {
     name: "Twitch",
     settings: [
+      {
+        key: SETTING_CATALOG.twitchEnabled.key,
+        label: "Enable on Twitch",
+        hint: "Toggle on Twitch with Alt+Shift+T"
+      },
       {
         key: SETTING_CATALOG.twitchHidePanels.key,
         label: "Hide extra panels"
@@ -29,6 +28,11 @@ export const SITE_SETTINGS = [
   {
     name: "YouTube",
     settings: [
+      {
+        key: SETTING_CATALOG.youtubeEnabled.key,
+        label: "Enable on YouTube",
+        hint: "Toggle on YouTube with Alt+Shift+T"
+      },
       {
         key: SETTING_CATALOG.youtubeHideHeader.key,
         label: "Hide header",

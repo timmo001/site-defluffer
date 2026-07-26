@@ -1,6 +1,6 @@
 export const SETTING_CATALOG = {
-  extensionEnabled: {
-    key: "extensionEnabled",
+  twitchEnabled: {
+    key: "twitchEnabled",
     default: true
   },
   twitchHidePanels: {
@@ -10,6 +10,10 @@ export const SETTING_CATALOG = {
   twitchCompactInputRow: {
     key: "twitchMinifierCompactInputRow",
     default: false
+  },
+  youtubeEnabled: {
+    key: "youtubeEnabled",
+    default: true
   },
   youtubeHideHeader: {
     key: "youtubeHideHeader",
@@ -34,16 +38,14 @@ export type Settings = Record<SettingKey, boolean>;
 export const ALL_SETTINGS: readonly SettingDefinition[] =
   Object.values(SETTING_CATALOG);
 
-export const GLOBAL_SETTINGS = [SETTING_CATALOG.extensionEnabled] as const;
-
 export const TWITCH_SETTINGS = [
-  ...GLOBAL_SETTINGS,
+  SETTING_CATALOG.twitchEnabled,
   SETTING_CATALOG.twitchHidePanels,
   SETTING_CATALOG.twitchCompactInputRow
 ] as const;
 
 export const YOUTUBE_SETTINGS = [
-  ...GLOBAL_SETTINGS,
+  SETTING_CATALOG.youtubeEnabled,
   SETTING_CATALOG.youtubeHideHeader,
   SETTING_CATALOG.youtubeFillPageHeight
 ] as const;

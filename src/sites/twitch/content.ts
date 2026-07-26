@@ -5,7 +5,7 @@ import {
   TWITCH_SETTINGS,
   type SettingsFor
 } from "../../settings.js";
-import { handleToggleShortcut } from "../../toggle-extension.js";
+import { registerExtensionToggle } from "../../toggle-extension.js";
 
 type Settings = SettingsFor<typeof TWITCH_SETTINGS>;
 
@@ -22,9 +22,9 @@ interface CompactTargets {
 }
 
 const DEFAULT_SETTINGS = getDefaultSettings(TWITCH_SETTINGS);
-const [EXTENSION_ENABLED, HIDE_PANELS, COMPACT_INPUT_ROW] = TWITCH_SETTINGS;
+const [SITE_ENABLED, HIDE_PANELS, COMPACT_INPUT_ROW] = TWITCH_SETTINGS;
 
-document.addEventListener("keydown", handleToggleShortcut);
+registerExtensionToggle(SITE_ENABLED);
 
 const TARGET_XPATHS = [
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/div",
@@ -530,13 +530,13 @@ function applyRootClasses() {
   root.classList.toggle(
     CLASSES.hideEnabled,
     hasMainPlayer &&
-      state[EXTENSION_ENABLED.key] &&
+      state[SITE_ENABLED.key] &&
       state[HIDE_PANELS.key]
   );
   root.classList.toggle(
     CLASSES.compactEnabled,
     hasMainPlayer &&
-      state[EXTENSION_ENABLED.key] &&
+      state[SITE_ENABLED.key] &&
       state[COMPACT_INPUT_ROW.key] &&
       !isPointsPopupOpen()
   );
@@ -545,7 +545,7 @@ function applyRootClasses() {
 function reconcileDom() {
   markHideTargets();
 
-  if (state[EXTENSION_ENABLED.key] && state[COMPACT_INPUT_ROW.key]) {
+  if (state[SITE_ENABLED.key] && state[COMPACT_INPUT_ROW.key]) {
     markCompactTargets();
   }
 
@@ -571,7 +571,7 @@ function scheduleApply() {
 
 function shouldObserve() {
   return (
-    state[EXTENSION_ENABLED.key] &&
+    state[SITE_ENABLED.key] &&
     (state[HIDE_PANELS.key] || state[COMPACT_INPUT_ROW.key])
   );
 }
