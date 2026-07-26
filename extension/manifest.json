@@ -31,6 +31,15 @@
         "sites/twitch/content.js"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "sites/youtube/content.js"
+      ],
+      "run_at": "document_idle"
     }
   ]
 }

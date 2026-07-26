@@ -9,6 +9,11 @@ Site Defluffer hides and compacts distracting interface elements on supported si
 - Hide extra sidebar and chat panels.
 - Keep chat input controls on one line.
 
+### YouTube
+
+- Hide the page header.
+- Resize the watch player to fill the page height.
+
 ## Install
 
 1. Run `pnpm install` and `pnpm build`.
@@ -20,8 +25,7 @@ Site Defluffer hides and compacts distracting interface elements on supported si
 
 Site-specific content scripts live under `extension/sites/<site>/`. Add the
 site's script and URL match to `extension/manifest.json`, then group its controls
-in the popup. Site Defluffer currently requests access only to Twitch; YouTube
-support will be added separately.
+in the popup.
 
 ## Develop
 

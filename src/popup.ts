@@ -1,7 +1,9 @@
 const STORAGE_KEYS = {
   // Keep legacy keys so existing installations retain their settings.
-  hidePanels: "twitchMinifierEnabled",
-  compactInputRow: "twitchMinifierCompactInputRow"
+  twitchHidePanels: "twitchMinifierEnabled",
+  twitchCompactInputRow: "twitchMinifierCompactInputRow",
+  youtubeHideHeader: "youtubeHideHeader",
+  youtubeFillPageHeight: "youtubeFillPageHeight"
 } as const;
 
 type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
@@ -9,8 +11,10 @@ type Settings = Record<StorageKey, boolean>;
 type StatusState = "ready" | "error";
 
 const DEFAULT_SETTINGS = {
-  [STORAGE_KEYS.hidePanels]: true,
-  [STORAGE_KEYS.compactInputRow]: false
+  [STORAGE_KEYS.twitchHidePanels]: true,
+  [STORAGE_KEYS.twitchCompactInputRow]: false,
+  [STORAGE_KEYS.youtubeHideHeader]: false,
+  [STORAGE_KEYS.youtubeFillPageHeight]: false
 };
 
 function getRequiredElement<T extends HTMLElement>(
@@ -27,12 +31,20 @@ function getRequiredElement<T extends HTMLElement>(
 }
 
 const toggles: Record<StorageKey, HTMLInputElement> = {
-  [STORAGE_KEYS.hidePanels]: getRequiredElement(
+  [STORAGE_KEYS.twitchHidePanels]: getRequiredElement(
     "enabled-toggle",
     HTMLInputElement
   ),
-  [STORAGE_KEYS.compactInputRow]: getRequiredElement(
+  [STORAGE_KEYS.twitchCompactInputRow]: getRequiredElement(
     "compact-input-toggle",
+    HTMLInputElement
+  ),
+  [STORAGE_KEYS.youtubeHideHeader]: getRequiredElement(
+    "youtube-hide-header-toggle",
+    HTMLInputElement
+  ),
+  [STORAGE_KEYS.youtubeFillPageHeight]: getRequiredElement(
+    "youtube-fill-page-height-toggle",
     HTMLInputElement
   )
 };
@@ -53,9 +65,17 @@ function setStatus(message: string, state: StatusState = "ready") {
 
 function normalizeSettings(settings: Record<string, unknown>): Settings {
   return {
-    [STORAGE_KEYS.hidePanels]: Boolean(settings[STORAGE_KEYS.hidePanels]),
-    [STORAGE_KEYS.compactInputRow]: Boolean(
-      settings[STORAGE_KEYS.compactInputRow]
+    [STORAGE_KEYS.twitchHidePanels]: Boolean(
+      settings[STORAGE_KEYS.twitchHidePanels]
+    ),
+    [STORAGE_KEYS.twitchCompactInputRow]: Boolean(
+      settings[STORAGE_KEYS.twitchCompactInputRow]
+    ),
+    [STORAGE_KEYS.youtubeHideHeader]: Boolean(
+      settings[STORAGE_KEYS.youtubeHideHeader]
+    ),
+    [STORAGE_KEYS.youtubeFillPageHeight]: Boolean(
+      settings[STORAGE_KEYS.youtubeFillPageHeight]
     )
   };
 }
@@ -72,9 +92,9 @@ function loadSettings() {
 }
 
 function render(settings: Settings) {
-  toggles[STORAGE_KEYS.hidePanels].checked = settings[STORAGE_KEYS.hidePanels];
-  toggles[STORAGE_KEYS.compactInputRow].checked =
-    settings[STORAGE_KEYS.compactInputRow];
+  for (const key of SETTING_KEYS) {
+    toggles[key].checked = settings[key];
+  }
 
   setStatus("");
 }
@@ -87,9 +107,14 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
   }
 
   const nextSettings: Settings = normalizeSettings({
-    [STORAGE_KEYS.hidePanels]: toggles[STORAGE_KEYS.hidePanels].checked,
-    [STORAGE_KEYS.compactInputRow]:
-      toggles[STORAGE_KEYS.compactInputRow].checked
+    [STORAGE_KEYS.twitchHidePanels]:
+      toggles[STORAGE_KEYS.twitchHidePanels].checked,
+    [STORAGE_KEYS.twitchCompactInputRow]:
+      toggles[STORAGE_KEYS.twitchCompactInputRow].checked,
+    [STORAGE_KEYS.youtubeHideHeader]:
+      toggles[STORAGE_KEYS.youtubeHideHeader].checked,
+    [STORAGE_KEYS.youtubeFillPageHeight]:
+      toggles[STORAGE_KEYS.youtubeFillPageHeight].checked
   });
 
   let didChange = false;
@@ -117,9 +142,14 @@ for (const [key, toggle] of Object.entries(toggles)) {
       if (!chrome.runtime.lastError) {
         render(
           normalizeSettings({
-            [STORAGE_KEYS.hidePanels]: toggles[STORAGE_KEYS.hidePanels].checked,
-            [STORAGE_KEYS.compactInputRow]:
-              toggles[STORAGE_KEYS.compactInputRow].checked
+            [STORAGE_KEYS.twitchHidePanels]:
+              toggles[STORAGE_KEYS.twitchHidePanels].checked,
+            [STORAGE_KEYS.twitchCompactInputRow]:
+              toggles[STORAGE_KEYS.twitchCompactInputRow].checked,
+            [STORAGE_KEYS.youtubeHideHeader]:
+              toggles[STORAGE_KEYS.youtubeHideHeader].checked,
+            [STORAGE_KEYS.youtubeFillPageHeight]:
+              toggles[STORAGE_KEYS.youtubeFillPageHeight].checked
           })
         );
         return;
