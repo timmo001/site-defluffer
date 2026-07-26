@@ -169,6 +169,12 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactInput} .chat-wysiwyg-input-box 
   width: 100% !important;
 }
 
+html.${CLASSES.compactEnabled} .${CLASSES.compactInput} .chat-wysiwyg-input__editor,
+html.${CLASSES.compactEnabled} .${CLASSES.compactInput} .chat-wysiwyg-input__placeholder {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} {
   display: flex !important;
   flex-wrap: nowrap !important;
