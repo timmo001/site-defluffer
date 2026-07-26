@@ -1,0 +1,22 @@
+---
+name: Build
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request: {}
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: timmo001/workflows/.github/workflows/build-node-linux.yml@4f72a0cdee79dcaa134241497c51f727a90e1a3f # master
+    with:
+      use-pnpm: true
+      artifact-name: site-defluffer-extension
+      artifact-path: extension
+      additional-build-commands: pnpm typecheck && git diff --exit-code -- extension

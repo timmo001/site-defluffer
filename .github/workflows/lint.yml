@@ -1,0 +1,32 @@
+---
+name: Lint
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request: {}
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  actionlint:
+    uses: timmo001/workflows/.github/workflows/lint-actionlint.yml@4f72a0cdee79dcaa134241497c51f727a90e1a3f # master
+
+  markdownlint:
+    uses: timmo001/workflows/.github/workflows/lint-markdownlint.yml@4f72a0cdee79dcaa134241497c51f727a90e1a3f # master
+
+  yamllint:
+    uses: timmo001/workflows/.github/workflows/lint-yamllint.yml@4f72a0cdee79dcaa134241497c51f727a90e1a3f # master
+
+  jsonlint:
+    uses: timmo001/workflows/.github/workflows/lint-jsonlint.yml@4f72a0cdee79dcaa134241497c51f727a90e1a3f # master
+
+  shellcheck:
+    uses: timmo001/workflows/.github/workflows/lint-shellcheck.yml@4f72a0cdee79dcaa134241497c51f727a90e1a3f # master
+    with:
+      scandir: scripts
+      severity: warning
