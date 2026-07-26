@@ -15,6 +15,7 @@ const [EXTENSION_ENABLED, HIDE_HEADER, FILL_PAGE_HEIGHT] = YOUTUBE_SETTINGS;
 const STYLE_ID = "site-defluffer-youtube-style";
 const CLASSES = {
   hideHeader: "site-defluffer-youtube-hide-header",
+  floatingHeader: "site-defluffer-youtube-floating-header",
   fillPageHeight: "site-defluffer-youtube-fill-page-height"
 };
 
@@ -26,6 +27,10 @@ html.${CLASSES.hideHeader} ytd-app #masthead-placeholder {
 
 html.${CLASSES.hideHeader} ytd-app #page-manager {
   margin-top: 0 !important;
+}
+
+html.${CLASSES.hideHeader}.${CLASSES.floatingHeader} ytd-app #masthead-container {
+  display: block !important;
 }
 
 html.${CLASSES.fillPageHeight} ytd-watch-flexy[full-bleed-player] #full-bleed-container,
@@ -55,6 +60,14 @@ html.${CLASSES.hideHeader}.${CLASSES.fillPageHeight} {
 const state: Settings = { ...DEFAULT_SETTINGS };
 let hideHeaderOverride: boolean | null = null;
 
+function applyFloatingHeader() {
+  document.documentElement.classList.toggle(
+    CLASSES.floatingHeader,
+    document.documentElement.classList.contains(CLASSES.hideHeader) &&
+      window.scrollY > 200
+  );
+}
+
 function ensureStyle() {
   if (document.getElementById(STYLE_ID)) {
     return;
@@ -82,12 +95,14 @@ function applySettings() {
       state[EXTENSION_ENABLED.key] &&
       state[FILL_PAGE_HEIGHT.key]
   );
+  applyFloatingHeader();
 
   requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
 }
 
 document.addEventListener("keydown", handleToggleShortcut);
 document.addEventListener("yt-navigate-finish", applySettings);
+window.addEventListener("scroll", applyFloatingHeader, { passive: true });
 
 document.addEventListener("keydown", (event) => {
   if (
