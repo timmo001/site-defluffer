@@ -335,13 +335,13 @@ html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.compactHide} 
   overflow: hidden !important;
 }
 
-html.${CLASSES.hideEnabled} .reward-center__content__with-bits-rewards {
+html.${CLASSES.compactEnabled} .reward-center__content__with-bits-rewards {
   height: min(90svh, 37rem) !important;
   max-height: min(90svh, 37rem) !important;
   overflow-y: auto !important;
 }
 
-html.${CLASSES.hideEnabled} [role="dialog"]:has(.reward-center__content) {
+html.${CLASSES.compactEnabled} [role="dialog"]:has(.reward-center__content) {
   right: 0 !important;
   left: auto !important;
 }
