@@ -82,6 +82,8 @@ function applySettings() {
       state[EXTENSION_ENABLED.key] &&
       state[FILL_PAGE_HEIGHT.key]
   );
+
+  requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
 }
 
 document.addEventListener("keydown", handleToggleShortcut);
