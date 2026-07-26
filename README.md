@@ -19,6 +19,17 @@ Site Defluffer hides and compacts distracting interface elements on supported si
 
 Site-specific content scripts live under `extension/sites/<site>/`. Add the site's script and URL match to `extension/manifest.json`, then group its controls in the popup. Site Defluffer currently requests access only to Twitch; YouTube support will be added separately.
 
+## Develop
+
+Install dependencies and check the typed source with:
+
+```sh
+pnpm install
+pnpm check
+```
+
+TypeScript source lives under `src/`. `pnpm build` generates the JavaScript tracked under `extension/`; rebuild before reloading the unpacked extension in Chromium.
+
 ## Icons
 
 Edit `extension/icons/icon.svg`, then regenerate the PNG sizes with:

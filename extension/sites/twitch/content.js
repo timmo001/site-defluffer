@@ -1,92 +1,75 @@
-const STORAGE_KEYS = {
-  // Keep legacy keys so existing installations retain their settings.
-  hidePanels: "twitchMinifierEnabled",
-  compactInputRow: "twitchMinifierCompactInputRow"
-};
-
-const DEFAULT_SETTINGS = {
-  [STORAGE_KEYS.hidePanels]: true,
-  [STORAGE_KEYS.compactInputRow]: false
-};
-
-const TARGET_XPATHS = [
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/div",
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[1]"
-];
-
-const COMPACT_CONTAINER_XPATH =
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]";
-const COMPACT_OPTIONAL_BUTTON_XPATH =
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[1]/div[2]/div/div/div[3]/div/div[1]/div/button";
-const COMPACT_SPACER_XPATH =
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[2]";
-const COMPACT_BITS_INDICATOR_XPATH =
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[1]";
-const COMPACT_POINTS_BUTTON_XPATH =
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button";
-const COMPACT_POINTS_ICON_XPATH =
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[1]/div/div";
-const COMPACT_POINTS_OPEN_SELECTOR =
-  '[data-test-selector="community-points-summary"] button[aria-expanded="true"]';
-const COMPACT_POINTS_POPUP_XPATH =
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div[2]";
-const COMPACT_POINTS_EXTRA_XPATH =
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[2]";
-const COMPACT_ADDITIONAL_HIDE_XPATH =
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[2]/div[1]";
-const COMPACT_BUTTONS_OUTER_WRAPPER_XPATH =
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]";
-const COMPACT_ALIGN_CENTER_XPATH =
-  "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[3]/section/div/div[6]/div[2]/div[2]";
-
-const STYLE_ID = "site-defluffer-twitch-style";
-const LEGACY_STYLE_IDS = [
-  "twitch-minifier-style",
-  "twitch-minifier-compact-style"
-];
-const NULL_STYLE_VALUE = "__NULL__";
-
-const CLASSES = {
-  hideEnabled: "tm-hide-enabled",
-  compactEnabled: "tm-compact-enabled",
-  hideTarget: "tm-hide-target",
-  compactRoot: "tm-compact-root",
-  compactRow: "tm-compact-row",
-  compactInput: "tm-compact-input",
-  compactButtons: "tm-compact-buttons",
-  compactHide: "tm-compact-hide",
-  compactOuterWrapper: "tm-compact-outer-wrapper",
-  compactAlignCenter: "tm-compact-align-center",
-  pointsButton: "tm-points-button",
-  pointsKeep: "tm-points-keep",
-  pointsIcon: "tm-points-icon"
-};
-
-const COMPACT_XPATH_CLASS_MAP = [
-  { xpath: COMPACT_OPTIONAL_BUTTON_XPATH, className: CLASSES.compactHide },
-  { xpath: COMPACT_SPACER_XPATH, className: CLASSES.compactHide },
-  { xpath: COMPACT_BITS_INDICATOR_XPATH, className: CLASSES.compactHide },
-  { xpath: COMPACT_POINTS_EXTRA_XPATH, className: CLASSES.compactHide },
-  { xpath: COMPACT_ADDITIONAL_HIDE_XPATH, className: CLASSES.compactHide },
-  {
-    xpath: COMPACT_BUTTONS_OUTER_WRAPPER_XPATH,
-    className: CLASSES.compactOuterWrapper
-  },
-  { xpath: COMPACT_ALIGN_CENTER_XPATH, className: CLASSES.compactAlignCenter }
-];
-
-const LEGACY_ATTRIBUTES = [
-  "data-twitch-minifier-original-style",
-  "data-twitch-minifier-hidden",
-  "data-twitch-minifier-compact-root",
-  "data-twitch-minifier-compact-row",
-  "data-twitch-minifier-compact-input",
-  "data-twitch-minifier-compact-buttons",
-  "data-twitch-minifier-compact-inline-style",
-  "data-twitch-minifier-compact-inline-style-original"
-];
-
-const STYLES = `
+"use strict";
+(() => {
+  // src/sites/twitch/content.ts
+  var STORAGE_KEYS = {
+    // Keep legacy keys so existing installations retain their settings.
+    hidePanels: "twitchMinifierEnabled",
+    compactInputRow: "twitchMinifierCompactInputRow"
+  };
+  var DEFAULT_SETTINGS = {
+    [STORAGE_KEYS.hidePanels]: true,
+    [STORAGE_KEYS.compactInputRow]: false
+  };
+  var TARGET_XPATHS = [
+    "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/div",
+    "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[1]"
+  ];
+  var COMPACT_CONTAINER_XPATH = "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]";
+  var COMPACT_OPTIONAL_BUTTON_XPATH = "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[1]/div[2]/div/div/div[3]/div/div[1]/div/button";
+  var COMPACT_SPACER_XPATH = "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[2]";
+  var COMPACT_BITS_INDICATOR_XPATH = "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[1]";
+  var COMPACT_POINTS_BUTTON_XPATH = "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button";
+  var COMPACT_POINTS_ICON_XPATH = "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[1]/div/div";
+  var COMPACT_POINTS_OPEN_SELECTOR = '[data-test-selector="community-points-summary"] button[aria-expanded="true"]';
+  var COMPACT_POINTS_POPUP_XPATH = "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div[2]";
+  var COMPACT_POINTS_EXTRA_XPATH = "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[2]";
+  var COMPACT_ADDITIONAL_HIDE_XPATH = "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[2]/div[1]";
+  var COMPACT_BUTTONS_OUTER_WRAPPER_XPATH = "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]";
+  var COMPACT_ALIGN_CENTER_XPATH = "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[3]/section/div/div[6]/div[2]/div[2]";
+  var STYLE_ID = "site-defluffer-twitch-style";
+  var LEGACY_STYLE_IDS = [
+    "twitch-minifier-style",
+    "twitch-minifier-compact-style"
+  ];
+  var NULL_STYLE_VALUE = "__NULL__";
+  var CLASSES = {
+    hideEnabled: "tm-hide-enabled",
+    compactEnabled: "tm-compact-enabled",
+    hideTarget: "tm-hide-target",
+    compactRoot: "tm-compact-root",
+    compactRow: "tm-compact-row",
+    compactInput: "tm-compact-input",
+    compactButtons: "tm-compact-buttons",
+    compactHide: "tm-compact-hide",
+    compactOuterWrapper: "tm-compact-outer-wrapper",
+    compactAlignCenter: "tm-compact-align-center",
+    pointsButton: "tm-points-button",
+    pointsKeep: "tm-points-keep",
+    pointsIcon: "tm-points-icon"
+  };
+  var COMPACT_XPATH_CLASS_MAP = [
+    { xpath: COMPACT_OPTIONAL_BUTTON_XPATH, className: CLASSES.compactHide },
+    { xpath: COMPACT_SPACER_XPATH, className: CLASSES.compactHide },
+    { xpath: COMPACT_BITS_INDICATOR_XPATH, className: CLASSES.compactHide },
+    { xpath: COMPACT_POINTS_EXTRA_XPATH, className: CLASSES.compactHide },
+    { xpath: COMPACT_ADDITIONAL_HIDE_XPATH, className: CLASSES.compactHide },
+    {
+      xpath: COMPACT_BUTTONS_OUTER_WRAPPER_XPATH,
+      className: CLASSES.compactOuterWrapper
+    },
+    { xpath: COMPACT_ALIGN_CENTER_XPATH, className: CLASSES.compactAlignCenter }
+  ];
+  var LEGACY_ATTRIBUTES = [
+    "data-twitch-minifier-original-style",
+    "data-twitch-minifier-hidden",
+    "data-twitch-minifier-compact-root",
+    "data-twitch-minifier-compact-row",
+    "data-twitch-minifier-compact-input",
+    "data-twitch-minifier-compact-buttons",
+    "data-twitch-minifier-compact-inline-style",
+    "data-twitch-minifier-compact-inline-style-original"
+  ];
+  var STYLES = `
 html.${CLASSES.hideEnabled} .${CLASSES.hideTarget} {
   display: none !important;
 }
@@ -286,318 +269,242 @@ html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.compactHide} 
   overflow-y: auto !important;
 }
 `;
-
-const state = { ...DEFAULT_SETTINGS };
-
-let observer = null;
-let observerRoot = null;
-let applyQueued = false;
-
-function getNodeByXPath(xpath) {
-  return document.evaluate(
-    xpath,
-    document,
-    null,
-    XPathResult.FIRST_ORDERED_NODE_TYPE,
-    null
-  ).singleNodeValue;
-}
-
-function ensureStyle() {
-  let style = document.getElementById(STYLE_ID);
-
-  if (!style) {
-    style = document.createElement("style");
-    style.id = STYLE_ID;
-    style.textContent = STYLES;
-    document.documentElement.appendChild(style);
+  var state = { ...DEFAULT_SETTINGS };
+  var observer = null;
+  var observerRoot = null;
+  var applyQueued = false;
+  function getNodeByXPath(xpath) {
+    return document.evaluate(
+      xpath,
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    ).singleNodeValue;
   }
-}
-
-function restoreLegacyStyle(element, attributeName) {
-  if (!(element instanceof HTMLElement)) {
-    return;
-  }
-
-  const originalStyle = element.getAttribute(attributeName);
-
-  if (originalStyle === NULL_STYLE_VALUE) {
-    element.removeAttribute("style");
-  } else if (originalStyle !== null) {
-    element.setAttribute("style", originalStyle);
-  }
-}
-
-function cleanupLegacyArtifacts() {
-  for (const styleId of LEGACY_STYLE_IDS) {
-    document.getElementById(styleId)?.remove();
-  }
-
-  const selector = LEGACY_ATTRIBUTES.map((attribute) => `[${attribute}]`).join(", ");
-  const elements = new Set(document.querySelectorAll(selector));
-
-  for (const element of elements) {
-    restoreLegacyStyle(element, "data-twitch-minifier-compact-inline-style-original");
-    restoreLegacyStyle(element, "data-twitch-minifier-original-style");
-
-    for (const attribute of LEGACY_ATTRIBUTES) {
-      element.removeAttribute(attribute);
+  function ensureStyle() {
+    let style = document.getElementById(STYLE_ID);
+    if (!style) {
+      style = document.createElement("style");
+      style.id = STYLE_ID;
+      style.textContent = STYLES;
+      document.documentElement.appendChild(style);
     }
   }
-}
-
-function addClass(node, className) {
-  if (node instanceof HTMLElement) {
-    node.classList.add(className);
-  }
-}
-
-function markXPathTargets(targets) {
-  for (const { xpath, className } of targets) {
-    addClass(getNodeByXPath(xpath), className);
-  }
-}
-
-function isVodChatReplay(node) {
-  if (!(node instanceof HTMLElement)) {
-    return false;
-  }
-
-  return (
-    node.closest(".video-chat") !== null ||
-    node.querySelector(".video-chat") !== null
-  );
-}
-
-function markHideTargets() {
-  for (const xpath of TARGET_XPATHS) {
-    const node = getNodeByXPath(xpath);
-
-    if (isVodChatReplay(node)) {
-      continue;
+  function restoreLegacyStyle(element, attributeName) {
+    if (!(element instanceof HTMLElement)) {
+      return;
     }
-
-    addClass(node, CLASSES.hideTarget);
+    const originalStyle = element.getAttribute(attributeName);
+    if (originalStyle === NULL_STYLE_VALUE) {
+      element.removeAttribute("style");
+    } else if (originalStyle !== null) {
+      element.setAttribute("style", originalStyle);
+    }
   }
-}
-
-function getCompactTargets(root) {
-  if (!(root instanceof HTMLElement)) {
-    return null;
+  function cleanupLegacyArtifacts() {
+    for (const styleId of LEGACY_STYLE_IDS) {
+      document.getElementById(styleId)?.remove();
+    }
+    const selector = LEGACY_ATTRIBUTES.map((attribute) => `[${attribute}]`).join(", ");
+    const elements = new Set(document.querySelectorAll(selector));
+    for (const element of elements) {
+      restoreLegacyStyle(element, "data-twitch-minifier-compact-inline-style-original");
+      restoreLegacyStyle(element, "data-twitch-minifier-original-style");
+      for (const attribute of LEGACY_ATTRIBUTES) {
+        element.removeAttribute(attribute);
+      }
+    }
   }
-
-  const row = Array.from(root.children)
-    .reverse()
-    .find(
-      (child) =>
-        child instanceof HTMLElement &&
-        child.querySelector('[data-test-selector="chat-input-buttons-container"]')
+  function addClass(node, className) {
+    if (node instanceof HTMLElement) {
+      node.classList.add(className);
+    }
+  }
+  function markXPathTargets(targets) {
+    for (const { xpath, className } of targets) {
+      addClass(getNodeByXPath(xpath), className);
+    }
+  }
+  function isVodChatReplay(node) {
+    if (!(node instanceof HTMLElement)) {
+      return false;
+    }
+    return node.closest(".video-chat") !== null || node.querySelector(".video-chat") !== null;
+  }
+  function markHideTargets() {
+    for (const xpath of TARGET_XPATHS) {
+      const node = getNodeByXPath(xpath);
+      if (isVodChatReplay(node)) {
+        continue;
+      }
+      addClass(node, CLASSES.hideTarget);
+    }
+  }
+  function getCompactTargets(root) {
+    if (!(root instanceof HTMLElement)) {
+      return null;
+    }
+    const row = Array.from(root.children).reverse().find(
+      (child) => child instanceof HTMLElement && child.querySelector('[data-test-selector="chat-input-buttons-container"]')
     );
-
-  if (!(row instanceof HTMLElement)) {
-    return null;
+    if (!(row instanceof HTMLElement)) {
+      return null;
+    }
+    const buttons = row.querySelector(
+      '[data-test-selector="chat-input-buttons-container"]'
+    );
+    if (!(buttons instanceof HTMLElement)) {
+      return null;
+    }
+    const inputContainer = Array.from(row.children).find((child) => child !== buttons);
+    if (!(inputContainer instanceof HTMLElement)) {
+      return null;
+    }
+    return { root, row, inputContainer, buttons };
   }
-
-  const buttons = row.querySelector(
-    '[data-test-selector="chat-input-buttons-container"]'
-  );
-
-  if (!(buttons instanceof HTMLElement)) {
-    return null;
+  function getCompactRoots() {
+    const roots = /* @__PURE__ */ new Set();
+    const xpathRoot = getNodeByXPath(COMPACT_CONTAINER_XPATH);
+    if (xpathRoot instanceof HTMLElement) {
+      roots.add(xpathRoot);
+    }
+    for (const element of document.querySelectorAll(
+      '[data-test-selector="chat-input-buttons-container"]'
+    )) {
+      const root = element.closest(".chat-input");
+      if (root instanceof HTMLElement) {
+        roots.add(root);
+      }
+    }
+    return Array.from(roots);
   }
-
-  const inputContainer = Array.from(row.children).find((child) => child !== buttons);
-
-  if (!(inputContainer instanceof HTMLElement)) {
-    return null;
-  }
-
-  return { root, row, inputContainer, buttons };
-}
-
-function getCompactRoots() {
-  const roots = new Set();
-  const xpathRoot = getNodeByXPath(COMPACT_CONTAINER_XPATH);
-
-  if (xpathRoot instanceof HTMLElement) {
-    roots.add(xpathRoot);
-  }
-
-  for (const element of document.querySelectorAll(
-    '[data-test-selector="chat-input-buttons-container"]'
-  )) {
-    const root = element.closest(".chat-input");
-    if (root instanceof HTMLElement) {
-      roots.add(root);
+  function markCompactPointsButton(button, icon) {
+    if (!(button instanceof HTMLElement) || !(icon instanceof HTMLElement)) {
+      return;
+    }
+    button.classList.add(CLASSES.pointsButton);
+    icon.classList.add(CLASSES.pointsIcon);
+    let current = icon;
+    while (current instanceof HTMLElement && current !== button) {
+      current.classList.add(CLASSES.pointsKeep);
+      current = current.parentElement;
     }
   }
-
-  return Array.from(roots);
-}
-
-function markCompactPointsButton(button, icon) {
-  if (!(button instanceof HTMLElement) || !(icon instanceof HTMLElement)) {
-    return;
-  }
-
-  button.classList.add(CLASSES.pointsButton);
-  icon.classList.add(CLASSES.pointsIcon);
-
-  let current = icon;
-  while (current instanceof HTMLElement && current !== button) {
-    current.classList.add(CLASSES.pointsKeep);
-    current = current.parentElement;
-  }
-}
-
-function markCompactTargets() {
-  for (const root of getCompactRoots()) {
-    const targets = getCompactTargets(root);
-
-    if (!targets) {
-      continue;
+  function markCompactTargets() {
+    for (const root of getCompactRoots()) {
+      const targets = getCompactTargets(root);
+      if (!targets) {
+        continue;
+      }
+      targets.root.classList.add(CLASSES.compactRoot);
+      targets.row.classList.add(CLASSES.compactRow);
+      targets.inputContainer.classList.add(CLASSES.compactInput);
+      targets.buttons.classList.add(CLASSES.compactButtons);
     }
-
-    targets.root.classList.add(CLASSES.compactRoot);
-    targets.row.classList.add(CLASSES.compactRow);
-    targets.inputContainer.classList.add(CLASSES.compactInput);
-    targets.buttons.classList.add(CLASSES.compactButtons);
+    markXPathTargets(COMPACT_XPATH_CLASS_MAP);
+    markCompactPointsButton(
+      getNodeByXPath(COMPACT_POINTS_BUTTON_XPATH),
+      getNodeByXPath(COMPACT_POINTS_ICON_XPATH)
+    );
   }
-
-  markXPathTargets(COMPACT_XPATH_CLASS_MAP);
-
-  markCompactPointsButton(
-    getNodeByXPath(COMPACT_POINTS_BUTTON_XPATH),
-    getNodeByXPath(COMPACT_POINTS_ICON_XPATH)
-  );
-}
-
-function isPointsPopupOpen() {
-  return (
-    document.querySelector(COMPACT_POINTS_OPEN_SELECTOR) instanceof HTMLElement ||
-    getNodeByXPath(COMPACT_POINTS_POPUP_XPATH) instanceof HTMLElement
-  );
-}
-
-function applyRootClasses() {
-  const root = document.documentElement;
-  root.classList.toggle(CLASSES.hideEnabled, state[STORAGE_KEYS.hidePanels]);
-  root.classList.toggle(
-    CLASSES.compactEnabled,
-    state[STORAGE_KEYS.compactInputRow] && !isPointsPopupOpen()
-  );
-}
-
-function applyFeatures() {
-  stopObserver();
-  cleanupLegacyArtifacts();
-  ensureStyle();
-  markHideTargets();
-
-  if (state[STORAGE_KEYS.compactInputRow]) {
-    markCompactTargets();
+  function isPointsPopupOpen() {
+    return document.querySelector(COMPACT_POINTS_OPEN_SELECTOR) instanceof HTMLElement || getNodeByXPath(COMPACT_POINTS_POPUP_XPATH) instanceof HTMLElement;
   }
-
-  applyRootClasses();
-  updateObserver();
-}
-
-function getObserverRoot() {
-  return (
-    document.querySelector('[data-a-target="right-column-chat-bar"]') ||
-    document.body ||
-    document.documentElement
-  );
-}
-
-function scheduleApply() {
-  if (applyQueued) {
-    return;
+  function applyRootClasses() {
+    const root = document.documentElement;
+    root.classList.toggle(CLASSES.hideEnabled, state[STORAGE_KEYS.hidePanels]);
+    root.classList.toggle(
+      CLASSES.compactEnabled,
+      state[STORAGE_KEYS.compactInputRow] && !isPointsPopupOpen()
+    );
   }
-
-  applyQueued = true;
-  requestAnimationFrame(() => {
-    applyQueued = false;
+  function applyFeatures() {
+    stopObserver();
+    cleanupLegacyArtifacts();
+    ensureStyle();
+    markHideTargets();
+    if (state[STORAGE_KEYS.compactInputRow]) {
+      markCompactTargets();
+    }
+    applyRootClasses();
+    updateObserver();
+  }
+  function getObserverRoot() {
+    return document.querySelector('[data-a-target="right-column-chat-bar"]') || document.body || document.documentElement;
+  }
+  function scheduleApply() {
+    if (applyQueued) {
+      return;
+    }
+    applyQueued = true;
+    requestAnimationFrame(() => {
+      applyQueued = false;
+      applyFeatures();
+    });
+  }
+  function shouldObserve() {
+    return state[STORAGE_KEYS.hidePanels] || state[STORAGE_KEYS.compactInputRow];
+  }
+  function stopObserver() {
+    if (!observer) {
+      return;
+    }
+    observer.disconnect();
+    observer = null;
+    observerRoot = null;
+  }
+  function startObserver() {
+    const nextRoot = getObserverRoot();
+    if (observer && observerRoot === nextRoot) {
+      return;
+    }
+    stopObserver();
+    observerRoot = nextRoot;
+    observer = new MutationObserver(() => {
+      scheduleApply();
+    });
+    observer.observe(observerRoot, {
+      attributes: true,
+      attributeFilter: ["aria-expanded"],
+      childList: true,
+      subtree: true
+    });
+  }
+  function updateObserver() {
+    if (shouldObserve()) {
+      startObserver();
+    } else {
+      stopObserver();
+    }
+  }
+  function normalizeSettings(settings) {
+    return {
+      [STORAGE_KEYS.hidePanels]: Boolean(settings[STORAGE_KEYS.hidePanels]),
+      [STORAGE_KEYS.compactInputRow]: Boolean(
+        settings[STORAGE_KEYS.compactInputRow]
+      )
+    };
+  }
+  chrome.storage.local.get(DEFAULT_SETTINGS, (result) => {
+    Object.assign(state, normalizeSettings(result));
     applyFeatures();
   });
-}
-
-function shouldObserve() {
-  return state[STORAGE_KEYS.hidePanels] || state[STORAGE_KEYS.compactInputRow];
-}
-
-function stopObserver() {
-  if (!observer) {
-    return;
-  }
-
-  observer.disconnect();
-  observer = null;
-  observerRoot = null;
-}
-
-function startObserver() {
-  const nextRoot = getObserverRoot();
-
-  if (observer && observerRoot === nextRoot) {
-    return;
-  }
-
-  stopObserver();
-  observerRoot = nextRoot;
-  observer = new MutationObserver(() => {
-    scheduleApply();
-  });
-
-  observer.observe(observerRoot, {
-    attributes: true,
-    attributeFilter: ["aria-expanded"],
-    childList: true,
-    subtree: true
-  });
-}
-
-function updateObserver() {
-  if (shouldObserve()) {
-    startObserver();
-  } else {
-    stopObserver();
-  }
-}
-
-function normalizeSettings(settings) {
-  return {
-    [STORAGE_KEYS.hidePanels]: Boolean(settings[STORAGE_KEYS.hidePanels]),
-    [STORAGE_KEYS.compactInputRow]: Boolean(
-      settings[STORAGE_KEYS.compactInputRow]
-    )
-  };
-}
-
-chrome.storage.local.get(DEFAULT_SETTINGS, (result) => {
-  Object.assign(state, normalizeSettings(result));
-  applyFeatures();
-});
-
-chrome.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName !== "local") {
-    return;
-  }
-
-  let didChange = false;
-
-  for (const key of Object.values(STORAGE_KEYS)) {
-    if (!changes[key]) {
-      continue;
+  chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== "local") {
+      return;
     }
-
-    state[key] = Boolean(changes[key].newValue);
-    didChange = true;
-  }
-
-  if (!didChange) {
-    return;
-  }
-
-  applyFeatures();
-});
+    let didChange = false;
+    for (const key of Object.values(STORAGE_KEYS)) {
+      if (!changes[key]) {
+        continue;
+      }
+      state[key] = Boolean(changes[key].newValue);
+      didChange = true;
+    }
+    if (!didChange) {
+      return;
+    }
+    applyFeatures();
+  });
+})();
