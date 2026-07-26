@@ -111,11 +111,17 @@ const LEGACY_ATTRIBUTES = [
 const STYLES = `
 ${WINDOW_SCROLLBAR_STYLES}
 html.${NARROW_SCROLLBAR_CLASS} .chat-room .scrollable-area {
+  scrollbar-color: #444 transparent !important;
   scrollbar-width: thin !important;
 }
 
 html.${NARROW_SCROLLBAR_CLASS} .chat-room .scrollable-area::-webkit-scrollbar {
   width: 8px !important;
+}
+
+html.${NARROW_SCROLLBAR_CLASS} .chat-room .scrollable-area::-webkit-scrollbar-thumb {
+  background: #444 !important;
+  border-radius: 4px !important;
 }
 
 html.${CLASSES.hideEnabled} .${CLASSES.hideTarget} {
