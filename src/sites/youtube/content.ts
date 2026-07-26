@@ -67,6 +67,41 @@ html.${CLASSES.hideHeader}.${CLASSES.fillPageHeight} {
 
 const state: Settings = { ...DEFAULT_SETTINGS };
 let hideHeaderOverride: boolean | null = null;
+let playerObserver: MutationObserver | null = null;
+let playerObserverTimeout: number | null = null;
+
+function stopWaitingForMainPlayer() {
+  playerObserver?.disconnect();
+  playerObserver = null;
+
+  if (playerObserverTimeout !== null) {
+    window.clearTimeout(playerObserverTimeout);
+    playerObserverTimeout = null;
+  }
+}
+
+function waitForMainPlayer() {
+  if (playerObserver) {
+    return;
+  }
+
+  playerObserver = new MutationObserver(() => {
+    if (
+      document.querySelector("ytd-watch-flexy:not([hidden]) #movie_player") ===
+      null
+    ) {
+      return;
+    }
+
+    stopWaitingForMainPlayer();
+    applySettings();
+  });
+  playerObserver.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+  playerObserverTimeout = window.setTimeout(stopWaitingForMainPlayer, 10_000);
+}
 
 function applyFloatingHeader() {
   document.documentElement.classList.toggle(
@@ -91,6 +126,19 @@ function applySettings() {
   ensureStyle();
   const hasMainPlayer =
     document.querySelector("ytd-watch-flexy:not([hidden]) #movie_player") !== null;
+
+  if (hasMainPlayer) {
+    stopWaitingForMainPlayer();
+  } else if (
+    state[SITE_ENABLED.key] &&
+    ((hideHeaderOverride ?? state[HIDE_HEADER.key]) ||
+      state[FILL_PAGE_HEIGHT.key])
+  ) {
+    waitForMainPlayer();
+  } else {
+    stopWaitingForMainPlayer();
+  }
+
   document.documentElement.classList.toggle(
     CLASSES.hideHeader,
     hasMainPlayer &&
