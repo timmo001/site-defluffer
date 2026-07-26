@@ -1,3 +1,10 @@
+import "@awesome.me/webawesome/dist/components/callout/callout.js";
+import "@awesome.me/webawesome/dist/components/accordion/accordion.js";
+import { css, html, LitElement } from "lit";
+import "./components/site-settings.js";
+import type { SettingChangeDetail } from "./components/setting-switch.js";
+import "./popup.css";
+
 const STORAGE_KEYS = {
   // Keep legacy keys so existing installations retain their settings.
   twitchHidePanels: "twitchMinifierEnabled",
@@ -8,59 +15,49 @@ const STORAGE_KEYS = {
 
 type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
 type Settings = Record<StorageKey, boolean>;
-type StatusState = "ready" | "error";
 
-const DEFAULT_SETTINGS = {
+const DEFAULT_SETTINGS: Settings = {
   [STORAGE_KEYS.twitchHidePanels]: true,
   [STORAGE_KEYS.twitchCompactInputRow]: false,
   [STORAGE_KEYS.youtubeHideHeader]: false,
   [STORAGE_KEYS.youtubeFillPageHeight]: false
 };
 
-function getRequiredElement<T extends HTMLElement>(
-  id: string,
-  elementType: { new (): T }
-): T {
-  const element = document.getElementById(id);
-
-  if (!(element instanceof elementType)) {
-    throw new Error(`Missing #${id}`);
+const SITE_SETTINGS = [
+  {
+    name: "Twitch",
+    settings: [
+      {
+        key: STORAGE_KEYS.twitchHidePanels,
+        label: "Hide extra panels",
+        hint: "Enabled by default"
+      },
+      {
+        key: STORAGE_KEYS.twitchCompactInputRow,
+        label: "Keep chat input and bits on one line",
+        hint: "Disabled by default"
+      }
+    ]
+  },
+  {
+    name: "YouTube",
+    settings: [
+      {
+        key: STORAGE_KEYS.youtubeHideHeader,
+        label: "Hide header",
+        hint: "Disabled by default"
+      },
+      {
+        key: STORAGE_KEYS.youtubeFillPageHeight,
+        label: "Fill page height",
+        hint: "Disabled by default"
+      }
+    ]
   }
+] as const;
 
-  return element;
-}
-
-const toggles: Record<StorageKey, HTMLInputElement> = {
-  [STORAGE_KEYS.twitchHidePanels]: getRequiredElement(
-    "enabled-toggle",
-    HTMLInputElement
-  ),
-  [STORAGE_KEYS.twitchCompactInputRow]: getRequiredElement(
-    "compact-input-toggle",
-    HTMLInputElement
-  ),
-  [STORAGE_KEYS.youtubeHideHeader]: getRequiredElement(
-    "youtube-hide-header-toggle",
-    HTMLInputElement
-  ),
-  [STORAGE_KEYS.youtubeFillPageHeight]: getRequiredElement(
-    "youtube-fill-page-height-toggle",
-    HTMLInputElement
-  )
-};
-
-const SETTING_KEYS = Object.values(STORAGE_KEYS);
-const status = getRequiredElement("status", HTMLParagraphElement);
-
-function setStatus(message: string, state: StatusState = "ready") {
-  status.textContent = message;
-
-  if (state === "ready") {
-    delete status.dataset.state;
-    return;
-  }
-
-  status.dataset.state = state;
+function isStorageKey(key: string): key is StorageKey {
+  return Object.values(STORAGE_KEYS).some((storageKey) => storageKey === key);
 }
 
 function normalizeSettings(settings: Record<string, unknown>): Settings {
@@ -80,83 +77,218 @@ function normalizeSettings(settings: Record<string, unknown>): Settings {
   };
 }
 
-function loadSettings() {
-  chrome.storage.local.get(DEFAULT_SETTINGS, (result) => {
-    if (chrome.runtime.lastError) {
-      setStatus(chrome.runtime.lastError.message || "Failed to load settings.", "error");
+class SiteDeflufferPopup extends LitElement {
+  static properties = {
+    settings: { state: true },
+    error: { state: true },
+    openSite: { state: true }
+  };
+
+  static styles = css`
+    :host {
+      display: block;
+      min-width: 360px;
+    }
+
+    main {
+      padding: 18px;
+    }
+
+    h1 {
+      margin: 2px 0 0;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .intro {
+      margin: 8px 0 0;
+      color: var(--wa-color-text-quiet);
+    }
+
+    .sites {
+      margin-top: 14px;
+    }
+
+    wa-accordion {
+      display: grid;
+      gap: 14px;
+    }
+
+    wa-accordion-item {
+      --spacing: 14px;
+      --show-duration: 180ms;
+      --hide-duration: 180ms;
+      background: var(--wa-color-neutral-fill-quiet);
+      border: var(--wa-panel-border-width) var(--wa-panel-border-style)
+        var(--wa-color-neutral-border-quiet);
+      border-radius: var(--wa-border-radius-l);
+      overflow: hidden;
+    }
+
+    wa-accordion-item::part(label) {
+      color: var(--wa-color-text-quiet);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    wa-accordion-item::part(content) {
+      padding-block: 0;
+    }
+
+    wa-callout {
+      margin-top: 14px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      wa-accordion-item {
+        --show-duration: 0ms;
+        --hide-duration: 0ms;
+      }
+    }
+  `;
+
+  declare private settings: Settings;
+  declare private error: string;
+  declare private openSite: string;
+
+  constructor() {
+    super();
+    this.settings = DEFAULT_SETTINGS;
+    this.error = "";
+    this.openSite = "Twitch";
+  }
+
+  private readonly handleStorageChange = (
+    changes: Record<string, chrome.storage.StorageChange>,
+    areaName: string
+  ) => {
+    if (areaName !== "local") {
       return;
     }
 
-    render(normalizeSettings(result));
-  });
-}
+    const nextSettings = { ...this.settings };
+    let didChange = false;
 
-function render(settings: Settings) {
-  for (const key of SETTING_KEYS) {
-    toggles[key].checked = settings[key];
-  }
+    for (const key of Object.values(STORAGE_KEYS)) {
+      if (!changes[key]) {
+        continue;
+      }
 
-  setStatus("");
-}
-
-loadSettings();
-
-chrome.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName !== "local") {
-    return;
-  }
-
-  const nextSettings: Settings = normalizeSettings({
-    [STORAGE_KEYS.twitchHidePanels]:
-      toggles[STORAGE_KEYS.twitchHidePanels].checked,
-    [STORAGE_KEYS.twitchCompactInputRow]:
-      toggles[STORAGE_KEYS.twitchCompactInputRow].checked,
-    [STORAGE_KEYS.youtubeHideHeader]:
-      toggles[STORAGE_KEYS.youtubeHideHeader].checked,
-    [STORAGE_KEYS.youtubeFillPageHeight]:
-      toggles[STORAGE_KEYS.youtubeFillPageHeight].checked
-  });
-
-  let didChange = false;
-
-  for (const key of SETTING_KEYS) {
-    if (!changes[key]) {
-      continue;
+      nextSettings[key] = Boolean(changes[key].newValue);
+      didChange = true;
     }
 
-    nextSettings[key] = Boolean(changes[key].newValue);
-    didChange = true;
+    if (didChange) {
+      this.settings = nextSettings;
+    }
+  };
+
+  connectedCallback() {
+    super.connectedCallback();
+    chrome.storage.onChanged.addListener(this.handleStorageChange);
+    this.loadSettings();
   }
 
-  if (didChange) {
-    render(nextSettings);
+  disconnectedCallback() {
+    chrome.storage.onChanged.removeListener(this.handleStorageChange);
+    super.disconnectedCallback();
   }
-});
 
-for (const [key, toggle] of Object.entries(toggles)) {
-  toggle.addEventListener("change", () => {
-    const nextValue = toggle.checked;
-    setStatus("");
-
-    chrome.storage.local.set({ [key]: nextValue }, () => {
-      if (!chrome.runtime.lastError) {
-        render(
-          normalizeSettings({
-            [STORAGE_KEYS.twitchHidePanels]:
-              toggles[STORAGE_KEYS.twitchHidePanels].checked,
-            [STORAGE_KEYS.twitchCompactInputRow]:
-              toggles[STORAGE_KEYS.twitchCompactInputRow].checked,
-            [STORAGE_KEYS.youtubeHideHeader]:
-              toggles[STORAGE_KEYS.youtubeHideHeader].checked,
-            [STORAGE_KEYS.youtubeFillPageHeight]:
-              toggles[STORAGE_KEYS.youtubeFillPageHeight].checked
-          })
-        );
+  private loadSettings() {
+    chrome.storage.local.get(DEFAULT_SETTINGS, (result) => {
+      if (chrome.runtime.lastError) {
+        this.error =
+          chrome.runtime.lastError.message || "Failed to load settings.";
         return;
       }
 
-      toggle.checked = !nextValue;
-      setStatus(chrome.runtime.lastError.message || "Failed to save setting.", "error");
+      this.settings = normalizeSettings(result);
+      this.error = "";
     });
-  });
+  }
+
+  private handleSettingChange(event: CustomEvent<SettingChangeDetail>) {
+    const { key, checked } = event.detail;
+
+    if (!isStorageKey(key)) {
+      return;
+    }
+
+    const previousValue = this.settings[key];
+    this.settings = { ...this.settings, [key]: checked };
+    this.error = "";
+
+    chrome.storage.local.set({ [key]: checked }, () => {
+      if (!chrome.runtime.lastError) {
+        return;
+      }
+
+      this.settings = { ...this.settings, [key]: previousValue };
+      this.error =
+        chrome.runtime.lastError.message || "Failed to save setting.";
+    });
+  }
+
+  private handleAccordionExpand(
+    event: CustomEvent<{ item: HTMLElement & { label: string } }>
+  ) {
+    this.openSite = event.detail.item.label;
+  }
+
+  private handleAccordionCollapse(
+    event: CustomEvent<{ item: HTMLElement & { label: string } }>
+  ) {
+    if (event.detail.item.label === this.openSite) {
+      this.openSite = "";
+    }
+  }
+
+  render() {
+    return html`
+      <main>
+        <h1>Site Defluffer</h1>
+        <p class="intro">Remove the fluff from supported sites.</p>
+
+        <wa-accordion
+          class="sites"
+          mode="single-collapsible"
+          heading-level="2"
+          appearance="plain"
+          @wa-expand=${this.handleAccordionExpand}
+          @wa-collapse=${this.handleAccordionCollapse}
+        >
+          ${SITE_SETTINGS.map(
+            (site) => html`
+              <wa-accordion-item
+                label=${site.name}
+                ?expanded=${this.openSite === site.name}
+              >
+                <site-settings
+                  .settings=${site.settings}
+                  .values=${this.settings}
+                  @setting-change=${this.handleSettingChange}
+                ></site-settings>
+              </wa-accordion-item>
+            `
+          )}
+        </wa-accordion>
+
+        ${this.error
+          ? html`<wa-callout variant="danger" appearance="outlined">
+              ${this.error}
+            </wa-callout>`
+          : null}
+      </main>
+    `;
+  }
+}
+
+customElements.define("site-defluffer-popup", SiteDeflufferPopup);
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "site-defluffer-popup": SiteDeflufferPopup;
+  }
 }

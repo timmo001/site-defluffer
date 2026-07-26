@@ -8,6 +8,7 @@ await build({
   ],
   bundle: true,
   format: "iife",
+  loader: { ".woff2": "file" },
   outbase: "src",
   outdir: "extension"
 });

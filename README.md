@@ -36,8 +36,8 @@ pnpm install
 pnpm check
 ```
 
-TypeScript source lives under `src/`. `pnpm build` generates ignored JavaScript
-under `extension/`; rebuild before reloading the unpacked extension in Chromium.
+TypeScript and popup CSS source live under `src/`. `pnpm build` generates the
+extension assets; rebuild before reloading the unpacked extension in Chromium.
 
 ## Icons
 

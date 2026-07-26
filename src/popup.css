@@ -1,0 +1,45 @@
+@import "@awesome.me/webawesome/dist/styles/themes/default.css";
+
+:root {
+  --wa-font-family-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  --wa-color-surface-raised: oklch(0.3092 0 0);
+  --wa-color-surface-default: oklch(0.2134 0 0);
+  --wa-color-surface-lowered: oklch(0.1957 0 0);
+  --wa-color-surface-border: oklch(0.3897 0.0033 106.55);
+  --wa-color-neutral-fill-quiet: oklch(0.2727 0 0);
+  --wa-color-neutral-fill-normal: oklch(0.3092 0 0);
+  --wa-color-neutral-fill-loud: oklch(0.7688 0.0056 106.53);
+  --wa-color-neutral-border-quiet: oklch(0.3897 0.0033 106.55);
+  --wa-color-neutral-border-normal: oklch(0.5167 0.0031 106.51);
+  --wa-color-neutral-border-loud: oklch(0.6488 0.0058 106.56);
+  --wa-color-neutral-on-quiet: oklch(0.7688 0.0056 106.53);
+  --wa-color-neutral-on-normal: oklch(0.8998 0.004 106.48);
+  --wa-color-neutral-on-loud: oklch(0.1957 0 0);
+  --wa-color-brand-fill-quiet: oklch(0.3088 0.0018 106.5);
+  --wa-color-brand-fill-normal: oklch(0.5167 0.0031 106.51);
+  --wa-color-brand-fill-loud: oklch(0.6488 0.0058 106.56);
+  --wa-color-brand-border-quiet: oklch(0.5167 0.0031 106.51);
+  --wa-color-brand-border-normal: oklch(0.6488 0.0058 106.56);
+  --wa-color-brand-border-loud: oklch(0.8004 0.0055 106.52);
+  --wa-color-brand-on-quiet: oklch(0.8998 0.004 106.48);
+  --wa-color-brand-on-normal: oklch(0.9606 0.0027 106.45);
+  --wa-color-brand-on-loud: oklch(0.1957 0 0);
+  --wa-color-focus: oklch(0.8004 0.0055 106.52);
+  --wa-form-control-activated-color: var(--wa-color-brand-fill-loud);
+  margin: 0;
+  min-width: 360px;
+  background: linear-gradient(
+    160deg,
+    oklch(0.2435 0 0),
+    oklch(0.1957 0 0)
+  );
+  color: var(--wa-color-text-normal);
+  font: 14px/1.45 var(--wa-font-family-body);
+}

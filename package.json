@@ -12,5 +12,9 @@
     "@types/chrome": "0.2.2",
     "esbuild": "0.28.1",
     "typescript": "7.0.2"
+  },
+  "dependencies": {
+    "@awesome.me/webawesome": "3.10.0",
+    "lit": "3.3.3"
   }
 }

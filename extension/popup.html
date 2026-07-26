@@ -7,64 +7,7 @@
     <link rel="stylesheet" href="popup.css">
     <script src="popup.js" defer></script>
   </head>
-  <body>
-    <main class="panel">
-      <h1>Site Defluffer</h1>
-      <p class="intro">Remove the fluff from supported sites.</p>
-
-      <details class="card settings" name="site-settings" open>
-        <summary><span class="label">Twitch</span></summary>
-
-        <label class="toggle" for="enabled-toggle">
-          <span class="toggle__copy">
-            <span class="toggle__title">Hide extra panels</span>
-            <span class="toggle__hint">Enabled by default</span>
-          </span>
-          <span class="switch">
-            <input id="enabled-toggle" type="checkbox">
-            <span class="switch__ui" aria-hidden="true"></span>
-          </span>
-        </label>
-
-        <label class="toggle" for="compact-input-toggle">
-          <span class="toggle__copy">
-            <span class="toggle__title">Keep chat input and bits on one line</span>
-            <span class="toggle__hint">Disabled by default</span>
-          </span>
-          <span class="switch">
-            <input id="compact-input-toggle" type="checkbox">
-            <span class="switch__ui" aria-hidden="true"></span>
-          </span>
-        </label>
-      </details>
-
-      <details class="card settings" name="site-settings">
-        <summary><span class="label">YouTube</span></summary>
-
-        <label class="toggle" for="youtube-hide-header-toggle">
-          <span class="toggle__copy">
-            <span class="toggle__title">Hide header</span>
-            <span class="toggle__hint">Disabled by default</span>
-          </span>
-          <span class="switch">
-            <input id="youtube-hide-header-toggle" type="checkbox">
-            <span class="switch__ui" aria-hidden="true"></span>
-          </span>
-        </label>
-
-        <label class="toggle" for="youtube-fill-page-height-toggle">
-          <span class="toggle__copy">
-            <span class="toggle__title">Fill page height</span>
-            <span class="toggle__hint">Disabled by default</span>
-          </span>
-          <span class="switch">
-            <input id="youtube-fill-page-height-toggle" type="checkbox">
-            <span class="switch__ui" aria-hidden="true"></span>
-          </span>
-        </label>
-      </details>
-
-      <p id="status" class="status" aria-live="polite"></p>
-    </main>
+  <body class="wa-dark">
+    <site-defluffer-popup></site-defluffer-popup>
   </body>
 </html>
