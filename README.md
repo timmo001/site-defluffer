@@ -23,9 +23,9 @@ Site Defluffer hides and compacts distracting interface elements on supported si
 
 ## Add a site
 
-Site-specific content scripts live under `extension/sites/<site>/`. Add the
-site's script and URL match to `extension/manifest.json`, then group its controls
-in the popup.
+Site-specific content scripts live under `src/sites/<site>/`. Add the site's
+generated script path and URL match to `extension/manifest.json`, then group its
+controls in the settings catalog.
 
 ## Develop
 
