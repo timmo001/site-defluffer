@@ -1,16 +1,16 @@
 :root {
   color-scheme: dark;
-  --bg-top: #0e1720;
-  --bg-bottom: #060b12;
-  --panel: rgba(10, 17, 25, 0.92);
-  --card: rgba(17, 28, 38, 0.82);
-  --card-strong: rgba(22, 36, 48, 0.9);
-  --text: #eff6f8;
-  --muted: #9db3bf;
-  --accent: #2aa6b3;
-  --accent-strong: #14717c;
-  --border: rgba(173, 220, 227, 0.14);
-  --border-strong: rgba(173, 220, 227, 0.22);
+  --bg-top: #202020;
+  --bg-bottom: #151515;
+  --panel: rgba(25, 25, 25, 0.94);
+  --card: rgba(39, 39, 39, 0.86);
+  --card-strong: rgba(48, 48, 48, 0.92);
+  --text: #f2f2f0;
+  --muted: #b4b4b0;
+  --accent: #8f8f8b;
+  --accent-strong: #686866;
+  --border: rgba(218, 218, 214, 0.14);
+  --border-strong: rgba(218, 218, 214, 0.24);
   --danger: #ff8f8f;
   --shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
 }
@@ -22,7 +22,7 @@
 body {
   margin: 0;
   min-width: 360px;
-  background: var(--bg-top);
+  background: linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
   color: var(--text);
   font: 14px/1.45 "IBM Plex Sans", "Segoe UI", sans-serif;
 }
@@ -135,13 +135,13 @@ h1 {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #f3fbfc;
+  background: #f4f6f0;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
   transition: transform 140ms ease;
 }
 
 .switch input:checked + .switch__ui {
-  border-color: rgba(42, 166, 179, 0.5);
+  border-color: rgba(190, 190, 186, 0.62);
   background: var(--accent);
 }
 
@@ -150,7 +150,7 @@ h1 {
 }
 
 .switch input:focus-visible + .switch__ui {
-  outline: 2px solid rgba(42, 166, 179, 0.6);
+  outline: 2px solid rgba(190, 190, 186, 0.72);
   outline-offset: 2px;
 }
 

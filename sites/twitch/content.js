@@ -1,4 +1,5 @@
 const STORAGE_KEYS = {
+  // Keep legacy keys so existing installations retain their settings.
   hidePanels: "twitchMinifierEnabled",
   compactInputRow: "twitchMinifierCompactInputRow"
 };
@@ -38,8 +39,11 @@ const COMPACT_BUTTONS_OUTER_WRAPPER_XPATH =
 const COMPACT_ALIGN_CENTER_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[3]/section/div/div[6]/div[2]/div[2]";
 
-const STYLE_ID = "twitch-minifier-style";
-const LEGACY_STYLE_ID = "twitch-minifier-compact-style";
+const STYLE_ID = "site-defluffer-twitch-style";
+const LEGACY_STYLE_IDS = [
+  "twitch-minifier-style",
+  "twitch-minifier-compact-style"
+];
 const NULL_STYLE_VALUE = "__NULL__";
 
 const CLASSES = {
@@ -325,7 +329,9 @@ function restoreLegacyStyle(element, attributeName) {
 }
 
 function cleanupLegacyArtifacts() {
-  document.getElementById(LEGACY_STYLE_ID)?.remove();
+  for (const styleId of LEGACY_STYLE_IDS) {
+    document.getElementById(styleId)?.remove();
+  }
 
   const selector = LEGACY_ATTRIBUTES.map((attribute) => `[${attribute}]`).join(", ");
   const elements = new Set(document.querySelectorAll(selector));

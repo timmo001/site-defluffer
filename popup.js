@@ -1,4 +1,5 @@
 const STORAGE_KEYS = {
+  // Keep legacy keys so existing installations retain their settings.
   hidePanels: "twitchMinifierEnabled",
   compactInputRow: "twitchMinifierCompactInputRow"
 };

@@ -3,21 +3,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Twitch Minifier</title>
+    <title>Site Defluffer</title>
     <link rel="stylesheet" href="popup.css">
     <script src="popup.js" defer></script>
   </head>
   <body>
     <main class="panel">
-      <h1>Twitch Minifier</h1>
-      <p class="intro">Trim extra Twitch chrome so chat and video stay front and center.</p>
+      <h1>Site Defluffer</h1>
+      <p class="intro">Remove the fluff from supported sites.</p>
 
-      <section class="card settings" aria-label="Extension settings">
-        <p class="label">Controls</p>
+      <section class="card settings" aria-labelledby="twitch-settings">
+        <p id="twitch-settings" class="label">Twitch</p>
 
         <label class="toggle" for="enabled-toggle">
           <span class="toggle__copy">
-            <span class="toggle__title">Hide the targeted Twitch panels</span>
+            <span class="toggle__title">Hide extra panels</span>
             <span class="toggle__hint">Enabled by default</span>
           </span>
           <span class="switch">
