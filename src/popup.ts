@@ -3,79 +3,19 @@ import "@awesome.me/webawesome/dist/components/accordion/accordion.js";
 import { css, html, LitElement } from "lit";
 import "./components/site-settings.js";
 import type { SettingChangeDetail } from "./components/setting-switch.js";
+import { SITE_SETTINGS } from "./popup-settings.js";
 import "./popup.css";
+import {
+  ALL_SETTINGS,
+  applyStorageChanges,
+  decodeSettings,
+  getDefaultSettings,
+  type Settings
+} from "./settings.js";
 
-const STORAGE_KEYS = {
-  // Keep legacy keys so existing installations retain their settings.
-  twitchHidePanels: "twitchMinifierEnabled",
-  twitchCompactInputRow: "twitchMinifierCompactInputRow",
-  youtubeHideHeader: "youtubeHideHeader",
-  youtubeFillPageHeight: "youtubeFillPageHeight"
-} as const;
-
-type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
-type Settings = Record<StorageKey, boolean>;
-
-const DEFAULT_SETTINGS: Settings = {
-  [STORAGE_KEYS.twitchHidePanels]: true,
-  [STORAGE_KEYS.twitchCompactInputRow]: false,
-  [STORAGE_KEYS.youtubeHideHeader]: false,
-  [STORAGE_KEYS.youtubeFillPageHeight]: false
-};
-
-const SITE_SETTINGS = [
-  {
-    name: "Twitch",
-    settings: [
-      {
-        key: STORAGE_KEYS.twitchHidePanels,
-        label: "Hide extra panels",
-        hint: "Enabled by default"
-      },
-      {
-        key: STORAGE_KEYS.twitchCompactInputRow,
-        label: "Keep chat input and bits on one line",
-        hint: "Disabled by default"
-      }
-    ]
-  },
-  {
-    name: "YouTube",
-    settings: [
-      {
-        key: STORAGE_KEYS.youtubeHideHeader,
-        label: "Hide header",
-        hint: "Disabled by default"
-      },
-      {
-        key: STORAGE_KEYS.youtubeFillPageHeight,
-        label: "Fill page height",
-        hint: "Disabled by default"
-      }
-    ]
-  }
-] as const;
-
-function isStorageKey(key: string): key is StorageKey {
-  return Object.values(STORAGE_KEYS).some((storageKey) => storageKey === key);
-}
-
-function normalizeSettings(settings: Record<string, unknown>): Settings {
-  return {
-    [STORAGE_KEYS.twitchHidePanels]: Boolean(
-      settings[STORAGE_KEYS.twitchHidePanels]
-    ),
-    [STORAGE_KEYS.twitchCompactInputRow]: Boolean(
-      settings[STORAGE_KEYS.twitchCompactInputRow]
-    ),
-    [STORAGE_KEYS.youtubeHideHeader]: Boolean(
-      settings[STORAGE_KEYS.youtubeHideHeader]
-    ),
-    [STORAGE_KEYS.youtubeFillPageHeight]: Boolean(
-      settings[STORAGE_KEYS.youtubeFillPageHeight]
-    )
-  };
-}
+const DEFAULT_SETTINGS = getDefaultSettings(
+  ALL_SETTINGS
+);
 
 class SiteDeflufferPopup extends LitElement {
   static properties = {
@@ -168,19 +108,13 @@ class SiteDeflufferPopup extends LitElement {
       return;
     }
 
-    const nextSettings = { ...this.settings };
-    let didChange = false;
+    const nextSettings = applyStorageChanges(
+      ALL_SETTINGS,
+      this.settings,
+      changes
+    );
 
-    for (const key of Object.values(STORAGE_KEYS)) {
-      if (!changes[key]) {
-        continue;
-      }
-
-      nextSettings[key] = Boolean(changes[key].newValue);
-      didChange = true;
-    }
-
-    if (didChange) {
+    if (nextSettings) {
       this.settings = nextSettings;
     }
   };
@@ -204,17 +138,13 @@ class SiteDeflufferPopup extends LitElement {
         return;
       }
 
-      this.settings = normalizeSettings(result);
+      this.settings = decodeSettings(ALL_SETTINGS, result);
       this.error = "";
     });
   }
 
   private handleSettingChange(event: CustomEvent<SettingChangeDetail>) {
     const { key, checked } = event.detail;
-
-    if (!isStorageKey(key)) {
-      return;
-    }
 
     const previousValue = this.settings[key];
     this.settings = { ...this.settings, [key]: checked };

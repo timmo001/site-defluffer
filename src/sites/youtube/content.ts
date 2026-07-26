@@ -1,15 +1,15 @@
-const STORAGE_KEYS = {
-  hideHeader: "youtubeHideHeader",
-  fillPageHeight: "youtubeFillPageHeight"
-} as const;
+import {
+  applyStorageChanges,
+  decodeSettings,
+  getDefaultSettings,
+  YOUTUBE_SETTINGS,
+  type SettingsFor
+} from "../../settings.js";
 
-type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
-type Settings = Record<StorageKey, boolean>;
+type Settings = SettingsFor<typeof YOUTUBE_SETTINGS>;
 
-const DEFAULT_SETTINGS: Settings = {
-  [STORAGE_KEYS.hideHeader]: false,
-  [STORAGE_KEYS.fillPageHeight]: false
-};
+const DEFAULT_SETTINGS = getDefaultSettings(YOUTUBE_SETTINGS);
+const [HIDE_HEADER, FILL_PAGE_HEIGHT] = YOUTUBE_SETTINGS;
 
 const STYLE_ID = "site-defluffer-youtube-style";
 const CLASSES = {
@@ -68,25 +68,16 @@ function applySettings() {
   ensureStyle();
   document.documentElement.classList.toggle(
     CLASSES.hideHeader,
-    state[STORAGE_KEYS.hideHeader]
+    state[HIDE_HEADER.key]
   );
   document.documentElement.classList.toggle(
     CLASSES.fillPageHeight,
-    state[STORAGE_KEYS.fillPageHeight]
+    state[FILL_PAGE_HEIGHT.key]
   );
 }
 
-function normalizeSettings(settings: Record<string, unknown>): Settings {
-  return {
-    [STORAGE_KEYS.hideHeader]: Boolean(settings[STORAGE_KEYS.hideHeader]),
-    [STORAGE_KEYS.fillPageHeight]: Boolean(
-      settings[STORAGE_KEYS.fillPageHeight]
-    )
-  };
-}
-
 chrome.storage.local.get(DEFAULT_SETTINGS, (result) => {
-  Object.assign(state, normalizeSettings(result));
+  Object.assign(state, decodeSettings(YOUTUBE_SETTINGS, result));
   applySettings();
 });
 
@@ -95,18 +86,12 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
     return;
   }
 
-  let didChange = false;
+  const nextState = applyStorageChanges(YOUTUBE_SETTINGS, state, changes);
 
-  for (const key of Object.values(STORAGE_KEYS)) {
-    if (!changes[key]) {
-      continue;
-    }
-
-    state[key] = Boolean(changes[key].newValue);
-    didChange = true;
+  if (!nextState) {
+    return;
   }
 
-  if (didChange) {
-    applySettings();
-  }
+  Object.assign(state, nextState);
+  applySettings();
 });

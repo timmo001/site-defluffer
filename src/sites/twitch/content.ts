@@ -1,11 +1,12 @@
-const STORAGE_KEYS = {
-  // Keep legacy keys so existing installations retain their settings.
-  hidePanels: "twitchMinifierEnabled",
-  compactInputRow: "twitchMinifierCompactInputRow"
-} as const;
+import {
+  applyStorageChanges,
+  decodeSettings,
+  getDefaultSettings,
+  TWITCH_SETTINGS,
+  type SettingsFor
+} from "../../settings.js";
 
-type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
-type Settings = Record<StorageKey, boolean>;
+type Settings = SettingsFor<typeof TWITCH_SETTINGS>;
 
 interface XPathClassTarget {
   xpath: string;
@@ -19,10 +20,8 @@ interface CompactTargets {
   buttons: HTMLElement;
 }
 
-const DEFAULT_SETTINGS = {
-  [STORAGE_KEYS.hidePanels]: true,
-  [STORAGE_KEYS.compactInputRow]: false
-};
+const DEFAULT_SETTINGS = getDefaultSettings(TWITCH_SETTINGS);
+const [HIDE_PANELS, COMPACT_INPUT_ROW] = TWITCH_SETTINGS;
 
 const TARGET_XPATHS = [
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/div",
@@ -342,14 +341,16 @@ let observer: MutationObserver | null = null;
 let observerRoot: Node | null = null;
 let applyQueued = false;
 
-function getNodeByXPath(xpath: string): Node | null {
-  return document.evaluate(
+function getElementByXPath(xpath: string): HTMLElement | null {
+  const node = document.evaluate(
     xpath,
     document,
     null,
     XPathResult.FIRST_ORDERED_NODE_TYPE,
     null
   ).singleNodeValue;
+
+  return node instanceof HTMLElement ? node : null;
 }
 
 function ensureStyle() {
@@ -395,32 +396,30 @@ function cleanupLegacyArtifacts() {
   }
 }
 
-function addClass(node: Node | null, className: string) {
-  if (node instanceof HTMLElement) {
-    node.classList.add(className);
-  }
+function addClass(element: HTMLElement | null, className: string) {
+  element?.classList.add(className);
 }
 
 function markXPathTargets(targets: XPathClassTarget[]) {
   for (const { xpath, className } of targets) {
-    addClass(getNodeByXPath(xpath), className);
+    addClass(getElementByXPath(xpath), className);
   }
 }
 
-function isVodChatReplay(node: Node | null): boolean {
-  if (!(node instanceof HTMLElement)) {
+function isVodChatReplay(element: HTMLElement | null): boolean {
+  if (!element) {
     return false;
   }
 
   return (
-    node.closest(".video-chat") !== null ||
-    node.querySelector(".video-chat") !== null
+    element.closest(".video-chat") !== null ||
+    element.querySelector(".video-chat") !== null
   );
 }
 
 function markHideTargets() {
   for (const xpath of TARGET_XPATHS) {
-    const node = getNodeByXPath(xpath);
+    const node = getElementByXPath(xpath);
 
     if (isVodChatReplay(node)) {
       continue;
@@ -430,8 +429,8 @@ function markHideTargets() {
   }
 }
 
-function getCompactTargets(root: Node | null): CompactTargets | null {
-  if (!(root instanceof HTMLElement)) {
+function getCompactTargets(root: HTMLElement | null): CompactTargets | null {
+  if (!root) {
     return null;
   }
 
@@ -466,9 +465,9 @@ function getCompactTargets(root: Node | null): CompactTargets | null {
 
 function getCompactRoots(): HTMLElement[] {
   const roots = new Set<HTMLElement>();
-  const xpathRoot = getNodeByXPath(COMPACT_CONTAINER_XPATH);
+  const xpathRoot = getElementByXPath(COMPACT_CONTAINER_XPATH);
 
-  if (xpathRoot instanceof HTMLElement) {
+  if (xpathRoot) {
     roots.add(xpathRoot);
   }
 
@@ -484,8 +483,11 @@ function getCompactRoots(): HTMLElement[] {
   return Array.from(roots);
 }
 
-function markCompactPointsButton(button: Node | null, icon: Node | null) {
-  if (!(button instanceof HTMLElement) || !(icon instanceof HTMLElement)) {
+function markCompactPointsButton(
+  button: HTMLElement | null,
+  icon: HTMLElement | null
+) {
+  if (!button || !icon) {
     return;
   }
 
@@ -516,39 +518,35 @@ function markCompactTargets() {
   markXPathTargets(COMPACT_XPATH_CLASS_MAP);
 
   markCompactPointsButton(
-    getNodeByXPath(COMPACT_POINTS_BUTTON_XPATH),
-    getNodeByXPath(COMPACT_POINTS_ICON_XPATH)
+    getElementByXPath(COMPACT_POINTS_BUTTON_XPATH),
+    getElementByXPath(COMPACT_POINTS_ICON_XPATH)
   );
 }
 
 function isPointsPopupOpen() {
   return (
     document.querySelector(COMPACT_POINTS_OPEN_SELECTOR) instanceof HTMLElement ||
-    getNodeByXPath(COMPACT_POINTS_POPUP_XPATH) instanceof HTMLElement
+    getElementByXPath(COMPACT_POINTS_POPUP_XPATH) !== null
   );
 }
 
 function applyRootClasses() {
   const root = document.documentElement;
-  root.classList.toggle(CLASSES.hideEnabled, state[STORAGE_KEYS.hidePanels]);
+  root.classList.toggle(CLASSES.hideEnabled, state[HIDE_PANELS.key]);
   root.classList.toggle(
     CLASSES.compactEnabled,
-    state[STORAGE_KEYS.compactInputRow] && !isPointsPopupOpen()
+    state[COMPACT_INPUT_ROW.key] && !isPointsPopupOpen()
   );
 }
 
-function applyFeatures() {
-  stopObserver();
-  cleanupLegacyArtifacts();
-  ensureStyle();
+function reconcileDom() {
   markHideTargets();
 
-  if (state[STORAGE_KEYS.compactInputRow]) {
+  if (state[COMPACT_INPUT_ROW.key]) {
     markCompactTargets();
   }
 
   applyRootClasses();
-  updateObserver();
 }
 
 function getObserverRoot(): Node {
@@ -567,12 +565,13 @@ function scheduleApply() {
   applyQueued = true;
   requestAnimationFrame(() => {
     applyQueued = false;
-    applyFeatures();
+    reconcileDom();
+    updateObserver();
   });
 }
 
 function shouldObserve() {
-  return state[STORAGE_KEYS.hidePanels] || state[STORAGE_KEYS.compactInputRow];
+  return state[HIDE_PANELS.key] || state[COMPACT_INPUT_ROW.key];
 }
 
 function stopObserver() {
@@ -614,18 +613,12 @@ function updateObserver() {
   }
 }
 
-function normalizeSettings(settings: Record<string, unknown>): Settings {
-  return {
-    [STORAGE_KEYS.hidePanels]: Boolean(settings[STORAGE_KEYS.hidePanels]),
-    [STORAGE_KEYS.compactInputRow]: Boolean(
-      settings[STORAGE_KEYS.compactInputRow]
-    )
-  };
-}
-
 chrome.storage.local.get(DEFAULT_SETTINGS, (result) => {
-  Object.assign(state, normalizeSettings(result));
-  applyFeatures();
+  Object.assign(state, decodeSettings(TWITCH_SETTINGS, result));
+  cleanupLegacyArtifacts();
+  ensureStyle();
+  reconcileDom();
+  updateObserver();
 });
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
@@ -633,20 +626,13 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
     return;
   }
 
-  let didChange = false;
+  const nextState = applyStorageChanges(TWITCH_SETTINGS, state, changes);
 
-  for (const key of Object.values(STORAGE_KEYS)) {
-    if (!changes[key]) {
-      continue;
-    }
-
-    state[key] = Boolean(changes[key].newValue);
-    didChange = true;
-  }
-
-  if (!didChange) {
+  if (!nextState) {
     return;
   }
 
-  applyFeatures();
+  Object.assign(state, nextState);
+  reconcileDom();
+  updateObserver();
 });

@@ -1,11 +1,11 @@
 import { html, LitElement } from "lit";
+import {
+  ALL_SETTINGS,
+  getDefaultSettings,
+  type Settings
+} from "../settings.js";
+import type { PopupSettingDefinition } from "../popup-settings.js";
 import "./setting-switch.js";
-
-export interface SettingDefinition {
-  key: string;
-  label: string;
-  hint: string;
-}
 
 export class SiteSettings extends LitElement {
   static properties = {
@@ -13,13 +13,13 @@ export class SiteSettings extends LitElement {
     values: { attribute: false }
   };
 
-  declare settings: readonly SettingDefinition[];
-  declare values: Readonly<Record<string, boolean>>;
+  declare settings: readonly PopupSettingDefinition[];
+  declare values: Readonly<Settings>;
 
   constructor() {
     super();
     this.settings = [];
-    this.values = {};
+    this.values = getDefaultSettings(ALL_SETTINGS);
   }
 
   render() {
@@ -30,7 +30,7 @@ export class SiteSettings extends LitElement {
             setting-key=${setting.key}
             label=${setting.label}
             hint=${setting.hint}
-            .checked=${Boolean(this.values[setting.key])}
+            .checked=${this.values[setting.key]}
           ></setting-switch>
         `
       )}

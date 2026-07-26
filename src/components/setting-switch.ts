@@ -1,9 +1,10 @@
 import "@awesome.me/webawesome/dist/components/switch/switch.js";
 import WaSwitch from "@awesome.me/webawesome/dist/components/switch/switch.js";
 import { css, html, LitElement } from "lit";
+import type { SettingKey } from "../settings.js";
 
 export interface SettingChangeDetail {
-  key: string;
+  key: SettingKey;
   checked: boolean;
 }
 
@@ -55,14 +56,14 @@ export class SettingSwitch extends LitElement {
     }
   `;
 
-  declare settingKey: string;
+  declare settingKey: SettingKey;
   declare label: string;
   declare hint: string;
   declare checked: boolean;
 
   constructor() {
     super();
-    this.settingKey = "";
+    this.settingKey = "twitchMinifierEnabled";
     this.label = "";
     this.hint = "";
     this.checked = false;
