@@ -17,7 +17,8 @@ test("decodes boolean settings and restores defaults", () => {
     {
       twitchEnabled: true,
       twitchMinifierEnabled: true,
-      twitchMinifierCompactInputRow: true
+      twitchMinifierCompactInputRow: true,
+      twitchNarrowScrollbars: true
     }
   );
 });
@@ -26,7 +27,8 @@ test("returns only the requested site's settings", () => {
   assert.deepEqual(getDefaultSettings(YOUTUBE_SETTINGS), {
     youtubeEnabled: true,
     youtubeHideHeader: false,
-    youtubeFillPageHeight: false
+    youtubeFillPageHeight: false,
+    youtubeNarrowScrollbars: true
   });
 });
 
@@ -37,7 +39,8 @@ test("restores the declared default when a key is removed", () => {
       {
         twitchEnabled: true,
         twitchMinifierEnabled: false,
-        twitchMinifierCompactInputRow: true
+        twitchMinifierCompactInputRow: true,
+        twitchNarrowScrollbars: true
       },
       {
         twitchMinifierEnabled: { oldValue: false, newValue: undefined }
@@ -46,7 +49,8 @@ test("restores the declared default when a key is removed", () => {
     {
       twitchEnabled: true,
       twitchMinifierEnabled: true,
-      twitchMinifierCompactInputRow: true
+      twitchMinifierCompactInputRow: true,
+      twitchNarrowScrollbars: true
     }
   );
 });

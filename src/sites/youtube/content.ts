@@ -6,11 +6,16 @@ import {
   type SettingsFor
 } from "../../settings.js";
 import { registerExtensionToggle } from "../../toggle-extension.js";
+import {
+  NARROW_SCROLLBAR_CLASS,
+  WINDOW_SCROLLBAR_STYLES
+} from "../window-scrollbar.js";
 
 type Settings = SettingsFor<typeof YOUTUBE_SETTINGS>;
 
 const DEFAULT_SETTINGS = getDefaultSettings(YOUTUBE_SETTINGS);
-const [SITE_ENABLED, HIDE_HEADER, FILL_PAGE_HEIGHT] = YOUTUBE_SETTINGS;
+const [SITE_ENABLED, HIDE_HEADER, FILL_PAGE_HEIGHT, NARROW_SCROLLBARS] =
+  YOUTUBE_SETTINGS;
 
 registerExtensionToggle(SITE_ENABLED);
 
@@ -22,6 +27,7 @@ const CLASSES = {
 };
 
 const STYLES = `
+${WINDOW_SCROLLBAR_STYLES}
 html.${CLASSES.hideHeader} ytd-app #masthead-container,
 html.${CLASSES.hideHeader} ytd-app #masthead-placeholder {
   display: none !important;
@@ -96,6 +102,10 @@ function applySettings() {
     hasMainPlayer &&
       state[SITE_ENABLED.key] &&
       state[FILL_PAGE_HEIGHT.key]
+  );
+  document.documentElement.classList.toggle(
+    NARROW_SCROLLBAR_CLASS,
+    state[SITE_ENABLED.key] && state[NARROW_SCROLLBARS.key]
   );
   applyFloatingHeader();
 

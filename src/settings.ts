@@ -11,6 +11,10 @@ export const SETTING_CATALOG = {
     key: "twitchMinifierCompactInputRow",
     default: false
   },
+  twitchNarrowScrollbars: {
+    key: "twitchNarrowScrollbars",
+    default: true
+  },
   youtubeEnabled: {
     key: "youtubeEnabled",
     default: true
@@ -22,6 +26,10 @@ export const SETTING_CATALOG = {
   youtubeFillPageHeight: {
     key: "youtubeFillPageHeight",
     default: false
+  },
+  youtubeNarrowScrollbars: {
+    key: "youtubeNarrowScrollbars",
+    default: true
   }
 } as const;
 
@@ -41,13 +49,15 @@ export const ALL_SETTINGS: readonly SettingDefinition[] =
 export const TWITCH_SETTINGS = [
   SETTING_CATALOG.twitchEnabled,
   SETTING_CATALOG.twitchHidePanels,
-  SETTING_CATALOG.twitchCompactInputRow
+  SETTING_CATALOG.twitchCompactInputRow,
+  SETTING_CATALOG.twitchNarrowScrollbars
 ] as const;
 
 export const YOUTUBE_SETTINGS = [
   SETTING_CATALOG.youtubeEnabled,
   SETTING_CATALOG.youtubeHideHeader,
-  SETTING_CATALOG.youtubeFillPageHeight
+  SETTING_CATALOG.youtubeFillPageHeight,
+  SETTING_CATALOG.youtubeNarrowScrollbars
 ] as const;
 
 export type SettingsFor<

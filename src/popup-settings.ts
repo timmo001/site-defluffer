@@ -22,6 +22,10 @@ export const SITE_SETTINGS = [
       {
         key: SETTING_CATALOG.twitchCompactInputRow.key,
         label: "Keep chat input and bits on one line"
+      },
+      {
+        key: SETTING_CATALOG.twitchNarrowScrollbars.key,
+        label: "Use narrow scrollbars"
       }
     ]
   },
@@ -41,6 +45,10 @@ export const SITE_SETTINGS = [
       {
         key: SETTING_CATALOG.youtubeFillPageHeight.key,
         label: "Fill page height"
+      },
+      {
+        key: SETTING_CATALOG.youtubeNarrowScrollbars.key,
+        label: "Use narrow scrollbars"
       }
     ]
   }

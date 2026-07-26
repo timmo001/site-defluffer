@@ -6,6 +6,10 @@ import {
   type SettingsFor
 } from "../../settings.js";
 import { registerExtensionToggle } from "../../toggle-extension.js";
+import {
+  NARROW_SCROLLBAR_CLASS,
+  WINDOW_SCROLLBAR_STYLES
+} from "../window-scrollbar.js";
 
 type Settings = SettingsFor<typeof TWITCH_SETTINGS>;
 
@@ -22,7 +26,8 @@ interface CompactTargets {
 }
 
 const DEFAULT_SETTINGS = getDefaultSettings(TWITCH_SETTINGS);
-const [SITE_ENABLED, HIDE_PANELS, COMPACT_INPUT_ROW] = TWITCH_SETTINGS;
+const [SITE_ENABLED, HIDE_PANELS, COMPACT_INPUT_ROW, NARROW_SCROLLBARS] =
+  TWITCH_SETTINGS;
 
 registerExtensionToggle(SITE_ENABLED);
 
@@ -104,6 +109,15 @@ const LEGACY_ATTRIBUTES = [
 ];
 
 const STYLES = `
+${WINDOW_SCROLLBAR_STYLES}
+html.${NARROW_SCROLLBAR_CLASS} .chat-room .scrollable-area {
+  scrollbar-width: thin !important;
+}
+
+html.${NARROW_SCROLLBAR_CLASS} .chat-room .scrollable-area::-webkit-scrollbar {
+  width: 8px !important;
+}
+
 html.${CLASSES.hideEnabled} .${CLASSES.hideTarget} {
   display: none !important;
 }
@@ -539,6 +553,10 @@ function applyRootClasses() {
       state[SITE_ENABLED.key] &&
       state[COMPACT_INPUT_ROW.key] &&
       !isPointsPopupOpen()
+  );
+  root.classList.toggle(
+    NARROW_SCROLLBAR_CLASS,
+    state[SITE_ENABLED.key] && state[NARROW_SCROLLBARS.key]
   );
 }
 
