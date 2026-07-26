@@ -106,7 +106,7 @@ class SiteDeflufferPopup extends LitElement {
     super();
     this.settings = DEFAULT_SETTINGS;
     this.error = "";
-    this.openSite = "Twitch";
+    this.openSite = "";
   }
 
   private readonly handleStorageChange = (
