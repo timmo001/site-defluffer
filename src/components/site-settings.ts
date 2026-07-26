@@ -29,7 +29,7 @@ export class SiteSettings extends LitElement {
           <setting-switch
             setting-key=${setting.key}
             label=${setting.label}
-            hint=${setting.hint}
+            hint=${setting.hint ?? ""}
             .checked=${this.values[setting.key]}
           ></setting-switch>
         `

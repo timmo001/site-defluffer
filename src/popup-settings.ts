@@ -3,7 +3,7 @@ import { SETTING_CATALOG, type SettingKey } from "./settings.js";
 export interface PopupSettingDefinition {
   key: SettingKey;
   label: string;
-  hint: string;
+  hint?: string;
 }
 
 export const GLOBAL_SETTING = {
@@ -18,13 +18,11 @@ export const SITE_SETTINGS = [
     settings: [
       {
         key: SETTING_CATALOG.twitchHidePanels.key,
-        label: "Hide extra panels",
-        hint: "Enabled by default"
+        label: "Hide extra panels"
       },
       {
         key: SETTING_CATALOG.twitchCompactInputRow.key,
-        label: "Keep chat input and bits on one line",
-        hint: "Disabled by default"
+        label: "Keep chat input and bits on one line"
       }
     ]
   },
@@ -34,12 +32,11 @@ export const SITE_SETTINGS = [
       {
         key: SETTING_CATALOG.youtubeHideHeader.key,
         label: "Hide header",
-        hint: "Disabled by default"
+        hint: "Temporarily toggle with Alt+T"
       },
       {
         key: SETTING_CATALOG.youtubeFillPageHeight.key,
-        label: "Fill page height",
-        hint: "Disabled by default"
+        label: "Fill page height"
       }
     ]
   }
