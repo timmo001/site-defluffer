@@ -28,6 +28,8 @@ class SiteDeflufferPopup extends LitElement {
     :host {
       display: block;
       min-width: 360px;
+      max-height: 600px;
+      overflow-y: auto;
     }
 
     main {
