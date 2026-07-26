@@ -5,6 +5,7 @@ import {
   TWITCH_SETTINGS,
   type SettingsFor
 } from "../../settings.js";
+import { handleToggleShortcut } from "../../toggle-extension.js";
 
 type Settings = SettingsFor<typeof TWITCH_SETTINGS>;
 
@@ -21,7 +22,9 @@ interface CompactTargets {
 }
 
 const DEFAULT_SETTINGS = getDefaultSettings(TWITCH_SETTINGS);
-const [HIDE_PANELS, COMPACT_INPUT_ROW] = TWITCH_SETTINGS;
+const [EXTENSION_ENABLED, HIDE_PANELS, COMPACT_INPUT_ROW] = TWITCH_SETTINGS;
+
+document.addEventListener("keydown", handleToggleShortcut);
 
 const TARGET_XPATHS = [
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/div",
@@ -521,17 +524,22 @@ function isPointsPopupOpen() {
 
 function applyRootClasses() {
   const root = document.documentElement;
-  root.classList.toggle(CLASSES.hideEnabled, state[HIDE_PANELS.key]);
+  root.classList.toggle(
+    CLASSES.hideEnabled,
+    state[EXTENSION_ENABLED.key] && state[HIDE_PANELS.key]
+  );
   root.classList.toggle(
     CLASSES.compactEnabled,
-    state[COMPACT_INPUT_ROW.key] && !isPointsPopupOpen()
+    state[EXTENSION_ENABLED.key] &&
+      state[COMPACT_INPUT_ROW.key] &&
+      !isPointsPopupOpen()
   );
 }
 
 function reconcileDom() {
   markHideTargets();
 
-  if (state[COMPACT_INPUT_ROW.key]) {
+  if (state[EXTENSION_ENABLED.key] && state[COMPACT_INPUT_ROW.key]) {
     markCompactTargets();
   }
 
@@ -560,7 +568,10 @@ function scheduleApply() {
 }
 
 function shouldObserve() {
-  return state[HIDE_PANELS.key] || state[COMPACT_INPUT_ROW.key];
+  return (
+    state[EXTENSION_ENABLED.key] &&
+    (state[HIDE_PANELS.key] || state[COMPACT_INPUT_ROW.key])
+  );
 }
 
 function stopObserver() {

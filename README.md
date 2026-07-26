@@ -2,6 +2,9 @@
 
 Site Defluffer hides and compacts distracting interface elements on supported sites.
 
+Press `Alt+Shift+T` to enable or disable all Site Defluffer changes without
+altering individual site settings.
+
 ## Supported sites
 
 ### Twitch

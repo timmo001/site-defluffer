@@ -15,6 +15,7 @@ test("decodes boolean settings and restores defaults", () => {
       twitchMinifierCompactInputRow: true
     }),
     {
+      extensionEnabled: true,
       twitchMinifierEnabled: true,
       twitchMinifierCompactInputRow: true
     }
@@ -23,6 +24,7 @@ test("decodes boolean settings and restores defaults", () => {
 
 test("returns only the requested site's settings", () => {
   assert.deepEqual(getDefaultSettings(YOUTUBE_SETTINGS), {
+    extensionEnabled: true,
     youtubeHideHeader: false,
     youtubeFillPageHeight: false
   });
@@ -33,6 +35,7 @@ test("restores the declared default when a key is removed", () => {
     applyStorageChanges(
       TWITCH_SETTINGS,
       {
+        extensionEnabled: true,
         twitchMinifierEnabled: false,
         twitchMinifierCompactInputRow: true
       },
@@ -41,6 +44,7 @@ test("restores the declared default when a key is removed", () => {
       }
     ),
     {
+      extensionEnabled: true,
       twitchMinifierEnabled: true,
       twitchMinifierCompactInputRow: true
     }

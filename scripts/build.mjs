@@ -15,9 +15,17 @@ const contentScriptSources = contentScriptOutputs.map((output) => {
 
   return resolve("src", output.replace(/\.js$/, ".ts"));
 });
+const backgroundOutput = manifest.background?.service_worker;
+const backgroundSource = backgroundOutput
+  ? resolve("src", backgroundOutput.replace(/\.js$/, ".ts"))
+  : null;
 
 await build({
-  entryPoints: ["src/popup.ts", ...contentScriptSources],
+  entryPoints: [
+    "src/popup.ts",
+    ...contentScriptSources,
+    ...(backgroundSource ? [backgroundSource] : [])
+  ],
   bundle: true,
   format: "iife",
   loader: { ".woff2": "file" },
@@ -34,7 +42,9 @@ const popupAssets = [
 ].map((match) => match[1]);
 
 await Promise.all(
-  [...contentScriptOutputs, ...popupAssets].map((asset) =>
-    readFile(resolve("extension", asset))
-  )
+  [
+    ...contentScriptOutputs,
+    ...(backgroundOutput ? [backgroundOutput] : []),
+    ...popupAssets
+  ].map((asset) => readFile(resolve("extension", asset)))
 );

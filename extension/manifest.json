@@ -12,6 +12,17 @@
   "permissions": [
     "storage"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "toggle-extension": {
+      "suggested_key": {
+        "default": "Alt+Shift+T"
+      },
+      "description": "Enable or disable Site Defluffer"
+    }
+  },
   "action": {
     "default_icon": {
       "16": "icons/icon-16.png",

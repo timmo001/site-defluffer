@@ -5,11 +5,12 @@ import {
   YOUTUBE_SETTINGS,
   type SettingsFor
 } from "../../settings.js";
+import { handleToggleShortcut } from "../../toggle-extension.js";
 
 type Settings = SettingsFor<typeof YOUTUBE_SETTINGS>;
 
 const DEFAULT_SETTINGS = getDefaultSettings(YOUTUBE_SETTINGS);
-const [HIDE_HEADER, FILL_PAGE_HEIGHT] = YOUTUBE_SETTINGS;
+const [EXTENSION_ENABLED, HIDE_HEADER, FILL_PAGE_HEIGHT] = YOUTUBE_SETTINGS;
 
 const STYLE_ID = "site-defluffer-youtube-style";
 const CLASSES = {
@@ -69,13 +70,16 @@ function applySettings() {
   ensureStyle();
   document.documentElement.classList.toggle(
     CLASSES.hideHeader,
-    hideHeaderOverride ?? state[HIDE_HEADER.key]
+    state[EXTENSION_ENABLED.key] &&
+      (hideHeaderOverride ?? state[HIDE_HEADER.key])
   );
   document.documentElement.classList.toggle(
     CLASSES.fillPageHeight,
-    state[FILL_PAGE_HEIGHT.key]
+    state[EXTENSION_ENABLED.key] && state[FILL_PAGE_HEIGHT.key]
   );
 }
+
+document.addEventListener("keydown", handleToggleShortcut);
 
 document.addEventListener("keydown", (event) => {
   if (
