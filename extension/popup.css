@@ -126,6 +126,7 @@ h1 {
   gap: 14px;
   margin: 0 14px;
   padding: 14px 0;
+  cursor: pointer;
 }
 
 .toggle:first-of-type {
@@ -170,6 +171,7 @@ h1 {
 .switch__ui {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   border: 1px solid var(--border-strong);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
