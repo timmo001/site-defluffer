@@ -110,6 +110,10 @@ html.${CLASSES.hideEnabled} .video-chat__header {
   display: none !important;
 }
 
+html.${CLASSES.hideEnabled} .chat-room__content > button[aria-label="Charity details"] {
+  display: none !important;
+}
+
 html.${CLASSES.hideEnabled} [data-test-selector="community-points-summary"] [data-test-selector="bits-balance-string"],
 html.${CLASSES.hideEnabled} [data-test-selector="community-points-summary"] :has(+ [data-test-selector="bits-balance-string"]) {
   display: none !important;
