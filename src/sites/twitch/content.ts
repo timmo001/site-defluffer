@@ -166,6 +166,10 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} > div > div {
   gap: 2px !important;
 }
 
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} div:has(> p:empty):has(+ div [aria-label="Chat settings"]) {
+  display: none !important;
+}
+
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [data-test-selector="community-points-summary"] {
   margin-right: 2px !important;
   max-width: 28px !important;
