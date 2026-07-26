@@ -315,13 +315,13 @@ html.${CLASSES.compactEnabled} .${CLASSES.pointsButton} .${CLASSES.compactHide} 
   overflow: hidden !important;
 }
 
-.reward-center__content__with-bits-rewards {
+html.${CLASSES.hideEnabled} .reward-center__content__with-bits-rewards {
   height: min(90svh, 37rem) !important;
   max-height: min(90svh, 37rem) !important;
   overflow-y: auto !important;
 }
 
-[role="dialog"]:has(.reward-center__content) {
+html.${CLASSES.hideEnabled} [role="dialog"]:has(.reward-center__content) {
   right: 0 !important;
   left: auto !important;
 }
@@ -524,13 +524,19 @@ function isPointsPopupOpen() {
 
 function applyRootClasses() {
   const root = document.documentElement;
+  const hasMainPlayer =
+    document.querySelector('[data-a-target="video-player"] video') !== null &&
+    document.querySelector(".chat-room, .video-chat") !== null;
   root.classList.toggle(
     CLASSES.hideEnabled,
-    state[EXTENSION_ENABLED.key] && state[HIDE_PANELS.key]
+    hasMainPlayer &&
+      state[EXTENSION_ENABLED.key] &&
+      state[HIDE_PANELS.key]
   );
   root.classList.toggle(
     CLASSES.compactEnabled,
-    state[EXTENSION_ENABLED.key] &&
+    hasMainPlayer &&
+      state[EXTENSION_ENABLED.key] &&
       state[COMPACT_INPUT_ROW.key] &&
       !isPointsPopupOpen()
   );
@@ -547,11 +553,7 @@ function reconcileDom() {
 }
 
 function getObserverRoot(): Node {
-  return (
-    document.querySelector('[data-a-target="right-column-chat-bar"]') ||
-    document.body ||
-    document.documentElement
-  );
+  return document.body || document.documentElement;
 }
 
 function scheduleApply() {

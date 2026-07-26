@@ -68,18 +68,24 @@ function ensureStyle() {
 
 function applySettings() {
   ensureStyle();
+  const hasMainPlayer =
+    document.querySelector("ytd-watch-flexy:not([hidden]) #movie_player") !== null;
   document.documentElement.classList.toggle(
     CLASSES.hideHeader,
-    state[EXTENSION_ENABLED.key] &&
+    hasMainPlayer &&
+      state[EXTENSION_ENABLED.key] &&
       (hideHeaderOverride ?? state[HIDE_HEADER.key])
   );
   document.documentElement.classList.toggle(
     CLASSES.fillPageHeight,
-    state[EXTENSION_ENABLED.key] && state[FILL_PAGE_HEIGHT.key]
+    hasMainPlayer &&
+      state[EXTENSION_ENABLED.key] &&
+      state[FILL_PAGE_HEIGHT.key]
   );
 }
 
 document.addEventListener("keydown", handleToggleShortcut);
+document.addEventListener("yt-navigate-finish", applySettings);
 
 document.addEventListener("keydown", (event) => {
   if (
@@ -88,7 +94,8 @@ document.addEventListener("keydown", (event) => {
     event.ctrlKey ||
     event.metaKey ||
     event.shiftKey ||
-    event.repeat
+    event.repeat ||
+    document.querySelector("ytd-watch-flexy:not([hidden]) #movie_player") === null
   ) {
     return;
   }

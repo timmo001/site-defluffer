@@ -9,11 +9,13 @@ altering individual site settings.
 
 ### Twitch
 
+- Changes only apply on pages with the full player and chat layout.
 - Hide extra sidebar and chat panels.
 - Keep chat input controls on one line.
 
 ### YouTube
 
+- Changes only apply on full watch players, not the mini-player.
 - Hide the page header.
 - Resize the watch player to fill the page height.
 - Press `Alt+T` to temporarily toggle the header on the current page.
