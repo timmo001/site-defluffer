@@ -203,6 +203,10 @@ html.${CLASSES.compactEnabled} .${CLASSES.compactHide} {
   overflow: hidden !important;
 }
 
+html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} :has(> [data-test-selector="copo-balance-string"]) > :first-child {
+  padding-right: 0 !important;
+}
+
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Chat settings"],
 html.${CLASSES.compactEnabled} .${CLASSES.compactButtons} [aria-label="Emote picker"] {
   width: 28px !important;
