@@ -12,8 +12,8 @@
       <h1>Site Defluffer</h1>
       <p class="intro">Remove the fluff from supported sites.</p>
 
-      <section class="card settings" aria-labelledby="twitch-settings">
-        <p id="twitch-settings" class="label">Twitch</p>
+      <details class="card settings" name="site-settings" open>
+        <summary><span class="label">Twitch</span></summary>
 
         <label class="toggle" for="enabled-toggle">
           <span class="toggle__copy">
@@ -36,10 +36,10 @@
             <span class="switch__ui" aria-hidden="true"></span>
           </span>
         </label>
-      </section>
+      </details>
 
-      <section class="card settings" aria-labelledby="youtube-settings">
-        <p id="youtube-settings" class="label">YouTube</p>
+      <details class="card settings" name="site-settings">
+        <summary><span class="label">YouTube</span></summary>
 
         <label class="toggle" for="youtube-hide-header-toggle">
           <span class="toggle__copy">
@@ -62,7 +62,7 @@
             <span class="switch__ui" aria-hidden="true"></span>
           </span>
         </label>
-      </section>
+      </details>
 
       <p id="status" class="status" aria-live="polite"></p>
     </main>

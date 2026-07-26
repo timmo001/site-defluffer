@@ -1,5 +1,6 @@
 :root {
   color-scheme: dark;
+  interpolate-size: allow-keywords;
   --bg-top: #202020;
   --bg-bottom: #151515;
   --panel: rgba(25, 25, 25, 0.94);
@@ -58,7 +59,6 @@ h1 {
 
 .card {
   margin-top: 14px;
-  padding: 14px;
   border: 1px solid var(--border);
   border-radius: 16px;
   background: var(--card);
@@ -67,7 +67,56 @@ h1 {
 }
 
 .settings {
-  display: grid;
+  overflow: hidden;
+}
+
+.settings::details-content {
+  block-size: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: block-size 180ms ease, content-visibility 180ms allow-discrete,
+    opacity 140ms ease;
+}
+
+.settings[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+
+.settings summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.settings summary::-webkit-details-marker {
+  display: none;
+}
+
+.settings summary::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 140ms ease;
+}
+
+.settings[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+
+.settings[open] summary::after {
+  transform: rotate(225deg) translate(-2px, -2px);
+}
+
+.settings summary:focus-visible {
+  outline: 2px solid rgba(190, 190, 186, 0.72);
+  outline-offset: -3px;
 }
 
 .toggle {
@@ -75,11 +124,12 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
+  margin: 0 14px;
   padding: 14px 0;
 }
 
 .toggle:first-of-type {
-  padding-top: 12px;
+  padding-top: 14px;
 }
 
 .toggle + .toggle {
@@ -163,4 +213,11 @@ h1 {
 .status[data-state="error"] {
   display: block;
   color: var(--danger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .settings::details-content,
+  .settings summary::after {
+    transition: none;
+  }
 }
