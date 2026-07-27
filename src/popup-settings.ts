@@ -47,6 +47,11 @@ export const SITE_SETTINGS = [
         label: "Fill page height"
       },
       {
+        key: SETTING_CATALOG.youtubeFitChat.key,
+        label: "Fit chat to sidebar",
+        hint: "Use Twitch-style width and fill the page height"
+      },
+      {
         key: SETTING_CATALOG.youtubeNarrowScrollbars.key,
         label: "Use narrow scrollbars"
       }

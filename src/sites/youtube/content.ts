@@ -14,16 +14,23 @@ import {
 type Settings = SettingsFor<typeof YOUTUBE_SETTINGS>;
 
 const DEFAULT_SETTINGS = getDefaultSettings(YOUTUBE_SETTINGS);
-const [SITE_ENABLED, HIDE_HEADER, FILL_PAGE_HEIGHT, NARROW_SCROLLBARS] =
-  YOUTUBE_SETTINGS;
+const [
+  SITE_ENABLED,
+  HIDE_HEADER,
+  FILL_PAGE_HEIGHT,
+  FIT_CHAT,
+  NARROW_SCROLLBARS
+] = YOUTUBE_SETTINGS;
 
 registerExtensionToggle(SITE_ENABLED);
 
 const STYLE_ID = "site-defluffer-youtube-style";
+const CHAT_SCROLLBAR_STYLE_ID = "site-defluffer-youtube-chat-scrollbar-style";
 const CLASSES = {
   hideHeader: "site-defluffer-youtube-hide-header",
   floatingHeader: "site-defluffer-youtube-floating-header",
-  fillPageHeight: "site-defluffer-youtube-fill-page-height"
+  fillPageHeight: "site-defluffer-youtube-fill-page-height",
+  fitChat: "site-defluffer-youtube-fit-chat"
 };
 
 const STYLES = `
@@ -63,12 +70,77 @@ html.${CLASSES.fillPageHeight} ytd-watch-flexy:not([full-bleed-player]) #movie_p
 html.${CLASSES.hideHeader}.${CLASSES.fillPageHeight} {
   --site-defluffer-youtube-header-height: 0px;
 }
+
+html.${CLASSES.fitChat} ytd-watch-flexy:not([hidden]) {
+  --ytd-watch-flexy-sidebar-width: 340px !important;
+}
+
+html.${CLASSES.fitChat} ytd-watch-flexy:not([hidden]) #secondary,
+html.${CLASSES.fitChat} ytd-watch-flexy:not([hidden]) #secondary-inner {
+  width: 340px !important;
+  min-width: 340px !important;
+}
+
+html.${CLASSES.fitChat} ytd-watch-flexy:not([hidden]) #chat {
+  top: var(--site-defluffer-youtube-header-height, 56px) !important;
+  bottom: 0 !important;
+  width: 340px !important;
+  min-width: 340px !important;
+  height: auto !important;
+  max-height: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+html.${CLASSES.fitChat} ytd-watch-flexy:not([hidden]) #chat iframe {
+  border: 0 !important;
+}
 `;
 
 const state: Settings = { ...DEFAULT_SETTINGS };
 let hideHeaderOverride: boolean | null = null;
 let playerObserver: MutationObserver | null = null;
 let playerObserverTimeout: number | null = null;
+
+function applyChatScrollbar() {
+  const chatDocument = document.querySelector<HTMLIFrameElement>(
+    "ytd-watch-flexy:not([hidden]) #chat iframe"
+  )?.contentDocument;
+
+  if (!chatDocument?.documentElement) {
+    return;
+  }
+
+  let style = chatDocument.getElementById(CHAT_SCROLLBAR_STYLE_ID);
+
+  if (!state[SITE_ENABLED.key] || !state[NARROW_SCROLLBARS.key]) {
+    style?.remove();
+    return;
+  }
+
+  if (style) {
+    return;
+  }
+
+  style = chatDocument.createElement("style");
+  style.id = CHAT_SCROLLBAR_STYLE_ID;
+  style.textContent = `
+#item-scroller {
+  scrollbar-color: #444 transparent !important;
+  scrollbar-width: thin !important;
+}
+
+#item-scroller::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+#item-scroller::-webkit-scrollbar-thumb {
+  background: #444 !important;
+  border-radius: 4px !important;
+}
+`;
+  chatDocument.documentElement.appendChild(style);
+}
 
 function stopWaitingForMainPlayer() {
   playerObserver?.disconnect();
@@ -152,15 +224,23 @@ function applySettings() {
       state[FILL_PAGE_HEIGHT.key]
   );
   document.documentElement.classList.toggle(
+    CLASSES.fitChat,
+    hasMainPlayer && state[SITE_ENABLED.key] && state[FIT_CHAT.key]
+  );
+  document.documentElement.classList.toggle(
     NARROW_SCROLLBAR_CLASS,
     state[SITE_ENABLED.key] && state[NARROW_SCROLLBARS.key]
   );
   applyFloatingHeader();
 
-  requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+  requestAnimationFrame(() => {
+    applyChatScrollbar();
+    window.dispatchEvent(new Event("resize"));
+  });
 }
 
 document.addEventListener("yt-navigate-finish", applySettings);
+document.addEventListener("load", applyChatScrollbar, true);
 window.addEventListener("scroll", applyFloatingHeader, { passive: true });
 
 document.addEventListener("keydown", (event) => {

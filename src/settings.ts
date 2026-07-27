@@ -27,6 +27,10 @@ export const SETTING_CATALOG = {
     key: "youtubeFillPageHeight",
     default: false
   },
+  youtubeFitChat: {
+    key: "youtubeFitChat",
+    default: true
+  },
   youtubeNarrowScrollbars: {
     key: "youtubeNarrowScrollbars",
     default: true
@@ -57,6 +61,7 @@ export const YOUTUBE_SETTINGS = [
   SETTING_CATALOG.youtubeEnabled,
   SETTING_CATALOG.youtubeHideHeader,
   SETTING_CATALOG.youtubeFillPageHeight,
+  SETTING_CATALOG.youtubeFitChat,
   SETTING_CATALOG.youtubeNarrowScrollbars
 ] as const;
 

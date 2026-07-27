@@ -28,6 +28,7 @@ test("returns only the requested site's settings", () => {
     youtubeEnabled: true,
     youtubeHideHeader: false,
     youtubeFillPageHeight: false,
+    youtubeFitChat: true,
     youtubeNarrowScrollbars: true
   });
 });
