@@ -22,7 +22,7 @@ that site without altering its individual settings.
 
 ## Install
 
-1. Run `pnpm install` and `pnpm build`.
+1. Run `mise run build`.
 2. Open `chrome://extensions` in Chromium.
 3. Enable **Developer mode**.
 4. Choose **Load unpacked** and select the `extension` directory.
@@ -35,11 +35,10 @@ controls in the settings catalog.
 
 ## Develop
 
-Install dependencies and check the typed source with:
+Install dependencies and run the full check with:
 
 ```sh
-pnpm install
-pnpm check
+mise run check
 ```
 
 TypeScript and popup CSS source live under `src/`. `pnpm build` generates the
