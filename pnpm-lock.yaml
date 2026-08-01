@@ -16,8 +16,8 @@ importers:
         version: 3.3.3
     devDependencies:
       '@types/chrome':
-        specifier: 0.2.2
-        version: 0.2.2
+        specifier: 0.2.4
+        version: 0.2.4
       esbuild:
         specifier: 0.28.1
         version: 0.28.1
@@ -238,8 +238,8 @@ packages:
   '@shoelace-style/localize@3.2.3':
     resolution: {integrity: sha512-pWoZywizMilenLfQcpE9bjaqi7WKiQXJB42cxvmSPwYS76U776wJ7B5QQ0P28yVit1vpHuFZzq1CtfVFv32jaQ==}
 
-  '@types/chrome@0.2.2':
-    resolution: {integrity: sha512-8rSMZ4cvo2xmaSyQg0sN5yRL7oiDkntLoiHxUhfwQnv1mvnkrdoZ25SlNrKWmYKaeP50WvrfWj1pmc02+U9KKw==}
+  '@types/chrome@0.2.4':
+    resolution: {integrity: sha512-pWvrMGdk3tpNvIS5+/pK5CdqQdim1din792SzbDPGce7GBDOBjEZJ+mOCZ9ZGUi+FFhF1Z0VBKLB0/pCDyt6vw==}
 
   '@types/filesystem@0.0.36':
     resolution: {integrity: sha512-vPDXOZuannb9FZdxgHnqSwAG/jvdGM8Wq+6N4D/d80z+D4HWH+bItqsZaVRQykAn6WEVeEkLm2oQigyHtgb0RA==}
@@ -612,7 +612,7 @@ snapshots:
 
   '@shoelace-style/localize@3.2.3': {}
 
-  '@types/chrome@0.2.2':
+  '@types/chrome@0.2.4':
     dependencies:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
