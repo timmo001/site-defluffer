@@ -128,7 +128,8 @@ html.${CLASSES.hideEnabled} .${CLASSES.hideTarget} {
   display: none !important;
 }
 
-html.${CLASSES.hideEnabled} .video-chat__header {
+html.${CLASSES.hideEnabled} .video-chat__header,
+html.${CLASSES.hideEnabled} [data-test-selector="channel-skins-shared-above-chat-v3"] {
   display: none !important;
 }
 
