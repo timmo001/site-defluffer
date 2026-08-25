@@ -8,6 +8,6 @@ backend = "core:node"
 specifiers = ["26.7.0"]
 
 [[tools."npm:pnpm"]]
-version = "11.22.0"
+version = "11.23.0"
 backend = "npm:pnpm"
-specifiers = ["11.22.0"]
+specifiers = ["11.23.0"]
