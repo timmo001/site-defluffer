@@ -1,6 +1,6 @@
 [tools]
 node = "26.8.2"
-"npm:pnpm" = "12.3.4"
+"npm:pnpm" = "12.4.1"
 
 [tasks.install]
 run = "pnpm install --frozen-lockfile"
