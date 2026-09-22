@@ -137,6 +137,7 @@ class SiteDeflufferPopup extends LitElement {
       if (chrome.runtime.lastError) {
         this.error =
           chrome.runtime.lastError.message || "Failed to load settings.";
+
         return;
       }
 
@@ -188,8 +189,14 @@ class SiteDeflufferPopup extends LitElement {
           mode="single-collapsible"
           heading-level="2"
           appearance="plain"
-          @wa-expand=${this.handleAccordionExpand}
-          @wa-collapse=${this.handleAccordionCollapse}
+          @wa-expand=${
+            // oxlint-disable-next-line typescript/unbound-method -- Lit calls event handlers with the host as this.
+            this.handleAccordionExpand
+          }
+          @wa-collapse=${
+            // oxlint-disable-next-line typescript/unbound-method -- Lit calls event handlers with the host as this.
+            this.handleAccordionCollapse
+          }
         >
           ${SITE_SETTINGS.map(
             (site) => html`
@@ -200,7 +207,10 @@ class SiteDeflufferPopup extends LitElement {
                 <site-settings
                   .settings=${site.settings}
                   .values=${this.settings}
-                  @setting-change=${this.handleSettingChange}
+                  @setting-change=${
+                    // oxlint-disable-next-line typescript/unbound-method -- Lit calls event handlers with the host as this.
+                    this.handleSettingChange
+                  }
                 ></site-settings>
               </wa-accordion-item>
             `

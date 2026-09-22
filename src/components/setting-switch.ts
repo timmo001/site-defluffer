@@ -91,7 +91,10 @@ export class SettingSwitch extends LitElement {
       <wa-switch
         .checked=${this.checked}
         hint=${this.hint}
-        @change=${this.handleChange}
+        @change=${
+          // oxlint-disable-next-line typescript/unbound-method -- Lit calls event handlers with the host as this.
+          this.handleChange
+        }
       >
         ${this.label}
       </wa-switch>

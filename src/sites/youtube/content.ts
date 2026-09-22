@@ -14,6 +14,7 @@ import {
 type Settings = SettingsFor<typeof YOUTUBE_SETTINGS>;
 
 const DEFAULT_SETTINGS = getDefaultSettings(YOUTUBE_SETTINGS);
+
 const [
   SITE_ENABLED,
   HIDE_HEADER,
@@ -25,7 +26,9 @@ const [
 registerExtensionToggle(SITE_ENABLED);
 
 const STYLE_ID = "site-defluffer-youtube-style";
+
 const CHAT_SCROLLBAR_STYLE_ID = "site-defluffer-youtube-chat-scrollbar-style";
+
 const CLASSES = {
   hideHeader: "site-defluffer-youtube-hide-header",
   floatingHeader: "site-defluffer-youtube-floating-header",
@@ -98,8 +101,11 @@ html.${CLASSES.fitChat} ytd-watch-flexy:not([hidden]) #chat iframe {
 `;
 
 const state: Settings = { ...DEFAULT_SETTINGS };
+
 let hideHeaderOverride: boolean | null = null;
+
 let playerObserver: MutationObserver | null = null;
+
 let playerObserverTimeout: number | null = null;
 
 function applyChatScrollbar() {
@@ -115,6 +121,7 @@ function applyChatScrollbar() {
 
   if (!state[SITE_ENABLED.key] || !state[NARROW_SCROLLBARS.key]) {
     style?.remove();
+
     return;
   }
 
@@ -196,6 +203,7 @@ function ensureStyle() {
 
 function applySettings() {
   ensureStyle();
+
   const hasMainPlayer =
     document.querySelector("ytd-watch-flexy:not([hidden]) #movie_player") !== null;
 
@@ -240,7 +248,9 @@ function applySettings() {
 }
 
 document.addEventListener("yt-navigate-finish", applySettings);
+
 document.addEventListener("load", applyChatScrollbar, true);
+
 window.addEventListener("scroll", applyFloatingHeader, { passive: true });
 
 document.addEventListener("keydown", (event) => {

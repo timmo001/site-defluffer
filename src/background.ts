@@ -9,6 +9,7 @@ chrome.commands.onCommand.addListener((command) => {
 
   chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
     const tabId = tabs[0]?.id;
+
     if (tabId === undefined) {
       return;
     }

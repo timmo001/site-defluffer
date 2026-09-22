@@ -1,13 +1,12 @@
 import { build } from "esbuild";
 import { readFile } from "node:fs/promises";
 import { extname, resolve } from "node:path";
+import manifest from "../extension/manifest.json" with { type: "json" };
 
-const manifest = JSON.parse(
-  await readFile("extension/manifest.json", "utf8")
-);
 const contentScriptOutputs = manifest.content_scripts.flatMap(
   (contentScript) => contentScript.js ?? []
 );
+
 const contentScriptSources = contentScriptOutputs.map((output) => {
   if (extname(output) !== ".js") {
     throw new Error(`Content script must be JavaScript: ${output}`);
@@ -15,7 +14,9 @@ const contentScriptSources = contentScriptOutputs.map((output) => {
 
   return resolve("src", output.replace(/\.js$/, ".ts"));
 });
+
 const backgroundOutput = manifest.background?.service_worker;
+
 const backgroundSource = backgroundOutput
   ? resolve("src", backgroundOutput.replace(/\.js$/, ".ts"))
   : null;
@@ -37,9 +38,18 @@ const popupHtml = await readFile(
   resolve("extension", manifest.action.default_popup),
   "utf8"
 );
+
 const popupAssets = [
   ...popupHtml.matchAll(/<(?:link|script)\b[^>]+(?:href|src)="([^"]+)"/g)
-].map((match) => match[1]);
+].map((match) => {
+  const asset = match[1];
+
+  if (asset === undefined) {
+    throw new Error("Missing popup asset path.");
+  }
+
+  return asset;
+});
 
 await Promise.all(
   [

@@ -8,12 +8,14 @@ export function toggleExtension(setting: SettingDefinition) {
     (result) => {
       if (chrome.runtime.lastError) {
         console.error(chrome.runtime.lastError.message);
+
         return;
       }
 
-      const enabled = result[setting.key];
-      chrome.storage.local.set({
-        [setting.key]: typeof enabled === "boolean" ? !enabled : !setting.default
+      const enabled: unknown = result[setting.key];
+
+      void chrome.storage.local.set({
+        [setting.key]: enabled === true || enabled === false ? !enabled : !setting.default
       });
     }
   );
@@ -39,8 +41,10 @@ export function registerExtensionToggle(setting: SettingDefinition) {
   document.addEventListener("keydown", (event) => {
     handleToggleShortcut(event, setting);
   });
+  // oxlint-disable-next-line anti-slop/no-unknown-parameters -- Chrome messages enter here as untrusted values and are validated below.
   chrome.runtime.onMessage.addListener((message: unknown) => {
     if (
+      // oxlint-disable-next-line anti-slop/no-runtime-typeof -- Check the message object before reading its command discriminator.
       typeof message === "object" &&
       message !== null &&
       "type" in message &&

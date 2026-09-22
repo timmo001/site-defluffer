@@ -9,6 +9,10 @@ run = "pnpm install --frozen-lockfile"
 depends = ["install"]
 run = "pnpm typecheck"
 
+[tasks.lint]
+depends = ["install"]
+run = "pnpm lint"
+
 [tasks.test]
 depends = ["install"]
 run = "pnpm test"
@@ -18,4 +22,4 @@ depends = ["typecheck"]
 run = "pnpm build"
 
 [tasks.check]
-depends = ["typecheck", "test", "build"]
+depends = ["lint", "typecheck", "test", "build"]

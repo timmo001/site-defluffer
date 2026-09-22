@@ -26,6 +26,7 @@ interface CompactTargets {
 }
 
 const DEFAULT_SETTINGS = getDefaultSettings(TWITCH_SETTINGS);
+
 const [SITE_ENABLED, HIDE_PANELS, COMPACT_INPUT_ROW, NARROW_SCROLLBARS] =
   TWITCH_SETTINGS;
 
@@ -38,34 +39,47 @@ const TARGET_XPATHS = [
 
 const COMPACT_CONTAINER_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]";
+
 const COMPACT_OPTIONAL_BUTTON_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[1]/div[2]/div/div/div[3]/div/div[1]/div/button";
+
 const COMPACT_SPACER_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[2]";
+
 const COMPACT_BITS_INDICATOR_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[1]";
+
 const COMPACT_POINTS_BUTTON_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button";
+
 const COMPACT_POINTS_ICON_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[1]/div/div";
+
 const COMPACT_POINTS_OPEN_SELECTOR =
   '[data-test-selector="community-points-summary"] button[aria-expanded="true"]';
+
 const COMPACT_POINTS_POPUP_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div[2]";
+
 const COMPACT_POINTS_EXTRA_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[1]/div/div/div/div[1]/div[2]/button/div/div/div/div[3]/div[2]";
+
 const COMPACT_ADDITIONAL_HIDE_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]/div[2]/div[1]";
+
 const COMPACT_BUTTONS_OUTER_WRAPPER_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[2]/section/div/div[6]/div[2]/div[2]";
+
 const COMPACT_ALIGN_CENTER_XPATH =
   "/html/body/div/div[1]/div[1]/div/div[2]/div/div[2]/aside/div/div/div[2]/div/div[3]/section/div/div[6]/div[2]/div[2]";
 
 const STYLE_ID = "site-defluffer-twitch-style";
+
 const LEGACY_STYLE_IDS = [
   "twitch-minifier-style",
   "twitch-minifier-compact-style"
 ];
+
 const NULL_STYLE_VALUE = "__NULL__";
 
 const CLASSES = {
@@ -361,7 +375,9 @@ html.${CLASSES.compactEnabled} [role="dialog"]:has(.reward-center__content) {
 const state: Settings = { ...DEFAULT_SETTINGS };
 
 let observer: MutationObserver | null = null;
+
 let observerRoot: Node | null = null;
+
 let applyQueued = false;
 
 function getElementByXPath(xpath: string): HTMLElement | null {
@@ -498,6 +514,7 @@ function getCompactRoots(): HTMLElement[] {
     '[data-test-selector="chat-input-buttons-container"]'
   )) {
     const root = element.closest(".chat-input");
+
     if (root instanceof HTMLElement) {
       roots.add(root);
     }
@@ -518,6 +535,7 @@ function markCompactPointsButton(
   icon.classList.add(CLASSES.pointsIcon);
 
   let current: HTMLElement | null = icon;
+
   while (current instanceof HTMLElement && current !== button) {
     current.classList.add(CLASSES.pointsKeep);
     current = current.parentElement;
@@ -555,9 +573,11 @@ function isPointsPopupOpen() {
 
 function applyRootClasses() {
   const root = document.documentElement;
+
   const hasMainPlayer =
     document.querySelector('[data-a-target="video-player"] video') !== null &&
     document.querySelector(".chat-room, .video-chat") !== null;
+
   root.classList.toggle(
     CLASSES.hideEnabled,
     hasMainPlayer &&

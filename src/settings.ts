@@ -44,7 +44,9 @@ interface StorageSettingDefinition {
 
 export type SettingDefinition =
   (typeof SETTING_CATALOG)[keyof typeof SETTING_CATALOG];
+
 export type SettingKey = SettingDefinition["key"];
+
 export type Settings = Record<SettingKey, boolean>;
 
 export const ALL_SETTINGS: readonly SettingDefinition[] =
@@ -73,6 +75,7 @@ export type SettingsFor<
 export function getDefaultSettings<
   const Definitions extends readonly StorageSettingDefinition[]
 >(definitions: Definitions): SettingsFor<Definitions> {
+  // SAFETY: Every declared key is paired with its boolean default.
   return Object.fromEntries(
     definitions.map((setting) => [setting.key, setting.default])
   ) as SettingsFor<Definitions>;
@@ -82,12 +85,14 @@ export function decodeSettings<
   const Definitions extends readonly StorageSettingDefinition[]
 >(
   definitions: Definitions,
+  // oxlint-disable-next-line anti-slop/no-unsafe-dictionary-type -- This parser validates raw Chrome storage values before returning settings.
   values: Readonly<Record<string, unknown>>
 ): SettingsFor<Definitions> {
+  // SAFETY: Every declared key gets a stored boolean or its boolean default.
   return Object.fromEntries(
     definitions.map((setting) => [
       setting.key,
-      typeof values[setting.key] === "boolean"
+      values[setting.key] === true || values[setting.key] === false
         ? values[setting.key]
         : setting.default
     ])
@@ -105,6 +110,7 @@ export function applyStorageChanges<
 
   for (const setting of definitions) {
     const change = changes[setting.key];
+
     if (!change) {
       continue;
     }
@@ -112,7 +118,7 @@ export function applyStorageChanges<
     next ??= { ...current };
     Object.assign(next, {
       [setting.key]:
-        typeof change.newValue === "boolean"
+        change.newValue === true || change.newValue === false
           ? change.newValue
           : setting.default
     });
