@@ -177,8 +177,8 @@ importers:
         specifier: 1.85.0
         version: 1.85.0
       '@timmo001/oxlint-rules':
-        specifier: 0.3.5
-        version: 0.3.5(@oxlint/plugins@1.85.0)(oxlint@1.85.0(oxlint-tsgolint@7.0.2002))
+        specifier: 0.3.6
+        version: 0.3.6(@oxlint/plugins@1.85.0)(oxlint@1.85.0(oxlint-tsgolint@7.0.2002))
       '@types/chrome':
         specifier: 0.3.0
         version: 0.3.0
@@ -635,13 +635,13 @@ packages:
   '@shoelace-style/localize@3.2.3':
     resolution: {integrity: sha512-pWoZywizMilenLfQcpE9bjaqi7WKiQXJB42cxvmSPwYS76U776wJ7B5QQ0P28yVit1vpHuFZzq1CtfVFv32jaQ==}
 
-  '@timmo001/oxlint-rules@0.3.5':
-    resolution: {integrity: sha512-eaJ9Cn5/9kaiMG80tB2i4dleRhsv691oU0/fkqvPwn08pF0c03traYeoGeIeTR32fFBrSloABVX7/IHtW9AqzQ==}
+  '@timmo001/oxlint-rules@0.3.6':
+    resolution: {integrity: sha512-9fAWa2fUwo7hOgwq/BHIsoKAIxDelsAvWf0ttpDMxgRp7M70vdEshQ6RM22j9ayof2ta23yzuj6bue/hQ7pgZQ==}
     engines: {node: '>=20'}
     hasBin: true
     peerDependencies:
-      '@oxlint/plugins': 1.83.0
-      oxlint: 1.83.0
+      '@oxlint/plugins': 1.85.0
+      oxlint: 1.85.0
 
   '@types/chrome@0.3.0':
     resolution: {integrity: sha512-HPAMKyJwUnNJdVsxgypwvIStlwRhhaLnxgEwKIB99oOcffJrC4UMeD5xseVoBwDinSkr690DCBaAtSYdK6M1qw==}
@@ -1446,7 +1446,7 @@ snapshots:
 
   '@shoelace-style/localize@3.2.3': {}
 
-  '@timmo001/oxlint-rules@0.3.5(@oxlint/plugins@1.85.0)(oxlint@1.85.0(oxlint-tsgolint@7.0.2002))':
+  '@timmo001/oxlint-rules@0.3.6(@oxlint/plugins@1.85.0)(oxlint@1.85.0(oxlint-tsgolint@7.0.2002))':
     dependencies:
       '@oxlint/plugins': 1.85.0
       oxlint: 1.85.0(oxlint-tsgolint@7.0.2002)
