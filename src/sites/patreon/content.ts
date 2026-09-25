@@ -35,6 +35,7 @@ const SIDEBAR = '[class*="__primaryNavigationWrapper"]';
 
 // Patreon's page frame leaves 8px above and below, plus a 1px offset at the
 // top, and its sticky creator nav is 56px tall. The sidebar is 72px wide.
+// Filling the page removes the frame, so the video can reach every edge.
 const STYLES = `
 html.${CLASSES.hideHeader}${VIDEO_POST} {
   --site-defluffer-patreon-header-height: 0px;
@@ -72,6 +73,27 @@ html.${CLASSES.hideSidebar}${VIDEO_POST} [class*="__pageFrame"] {
   left: 8px !important;
 }
 
+html.${CLASSES.fillPageHeight}${VIDEO_POST} [class*="__pageFrame"] {
+  display: none !important;
+}
+
+html.${CLASSES.fillPageHeight}${VIDEO_POST} [class*="__hasPrimaryNavigation"] {
+  padding: 0 !important;
+}
+
+html.${CLASSES.fillPageHeight}${VIDEO_POST} [class*="__navigationOffset"] {
+  margin-top: 0 !important;
+}
+
+html.${CLASSES.fillPageHeight}${VIDEO_POST} ${HEADER} {
+  top: 0 !important;
+}
+
+html.${CLASSES.fillPageHeight}.${CLASSES.hideHeader}.${CLASSES.floating}${VIDEO_POST} ${HEADER} {
+  top: 0 !important;
+  right: 0 !important;
+}
+
 html.${CLASSES.fillPageHeight} [class*="__compactMediaWrapper"]:has(video) {
   padding-top: 0 !important;
 }
@@ -82,7 +104,7 @@ html.${CLASSES.fillPageHeight} [class*="__compactMediaWrapper"]:has(video) [clas
 }
 
 html.${CLASSES.fillPageHeight} [class*="__compactMediaWrapper"] div:has(> [class*="VideoPlayer-module__"][class*="__player"]) {
-  height: calc(100svh - 17px - var(--site-defluffer-patreon-header-height, 56px)) !important;
+  height: calc(100svh - var(--site-defluffer-patreon-header-height, 56px)) !important;
   padding: 0 !important;
 }
 `;
