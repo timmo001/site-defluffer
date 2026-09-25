@@ -16,6 +16,15 @@ export const SITE_SETTINGS = [
         hint: "Toggle on Patreon with Alt+Shift+T"
       },
       {
+        key: SETTING_CATALOG.patreonHideHeader.key,
+        label: "Hide header",
+        hint: "Temporarily toggle with Alt+T"
+      },
+      {
+        key: SETTING_CATALOG.patreonHideSidebar.key,
+        label: "Hide sidebar"
+      },
+      {
         key: SETTING_CATALOG.patreonFillPageHeight.key,
         label: "Fill page height",
         hint: "Resize post videos to fill the page"

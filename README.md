@@ -9,7 +9,10 @@ that site without altering its individual settings.
 
 ### Patreon
 
+- Changes only apply on posts with a video.
+- Hide the page header and sidebar. Both reappear after scrolling down.
 - Resize post videos to fill the page width and height.
+- Press `Alt+T` to temporarily toggle the header on the current page.
 
 ### Twitch
 

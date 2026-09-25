@@ -3,6 +3,14 @@ export const SETTING_CATALOG = {
     key: "patreonEnabled",
     default: true
   },
+  patreonHideHeader: {
+    key: "patreonHideHeader",
+    default: false
+  },
+  patreonHideSidebar: {
+    key: "patreonHideSidebar",
+    default: false
+  },
   patreonFillPageHeight: {
     key: "patreonFillPageHeight",
     default: true
@@ -62,6 +70,8 @@ export const ALL_SETTINGS: readonly SettingDefinition[] =
 
 export const PATREON_SETTINGS = [
   SETTING_CATALOG.patreonEnabled,
+  SETTING_CATALOG.patreonHideHeader,
+  SETTING_CATALOG.patreonHideSidebar,
   SETTING_CATALOG.patreonFillPageHeight
 ] as const;
 
