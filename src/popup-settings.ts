@@ -8,6 +8,21 @@ export interface PopupSettingDefinition {
 
 export const SITE_SETTINGS = [
   {
+    name: "Patreon",
+    settings: [
+      {
+        key: SETTING_CATALOG.patreonEnabled.key,
+        label: "Enable on Patreon",
+        hint: "Toggle on Patreon with Alt+Shift+T"
+      },
+      {
+        key: SETTING_CATALOG.patreonFillPageHeight.key,
+        label: "Fill page height",
+        hint: "Resize post videos to fill the page"
+      }
+    ]
+  },
+  {
     name: "Twitch",
     settings: [
       {

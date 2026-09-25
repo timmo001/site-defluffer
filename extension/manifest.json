@@ -36,6 +36,15 @@
   "content_scripts": [
     {
       "matches": [
+        "https://www.patreon.com/*"
+      ],
+      "js": [
+        "sites/patreon/content.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
         "https://www.twitch.tv/*"
       ],
       "js": [

@@ -7,6 +7,10 @@ that site without altering its individual settings.
 
 ## Supported sites
 
+### Patreon
+
+- Resize post videos to fill the page width and height.
+
 ### Twitch
 
 - Changes only apply on pages with the full player and chat layout.

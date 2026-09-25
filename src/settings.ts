@@ -1,4 +1,12 @@
 export const SETTING_CATALOG = {
+  patreonEnabled: {
+    key: "patreonEnabled",
+    default: true
+  },
+  patreonFillPageHeight: {
+    key: "patreonFillPageHeight",
+    default: true
+  },
   twitchEnabled: {
     key: "twitchEnabled",
     default: true
@@ -51,6 +59,11 @@ export type Settings = Record<SettingKey, boolean>;
 
 export const ALL_SETTINGS: readonly SettingDefinition[] =
   Object.values(SETTING_CATALOG);
+
+export const PATREON_SETTINGS = [
+  SETTING_CATALOG.patreonEnabled,
+  SETTING_CATALOG.patreonFillPageHeight
+] as const;
 
 export const TWITCH_SETTINGS = [
   SETTING_CATALOG.twitchEnabled,
