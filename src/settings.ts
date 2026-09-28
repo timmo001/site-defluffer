@@ -1,4 +1,20 @@
 export const SETTING_CATALOG = {
+  corridorEnabled: {
+    key: "corridorEnabled",
+    default: true
+  },
+  corridorHideHeader: {
+    key: "corridorHideHeader",
+    default: false
+  },
+  corridorFillPageHeight: {
+    key: "corridorFillPageHeight",
+    default: true
+  },
+  corridorNarrowScrollbars: {
+    key: "corridorNarrowScrollbars",
+    default: true
+  },
   patreonEnabled: {
     key: "patreonEnabled",
     default: true
@@ -67,6 +83,13 @@ export type Settings = Record<SettingKey, boolean>;
 
 export const ALL_SETTINGS: readonly SettingDefinition[] =
   Object.values(SETTING_CATALOG);
+
+export const CORRIDOR_SETTINGS = [
+  SETTING_CATALOG.corridorEnabled,
+  SETTING_CATALOG.corridorHideHeader,
+  SETTING_CATALOG.corridorFillPageHeight,
+  SETTING_CATALOG.corridorNarrowScrollbars
+] as const;
 
 export const PATREON_SETTINGS = [
   SETTING_CATALOG.patreonEnabled,

@@ -36,6 +36,15 @@
   "content_scripts": [
     {
       "matches": [
+        "https://www.corridordigital.com/*"
+      ],
+      "js": [
+        "sites/corridor/content.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
         "https://www.patreon.com/*"
       ],
       "js": [

@@ -8,6 +8,28 @@ export interface PopupSettingDefinition {
 
 export const SITE_SETTINGS = [
   {
+    name: "Corridor Digital",
+    settings: [
+      {
+        key: SETTING_CATALOG.corridorEnabled.key,
+        label: "Enable on Corridor Digital",
+        hint: "Toggle on Corridor Digital with Alt+Shift+T"
+      },
+      {
+        key: SETTING_CATALOG.corridorHideHeader.key,
+        label: "Hide header in theatre mode"
+      },
+      {
+        key: SETTING_CATALOG.corridorFillPageHeight.key,
+        label: "Fill page height in theatre mode"
+      },
+      {
+        key: SETTING_CATALOG.corridorNarrowScrollbars.key,
+        label: "Use narrow scrollbars"
+      }
+    ]
+  },
+  {
     name: "Patreon",
     settings: [
       {
