@@ -95,13 +95,25 @@ export type SettingsFor<
 > =
   Record<Definitions[number]["key"], boolean>;
 
+function hasSettingsFor<Definitions extends readonly StorageSettingDefinition[]>(
+  definitions: Definitions,
+  value: Record<string, boolean>
+): value is SettingsFor<Definitions> {
+  return definitions.every((setting) => Object.hasOwn(value, setting.key));
+}
+
 export function getDefaultSettings<
   const Definitions extends readonly StorageSettingDefinition[]
 >(definitions: Definitions): SettingsFor<Definitions> {
-  // SAFETY: Every declared key is paired with its boolean default.
-  return Object.fromEntries(
+  const settings = Object.fromEntries<boolean>(
     definitions.map((setting) => [setting.key, setting.default])
-  ) as SettingsFor<Definitions>;
+  );
+
+  if (!hasSettingsFor(definitions, settings)) {
+    throw new Error("Invalid default settings");
+  }
+
+  return settings;
 }
 
 export function decodeSettings<
@@ -111,15 +123,22 @@ export function decodeSettings<
   // oxlint-disable-next-line anti-slop/no-unsafe-dictionary-type -- This parser validates raw Chrome storage values before returning settings.
   values: Readonly<Record<string, unknown>>
 ): SettingsFor<Definitions> {
-  // SAFETY: Every declared key gets a stored boolean or its boolean default.
-  return Object.fromEntries(
-    definitions.map((setting) => [
-      setting.key,
-      values[setting.key] === true || values[setting.key] === false
-        ? values[setting.key]
-        : setting.default
-    ])
-  ) as SettingsFor<Definitions>;
+  const settings = Object.fromEntries<boolean>(
+    definitions.map((setting) => {
+      const value = values[setting.key];
+
+      return [
+        setting.key,
+        value === true || value === false ? value : setting.default
+      ];
+    })
+  );
+
+  if (!hasSettingsFor(definitions, settings)) {
+    throw new Error("Invalid stored settings");
+  }
+
+  return settings;
 }
 
 export function applyStorageChanges<
