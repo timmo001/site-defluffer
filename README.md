@@ -9,7 +9,8 @@ that site without altering its individual settings.
 
 ### Corridor Digital
 
-- Hide the header and fill the page height in theatre mode, not the default or mini player.
+- Hide the header and fill the page height in theatre mode, not the default
+  or mini player.
 - Use narrow scrollbars across Corridor Digital.
 
 ### Patreon
