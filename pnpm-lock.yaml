@@ -180,8 +180,8 @@ importers:
         specifier: 0.4.0
         version: 0.4.0(@oxlint/plugins@1.86.0)(oxlint@1.86.0(oxlint-tsgolint@7.0.2003))
       '@types/chrome':
-        specifier: 0.3.0
-        version: 0.3.0
+        specifier: 0.3.3
+        version: 0.3.3
       '@types/node':
         specifier: 26.6.3
         version: 26.6.3
@@ -643,8 +643,8 @@ packages:
       '@oxlint/plugins': 1.86.0
       oxlint: 1.86.0
 
-  '@types/chrome@0.3.0':
-    resolution: {integrity: sha512-HPAMKyJwUnNJdVsxgypwvIStlwRhhaLnxgEwKIB99oOcffJrC4UMeD5xseVoBwDinSkr690DCBaAtSYdK6M1qw==}
+  '@types/chrome@0.3.3':
+    resolution: {integrity: sha512-XdJPtwgZs4k8xN+YpSzruqNxmKtEb4sBDtFarj1H7bPmZTSidyk/QkFu4swksTs28JmW5IuxuL7gMeEswm3Hfg==}
 
   '@types/esrecurse@4.3.1':
     resolution: {integrity: sha512-xJBAbDifo5hpffDBuHl0Y8ywswbiAp/Wi7Y/GtAgSlZyIABppyurxVueOPE8LUQOxdlgi6Zqce7uoEpqNTeiUw==}
@@ -1451,7 +1451,7 @@ snapshots:
       '@oxlint/plugins': 1.86.0
       oxlint: 1.86.0(oxlint-tsgolint@7.0.2003)
 
-  '@types/chrome@0.3.0':
+  '@types/chrome@0.3.3':
     dependencies:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
