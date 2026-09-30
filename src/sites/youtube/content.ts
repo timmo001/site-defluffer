@@ -109,9 +109,12 @@ let playerObserver: MutationObserver | null = null;
 let playerObserverTimeout: number | null = null;
 
 function applyChatScrollbar() {
-  const chatDocument = document.querySelector<HTMLIFrameElement>(
+  const chatFrame = document.querySelector(
     "ytd-watch-flexy:not([hidden]) #chat iframe"
-  )?.contentDocument;
+  );
+
+  const chatDocument =
+    chatFrame instanceof HTMLIFrameElement ? chatFrame.contentDocument : null;
 
   if (!chatDocument?.documentElement) {
     return;
