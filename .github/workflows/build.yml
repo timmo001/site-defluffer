@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   build:
-    uses: timmo001/workflows/.github/workflows/build-pnpm.yml@a7b34d53ef8f83b1763fd0d3257a0168416e23ab # 20261001.2
+    uses: timmo001/workflows/.github/workflows/build-pnpm.yml@4562274d170ccaa4b5d5bc776684caaa8d61b007 # 20261002.0
     with:
       build-command: pnpm check
       artifact-name: site-defluffer-extension
