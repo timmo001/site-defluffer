@@ -1,4 +1,4 @@
-/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.3_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/layers.css */
+/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.4_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/layers.css */
 @layer wa-native, wa-base, wa-utilities, wa-color-palette, wa-color-variant, wa-theme, wa-theme-dimension, wa-theme-overrides;
 @layer wa-base {
   wa-page :is(*, *:after, *:before) {
@@ -13,7 +13,7 @@
   }
 }
 
-/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.3_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants/brand.css */
+/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.4_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants/brand.css */
 @layer wa-color-variant {
   :where(:root),
   .wa-brand-blue {
@@ -168,7 +168,7 @@
   }
 }
 
-/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.3_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants/neutral.css */
+/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.4_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants/neutral.css */
 @layer wa-color-variant {
   :where(:root),
   .wa-neutral-gray {
@@ -323,7 +323,7 @@
   }
 }
 
-/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.3_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants/success.css */
+/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.4_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants/success.css */
 @layer wa-color-variant {
   :where(:root),
   .wa-success-green {
@@ -478,7 +478,7 @@
   }
 }
 
-/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.3_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants/warning.css */
+/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.4_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants/warning.css */
 @layer wa-color-variant {
   :where(:root),
   .wa-warning-yellow {
@@ -633,7 +633,7 @@
   }
 }
 
-/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.3_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants/danger.css */
+/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.4_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants/danger.css */
 @layer wa-color-variant {
   :where(:root),
   .wa-danger-red {
@@ -788,9 +788,9 @@
   }
 }
 
-/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.3_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants.css */
+/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.4_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/variants.css */
 
-/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.3_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/palettes/base.css */
+/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.4_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/palettes/base.css */
 :where(:root),
 :host {
   --wa-color-red-gte-60: calc(100% - (clamp(0, 60 - var(--wa-color-red-key), 1) * 100%));
@@ -815,7 +815,7 @@
   --wa-color-gray-on: color-mix(in oklab, var(--wa-color-gray-10) var(--wa-color-gray-gte-60), white);
 }
 
-/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.3_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/palettes/default.css */
+/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.4_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/color/palettes/default.css */
 @layer wa-color-palette {
   :where(:root),
   .wa-palette-default {
@@ -952,7 +952,7 @@
   }
 }
 
-/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.3_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/themes/default.css */
+/* node_modules/.pnpm/@awesome.me+webawesome@3.14.0_@floating-ui+utils@0.2.12_@types+node@26.6.4_@types+react@19.3.0/node_modules/@awesome.me/webawesome/dist/styles/themes/default.css */
 @layer wa-theme {
   :where(:root),
   .wa-theme-default,
