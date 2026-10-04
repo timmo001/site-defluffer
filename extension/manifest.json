@@ -63,6 +63,15 @@
     },
     {
       "matches": [
+        "https://vivaplus.tv/*"
+      ],
+      "js": [
+        "sites/vivaplus/content.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
         "https://www.youtube.com/*"
       ],
       "js": [

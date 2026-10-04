@@ -47,6 +47,22 @@ export const SETTING_CATALOG = {
     key: "twitchNarrowScrollbars",
     default: true
   },
+  vivaplusEnabled: {
+    key: "vivaplusEnabled",
+    default: true
+  },
+  vivaplusHideHeader: {
+    key: "vivaplusHideHeader",
+    default: false
+  },
+  vivaplusFillPageHeight: {
+    key: "vivaplusFillPageHeight",
+    default: true
+  },
+  vivaplusNarrowScrollbars: {
+    key: "vivaplusNarrowScrollbars",
+    default: true
+  },
   youtubeEnabled: {
     key: "youtubeEnabled",
     default: true
@@ -103,6 +119,13 @@ export const TWITCH_SETTINGS = [
   SETTING_CATALOG.twitchHidePanels,
   SETTING_CATALOG.twitchCompactInputRow,
   SETTING_CATALOG.twitchNarrowScrollbars
+] as const;
+
+export const VIVAPLUS_SETTINGS = [
+  SETTING_CATALOG.vivaplusEnabled,
+  SETTING_CATALOG.vivaplusHideHeader,
+  SETTING_CATALOG.vivaplusFillPageHeight,
+  SETTING_CATALOG.vivaplusNarrowScrollbars
 ] as const;
 
 export const YOUTUBE_SETTINGS = [

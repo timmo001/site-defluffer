@@ -76,6 +76,29 @@ export const SITE_SETTINGS = [
     ]
   },
   {
+    name: "Viva+",
+    settings: [
+      {
+        key: SETTING_CATALOG.vivaplusEnabled.key,
+        label: "Enable on Viva+",
+        hint: "Toggle on Viva+ with Alt+Shift+T"
+      },
+      {
+        key: SETTING_CATALOG.vivaplusHideHeader.key,
+        label: "Hide header",
+        hint: "Temporarily toggle with Alt+T"
+      },
+      {
+        key: SETTING_CATALOG.vivaplusFillPageHeight.key,
+        label: "Fill page height"
+      },
+      {
+        key: SETTING_CATALOG.vivaplusNarrowScrollbars.key,
+        label: "Use narrow scrollbars"
+      }
+    ]
+  },
+  {
     name: "YouTube",
     settings: [
       {

@@ -26,6 +26,14 @@ that site without altering its individual settings.
 - Hide extra sidebar and chat panels.
 - Keep chat input controls on one line.
 
+### Viva+
+
+- Changes only apply on video pages in the desktop layout.
+- Hide the page header. It reappears after scrolling down.
+- Resize the video player to fill the page height.
+- Press `Alt+T` to temporarily toggle the header on the current page.
+- Use narrow scrollbars across Viva+.
+
 ### YouTube
 
 - Changes only apply on full watch players, not the mini-player.
