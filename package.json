@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@oxlint/plugins": "1.87.0",
-    "@timmo001/oxlint-rules": "0.5.0",
+    "@timmo001/oxlint-rules": "0.6.2",
     "@types/chrome": "0.3.4",
     "@types/node": "26.6.4",
     "esbuild": "0.28.2",
