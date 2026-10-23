@@ -97,7 +97,11 @@ html.${CLASSES.fillPageHeight}.${CLASSES.hideHeader}.${CLASSES.floating}${VIDEO_
   right: 0 !important;
 }
 
-html.${CLASSES.fillPageHeight}${VIDEO_POST} [class*="__premiumPostContent"]:has(video) {
+html.${CLASSES.fillPageHeight} [class*="__compactMediaWrapper"]:has(${VIDEO_POST_SELECTOR}) {
+  padding-top: 0 !important;
+}
+
+html.${CLASSES.fillPageHeight} :is([class*="__premiumPostContent"], [class*="__singleColumnContent"]):has(${VIDEO_POST_SELECTOR}) {
   max-width: none !important;
   padding: 0 !important;
 }
