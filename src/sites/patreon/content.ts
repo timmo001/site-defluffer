@@ -25,7 +25,10 @@ const CLASSES = {
   fillPageHeight: "site-defluffer-patreon-fill-page-height"
 };
 
-const VIDEO_POST_SELECTOR = '[class*="__compactMediaWrapper"] video';
+const VIDEO_PLAYER =
+  '[class*="VideoPlayer-module__"][class*="__aspectRatioContainer"]';
+
+const VIDEO_POST_SELECTOR = `${VIDEO_PLAYER} video`;
 
 const VIDEO_POST = `:has(${VIDEO_POST_SELECTOR})`;
 
@@ -94,16 +97,12 @@ html.${CLASSES.fillPageHeight}.${CLASSES.hideHeader}.${CLASSES.floating}${VIDEO_
   right: 0 !important;
 }
 
-html.${CLASSES.fillPageHeight} [class*="__compactMediaWrapper"]:has(video) {
-  padding-top: 0 !important;
-}
-
-html.${CLASSES.fillPageHeight} [class*="__compactMediaWrapper"]:has(video) [class*="__premiumPostContent"] {
+html.${CLASSES.fillPageHeight}${VIDEO_POST} [class*="__premiumPostContent"]:has(video) {
   max-width: none !important;
   padding: 0 !important;
 }
 
-html.${CLASSES.fillPageHeight} [class*="__compactMediaWrapper"] div:has(> [class*="VideoPlayer-module__"][class*="__player"]) {
+html.${CLASSES.fillPageHeight} ${VIDEO_PLAYER}:has(video) {
   height: calc(100svh - var(--site-defluffer-patreon-header-height, 56px)) !important;
   padding: 0 !important;
 }
