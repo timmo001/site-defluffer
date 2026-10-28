@@ -180,8 +180,8 @@ importers:
         specifier: 0.6.3
         version: 0.6.3(@oxlint/plugins@1.90.0)(oxlint@1.90.0(oxlint-tsgolint@7.0.2005))
       '@types/chrome':
-        specifier: 0.3.6
-        version: 0.3.6
+        specifier: 0.3.7
+        version: 0.3.7
       '@types/node':
         specifier: 26.6.5
         version: 26.6.5
@@ -643,8 +643,8 @@ packages:
       '@oxlint/plugins': 1.88.0
       oxlint: 1.88.0
 
-  '@types/chrome@0.3.6':
-    resolution: {integrity: sha512-NXCrCBefCHCKMVbkaxfBQqyP766Wg85S2FQhixCCxq7AtjJwoEaja2y5NSqCzpihIi9mPqhaF5RuybTnrdYD2Q==}
+  '@types/chrome@0.3.7':
+    resolution: {integrity: sha512-jWZgbHqWbTL1a5+PoyN0OJutNyejWgyZ5MdcvKo6iJE1TNRtXR3FxsC4WzNl52yZWPidfWC8NV/VUNZf+OFKcA==}
 
   '@types/esrecurse@4.3.1':
     resolution: {integrity: sha512-xJBAbDifo5hpffDBuHl0Y8ywswbiAp/Wi7Y/GtAgSlZyIABppyurxVueOPE8LUQOxdlgi6Zqce7uoEpqNTeiUw==}
@@ -1445,7 +1445,7 @@ snapshots:
       '@oxlint/plugins': 1.90.0
       oxlint: 1.90.0(oxlint-tsgolint@7.0.2005)
 
-  '@types/chrome@0.3.6':
+  '@types/chrome@0.3.7':
     dependencies:
       '@types/har-format': 1.2.16
 
