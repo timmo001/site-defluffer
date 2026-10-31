@@ -19,7 +19,6 @@ export class SettingSelect extends LitElement {
     :host {
       display: block;
       padding: 14px 0;
-      border-top: 1px solid var(--wa-color-surface-border);
     }
 
     wa-select::part(form-control-label) {
@@ -71,7 +70,7 @@ export class SettingSelect extends LitElement {
       <wa-select
         label=${this.label}
         hint=${this.hint}
-        size="small"
+        size="s"
         .value=${this.value}
         @change=${
           // oxlint-disable-next-line typescript/unbound-method -- Lit calls event handlers with the host as this.

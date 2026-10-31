@@ -106,6 +106,12 @@ const HOME_TABS = `${PRIMARY_COLUMN} [role="tablist"]`;
 // the selector working in every language.
 const GROK_ICON = 'svg[viewBox="0 0 33 32"]';
 
+// The pencil icon Twitter shows on the Post button in its narrow layout; the
+// wide layout renders only the word, so the compact nav draws it instead.
+const POST_ICON = `url("data:image/svg+xml,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.938 4.5H9.9c-1.136 0-1.929 0-2.546.05-.605.05-.953.143-1.216.277-.564.288-1.023.747-1.31 1.31-.135.264-.228.612-.277 1.218C4.5 7.970 4.5 8.765 4.5 9.9v4.2c0 1.136 0 1.929.05 2.546.05.605.143.953.277 1.216.288.565.747 1.023 1.310 1.310.264.135.612.228 1.217.277.617.05 1.410.051 2.546.051h4.2c1.136 0 1.929 0 2.545-.05.606-.05.954-.143 1.217-.277.565-.288 1.023-.746 1.310-1.310.135-.264.228-.612.277-1.217.05-.617.051-1.410.051-2.546v-1.037h2V14.1c0 1.103.001 1.992-.058 2.709-.06.728-.185 1.368-.487 1.960-.48.941-1.245 1.707-2.185 2.186-.593.302-1.233.428-1.961.488-.718.058-1.606.057-2.710.057H9.9c-1.103 0-1.991.001-2.709-.058-.728-.06-1.368-.185-1.960-.487-.941-.48-1.707-1.245-2.186-2.185-.302-.593-.428-1.233-.487-1.961-.059-.718-.058-1.606-.058-2.710V9.9c0-1.103-.001-1.991.058-2.709.06-.728.185-1.368.487-1.960.48-.941 1.245-1.707 2.185-2.186.593-.302 1.233-.428 1.961-.487.718-.059 1.606-.058 2.710-.058h1.037v2z"/><path fill-rule="evenodd" d="M16.293 3.293c1.219-1.219 3.195-1.219 4.414 0 1.219 1.219 1.219 3.195 0 4.414l-5.491 5.491c-.533.533-.89.896-1.310 1.179-.356.24-.742.433-1.148.574-.478.167-.983.234-1.729.341l-2.708.387.387-2.708c.107-.746.174-1.250.34-1.729.142-.405.335-.792.575-1.148.283-.42.646-.777 1.179-1.310l5.491-5.491zm3 1.414c-.438-.438-1.148-.438-1.586 0l-5.491 5.491c-.587.587-.784.79-.934 1.013-.144.214-.26.445-.345.688-.088.254-.131.533-.248 1.354l-.01.067.068-.008c.82-.118 1.1-.161 1.354-.25.243-.084.474-.2.688-.344.223-.15.426-.347 1.013-.934l5.491-5.491c.438-.438.438-1.148 0-1.586z"/></svg>'
+)}")`;
+
 // The block under a post's text that holds its photos, video or card.
 const MEDIA_BOX =
   '[data-testid="tweet"] div[aria-labelledby]:has(:is([data-testid="tweetPhoto"], [data-testid="videoPlayer"]))';
@@ -153,11 +159,45 @@ html.${CLASSES.hideSidebar} ${SIDEBAR} {
   display: none !important;
 }
 
+html.${CLASSES.compactNav} header[role="banner"] {
+  flex: 0 0 88px !important;
+  width: 88px !important;
+}
+
 html.${CLASSES.compactNav} header[role="banner"] > div,
 html.${CLASSES.compactNav} header[role="banner"] > div > div,
 html.${CLASSES.compactNav} header[role="banner"] > div > div > div {
   width: 88px !important;
   min-width: 0 !important;
+  margin-left: 0 !important;
+}
+
+html.${CLASSES.compactNav} header nav,
+html.${CLASSES.compactNav} header nav :is(a, [data-testid="AppTabBar_More_Menu"]) {
+  align-items: center !important;
+}
+
+html.${CLASSES.compactNav} [data-testid="SideNav_NewTweet_Button"] {
+  min-height: 52px !important;
+  padding: 0 16px !important;
+}
+
+html.${CLASSES.compactNav} [data-testid="SideNav_NewTweet_Button"] > div[dir] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+html.${CLASSES.compactNav} [data-testid="SideNav_NewTweet_Button"] > div[dir] > :not(svg) {
+  display: none !important;
+}
+
+html.${CLASSES.compactNav} [data-testid="SideNav_NewTweet_Button"] > div[dir]:not(:has(> svg))::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  background-color: currentColor;
+  mask: ${POST_ICON} center / contain no-repeat;
 }
 
 html.${CLASSES.compactNav} header[role="banner"] > div > div > div > div {
