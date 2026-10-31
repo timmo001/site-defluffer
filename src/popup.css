@@ -1,45 +1,33 @@
-@import "@awesome.me/webawesome/dist/styles/themes/default.css";
-
 :root {
-  --wa-font-family-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  color-scheme: dark;
+  --sd-bg: oklch(0.19 0.004 260);
+  --sd-surface: oklch(0.23 0.005 260);
+  --sd-surface-raised: oklch(0.27 0.006 260);
+  --sd-border: oklch(0.3 0.006 260);
+  --sd-border-strong: oklch(0.4 0.008 260);
+  --sd-text: oklch(0.95 0.003 260);
+  --sd-text-quiet: oklch(0.68 0.008 260);
+  --sd-accent: oklch(0.74 0.09 225);
+  --sd-danger: oklch(0.7 0.16 25);
 }
 
 * {
   box-sizing: border-box;
 }
 
+/* Chrome sizes the popup to the page, up to 800px wide. */
 body {
-  --wa-color-surface-raised: oklch(0.3092 0 0);
-  --wa-color-surface-default: oklch(0.2134 0 0);
-  --wa-color-surface-lowered: oklch(0.1957 0 0);
-  --wa-color-surface-border: oklch(0.3897 0.0033 106.55);
-  --wa-color-neutral-fill-quiet: oklch(0.2727 0 0);
-  --wa-color-neutral-fill-normal: oklch(0.3092 0 0);
-  --wa-color-neutral-fill-loud: oklch(0.7688 0.0056 106.53);
-  --wa-color-neutral-border-quiet: oklch(0.3897 0.0033 106.55);
-  --wa-color-neutral-border-normal: oklch(0.5167 0.0031 106.51);
-  --wa-color-neutral-border-loud: oklch(0.6488 0.0058 106.56);
-  --wa-color-neutral-on-quiet: oklch(0.7688 0.0056 106.53);
-  --wa-color-neutral-on-normal: oklch(0.8998 0.004 106.48);
-  --wa-color-neutral-on-loud: oklch(0.1957 0 0);
-  --wa-color-brand-fill-quiet: oklch(0.3088 0.0018 106.5);
-  --wa-color-brand-fill-normal: oklch(0.5167 0.0031 106.51);
-  --wa-color-brand-fill-loud: oklch(0.6488 0.0058 106.56);
-  --wa-color-brand-border-quiet: oklch(0.5167 0.0031 106.51);
-  --wa-color-brand-border-normal: oklch(0.6488 0.0058 106.56);
-  --wa-color-brand-border-loud: oklch(0.8004 0.0055 106.52);
-  --wa-color-brand-on-quiet: oklch(0.8998 0.004 106.48);
-  --wa-color-brand-on-normal: oklch(0.9606 0.0027 106.45);
-  --wa-color-brand-on-loud: oklch(0.1957 0 0);
-  --wa-color-focus: oklch(0.8004 0.0055 106.52);
-  --wa-form-control-activated-color: var(--wa-color-brand-fill-loud);
+  width: 720px;
   margin: 0;
-  min-width: 360px;
-  background: linear-gradient(
-    160deg,
-    oklch(0.2435 0 0),
-    oklch(0.1957 0 0)
-  );
-  color: var(--wa-color-text-normal);
-  font: 14px/1.45 var(--wa-font-family-body);
+  background: var(--sd-bg);
+  color: var(--sd-text);
+  font: 14px/1.45 system-ui, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Wider than any popup can be, so the page is open in a tab. */
+@media (min-width: 801px) {
+  body {
+    width: auto;
+  }
 }
