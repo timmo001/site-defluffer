@@ -1,7 +1,10 @@
+import { mdiCheckCircle, mdiCircleOutline } from "@mdi/js";
 import { css, html, LitElement } from "lit";
 import type { SettingKey } from "../settings.js";
 import { dispatchSettingChange } from "./setting-change.js";
+import { icon, shared } from "./shared-styles.js";
 
+/** A toggle button for one setting, pressed while it's on. */
 export class SettingTile extends LitElement {
   static properties = {
     settingKey: { attribute: "setting-key" },
@@ -10,89 +13,61 @@ export class SettingTile extends LitElement {
     checked: { type: Boolean }
   };
 
-  static styles = css`
-    :host {
-      display: block;
-    }
-
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      width: 100%;
-      height: 100%;
-      min-height: 46px;
-      padding: 8px 12px;
-      color: var(--sd-text-quiet);
-      font: inherit;
-      font-size: 13px;
-      font-weight: 500;
-      line-height: 1.3;
-      text-align: start;
-      background: transparent;
-      border: 1px solid var(--sd-border);
-      border-radius: 10px;
-      cursor: pointer;
-      transition:
-        background 120ms,
-        border-color 120ms,
-        color 120ms;
-    }
-
-    button:hover {
-      border-color: var(--sd-border-strong);
-    }
-
-    button:focus-visible {
-      outline: 2px solid var(--sd-accent);
-      outline-offset: 2px;
-    }
-
-    button[aria-pressed="true"] {
-      color: var(--sd-text);
-      background: var(--sd-surface-raised);
-      border-color: var(--sd-surface-raised);
-    }
-
-    .state {
-      flex: none;
-      width: 22px;
-      height: 12px;
-      border-radius: 6px;
-      background: var(--sd-border-strong);
-      position: relative;
-      transition: background 120ms;
-    }
-
-    .state::after {
-      content: "";
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--sd-bg);
-      transition: transform 120ms;
-    }
-
-    [aria-pressed="true"] .state {
-      background: var(--sd-accent);
-    }
-
-    [aria-pressed="true"] .state::after {
-      transform: translateX(10px);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      button,
-      .state,
-      .state::after {
-        transition: none;
+  static styles = [
+    shared,
+    css`
+      :host {
+        display: block;
       }
-    }
-  `;
+
+      button {
+        display: flex;
+        align-items: center;
+        gap: var(--sd-space-2);
+        width: 100%;
+        height: 100%;
+        min-height: 2.5rem;
+        padding: var(--sd-space-1-5) var(--sd-space-3);
+        font: inherit;
+        font-size: var(--sd-font-size-s);
+        font-weight: var(--sd-font-weight-medium);
+        line-height: var(--sd-line-height-condensed);
+        color: var(--sd-color-muted);
+        text-align: start;
+        cursor: pointer;
+        background: var(--sd-color-raised);
+        border: 1px solid var(--sd-color-border);
+        border-radius: var(--sd-radius-m);
+        transition:
+          background var(--sd-duration-fast) var(--sd-easing),
+          border-color var(--sd-duration-fast) var(--sd-easing),
+          color var(--sd-duration-fast) var(--sd-easing);
+        --sd-icon-size: 1.125rem;
+      }
+
+      button:hover {
+        background: color-mix(
+          in oklab,
+          var(--sd-color-raised),
+          var(--sd-color-text) 6%
+        );
+      }
+
+      button[aria-pressed="true"] {
+        color: var(--sd-color-text);
+        background: var(--sd-color-accent-soft);
+        border-color: color-mix(
+          in oklab,
+          var(--sd-color-accent) 40%,
+          transparent
+        );
+      }
+
+      button[aria-pressed="true"] .icon {
+        color: var(--sd-color-accent);
+      }
+    `
+  ];
 
   declare settingKey: SettingKey;
   declare label: string;
@@ -122,8 +97,8 @@ export class SettingTile extends LitElement {
           this.toggle
         }
       >
+        ${icon(this.checked ? mdiCheckCircle : mdiCircleOutline)}
         <span>${this.label}</span>
-        <span class="state" aria-hidden="true"></span>
       </button>
     `;
   }

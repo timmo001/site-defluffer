@@ -2,8 +2,12 @@ import { css, html, LitElement } from "lit";
 import type { PopupSettingChoice } from "../popup-settings.js";
 import type { SettingKey } from "../settings.js";
 import { dispatchSettingChange } from "./setting-change.js";
+import { shared } from "./shared-styles.js";
 
-// A segmented control: every choice is visible and one click away.
+/**
+ * A group of pill segments with one chosen, after System Bridge's
+ * `sb-segmented`. Arrow keys move between segments and choose as they go.
+ */
 export class SettingChoice extends LitElement {
   static properties = {
     settingKey: { attribute: "setting-key" },
@@ -12,58 +16,59 @@ export class SettingChoice extends LitElement {
     choices: { attribute: false }
   };
 
-  static styles = css`
-    :host {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 12px;
-      background: var(--sd-surface);
-      border: 1px solid var(--sd-border);
-      border-radius: 10px;
-    }
+  static styles = [
+    shared,
+    css`
+      :host {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--sd-space-2) var(--sd-space-4);
+      }
 
-    .label {
-      flex: 1;
-      color: var(--sd-text);
-      font-size: 13px;
-      font-weight: 500;
-    }
+      .label {
+        font-size: var(--sd-font-size-s);
+        font-weight: var(--sd-font-weight-medium);
+      }
 
-    [role="radiogroup"] {
-      display: flex;
-      gap: 2px;
-      padding: 3px;
-      background: var(--sd-bg);
-      border-radius: 9px;
-    }
+      .group {
+        display: inline-flex;
+        gap: var(--sd-space-0-5);
+        padding: var(--sd-space-0-5);
+        background: var(--sd-color-sunken);
+        border: 1px solid var(--sd-color-border);
+        border-radius: var(--sd-radius-pill);
+      }
 
-    button {
-      min-width: 44px;
-      padding: 5px 10px;
-      color: var(--sd-text-quiet);
-      font: inherit;
-      font-size: 12px;
-      font-weight: 500;
-      background: none;
-      border: 0;
-      border-radius: 7px;
-      cursor: pointer;
-    }
+      .segment {
+        min-height: 1.875rem;
+        min-width: 2.5rem;
+        padding: 0 var(--sd-space-3);
+        font: inherit;
+        font-size: var(--sd-font-size-xs);
+        font-weight: var(--sd-font-weight-medium);
+        color: var(--sd-color-muted);
+        white-space: nowrap;
+        cursor: pointer;
+        background: none;
+        border: 0;
+        border-radius: var(--sd-radius-pill);
+        transition:
+          background var(--sd-duration-fast) var(--sd-easing),
+          color var(--sd-duration-fast) var(--sd-easing);
+      }
 
-    button:hover {
-      color: var(--sd-text);
-    }
+      .segment:hover {
+        color: var(--sd-color-text);
+      }
 
-    button:focus-visible {
-      outline: 2px solid var(--sd-accent);
-    }
-
-    button[aria-checked="true"] {
-      color: var(--sd-bg);
-      background: var(--sd-accent);
-    }
-  `;
+      .segment[aria-checked="true"] {
+        color: var(--sd-color-on-accent);
+        background: var(--sd-color-accent);
+      }
+    `
+  ];
 
   declare settingKey: SettingKey;
   declare label: string;
@@ -78,25 +83,76 @@ export class SettingChoice extends LitElement {
     this.choices = [];
   }
 
+  private choose(value: string) {
+    if (value !== this.value) {
+      dispatchSettingChange(this, { [this.settingKey]: value });
+    }
+  }
+
+  private readonly handleKeydown = (event: KeyboardEvent) => {
+    const step =
+      event.key === "ArrowRight" || event.key === "ArrowDown"
+        ? 1
+        : event.key === "ArrowLeft" || event.key === "ArrowUp"
+          ? -1
+          : 0;
+
+    if (step === 0) {
+      return;
+    }
+
+    event.preventDefault();
+    // Keep Alt+Left for going back to every site.
+    event.stopPropagation();
+
+    const index = this.choices.findIndex((choice) => choice.value === this.value);
+    const next = this.choices.at((index + step) % this.choices.length);
+
+    if (!next) {
+      return;
+    }
+
+    this.choose(next.value);
+    void this.updateComplete.then(() => {
+      const segment = this.renderRoot.querySelector(
+        `[data-value="${CSS.escape(next.value)}"]`
+      );
+
+      if (segment instanceof HTMLElement) {
+        segment.focus();
+      }
+    });
+  };
+
   render() {
     return html`
       <span class="label" id="label">${this.label}</span>
-      <div role="radiogroup" aria-labelledby="label">
-        ${this.choices.map(
-          (choice) => html`
+      <div
+        class="group"
+        role="radiogroup"
+        aria-labelledby="label"
+        @keydown=${this.handleKeydown}
+      >
+        ${this.choices.map((choice) => {
+          const chosen = choice.value === this.value;
+
+          return html`
             <button
+              class="segment"
               type="button"
               role="radio"
-              aria-checked=${choice.value === this.value ? "true" : "false"}
+              data-value=${choice.value}
+              aria-checked=${chosen ? "true" : "false"}
+              tabindex=${chosen ? 0 : -1}
               title=${choice.hint ?? choice.label}
               @click=${() => {
-                dispatchSettingChange(this, { [this.settingKey]: choice.value });
+                this.choose(choice.value);
               }}
             >
               ${choice.label}
             </button>
-          `
-        )}
+          `;
+        })}
       </div>
     `;
   }

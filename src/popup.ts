@@ -1,5 +1,7 @@
+import { mdiBroom, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 import { css, html, LitElement } from "lit";
 import type { SettingChangeDetail } from "./components/setting-change.js";
+import { icon, shared } from "./components/shared-styles.js";
 import "./components/site-settings.js";
 import {
   countOn,
@@ -20,10 +22,6 @@ const DEFAULT_SETTINGS = getDefaultSettings(ALL_SETTINGS);
 
 const SITES: readonly PopupSiteDefinition[] = SITE_SETTINGS;
 
-const BACK_ICON = html`<svg viewBox="0 0 16 16" aria-hidden="true">
-  <path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-</svg>`;
-
 class SiteDeflufferPopup extends LitElement {
   static properties = {
     settings: { state: true },
@@ -31,194 +29,128 @@ class SiteDeflufferPopup extends LitElement {
     siteName: { state: true }
   };
 
-  static styles = css`
-    :host {
-      display: block;
-      max-height: 600px;
-      overflow-y: auto;
-    }
-
-    /* Wider than any popup can be, so the page is open in a tab. */
-    @media (min-width: 801px) {
+  static styles = [
+    shared,
+    css`
       :host {
-        max-height: none;
+        display: block;
+        max-height: var(--sd-popup-height);
+        overflow-y: auto;
+      }
+
+      /* Wider than any popup can be, so the page is open in a tab. */
+      @media (min-width: 801px) {
+        :host {
+          max-height: none;
+        }
+
+        main {
+          max-width: 64rem;
+          margin-inline: auto;
+        }
       }
 
       main {
-        max-width: 1000px;
-        margin-inline: auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--sd-space-4);
+        padding: 0 var(--sd-space-5) var(--sd-space-5);
       }
-    }
 
-    main {
-      padding: 0 20px 20px;
-    }
+      /* After System Bridge's page header: a tile, the titles, then actions
+         at the top right. Stays in view while the options scroll. */
+      .page-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        margin-inline: calc(-1 * var(--sd-space-5));
+        padding: var(--sd-space-4) var(--sd-space-5);
+        background: var(--sd-color-bg);
+        --sd-row-gap: var(--sd-space-3);
+      }
 
-    .bar {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-inline: -20px;
-      padding: 16px 20px 14px;
-      background: var(--sd-bg);
-    }
+      .page-header .titles {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: var(--sd-space-0-5);
+        min-width: 0;
+      }
 
-    .titles {
-      flex: 1;
-      min-width: 0;
-    }
+      .description {
+        font-size: var(--sd-font-size-s);
+      }
 
-    h1,
-    h2 {
-      margin: 0;
-      font-size: 18px;
-      font-weight: 650;
-      letter-spacing: -0.01em;
-    }
+      .sites {
+        --sd-grid-min: 18rem;
+      }
 
-    .subtitle {
-      margin: 1px 0 0;
-      color: var(--sd-text-quiet);
-      font-size: 12px;
-      font-variant-numeric: tabular-nums;
-    }
+      .site {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--sd-space-3);
+        padding: 0 var(--sd-space-4) 0 0;
+        transition: border-color var(--sd-duration-fast) var(--sd-easing);
+      }
 
-    button {
-      color: inherit;
-      font: inherit;
-      background: none;
-      border: 0;
-      cursor: pointer;
-    }
+      .site:hover {
+        border-color: color-mix(
+          in oklab,
+          var(--sd-color-accent) 50%,
+          var(--sd-color-border)
+        );
+      }
 
-    button:focus-visible {
-      outline: 2px solid var(--sd-accent);
-      outline-offset: 2px;
-    }
+      .open {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        gap: var(--sd-space-3);
+        min-width: 0;
+        padding: var(--sd-space-3) 0 var(--sd-space-3) var(--sd-space-3);
+        font: inherit;
+        color: inherit;
+        text-align: start;
+        cursor: pointer;
+        background: none;
+        border: 0;
+        border-radius: var(--sd-radius-l);
+      }
 
-    svg {
-      display: block;
-      width: 16px;
-      height: 16px;
-    }
+      .open .titles {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--sd-space-1);
+        min-width: 0;
+      }
 
-    .back {
-      display: grid;
-      place-items: center;
-      width: 32px;
-      height: 32px;
-      margin-left: -6px;
-      border-radius: 10px;
-    }
+      .name {
+        font-weight: var(--sd-font-weight-semibold);
+      }
 
-    .back:hover {
-      background: var(--sd-surface);
-    }
+      .chevron {
+        color: var(--sd-color-muted);
+      }
 
-    .power {
-      position: relative;
-      flex: none;
-      width: 36px;
-      height: 20px;
-      background: var(--sd-border-strong);
-      border-radius: 10px;
-      transition: background 120ms;
-    }
+      .error {
+        padding: var(--sd-space-3) var(--sd-space-4);
+        font-size: var(--sd-font-size-s);
+        color: var(--sd-color-danger);
+        background: var(--sd-color-danger-soft);
+        border-radius: var(--sd-radius-m);
+      }
 
-    .power::after {
-      content: "";
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 14px;
-      height: 14px;
-      background: var(--sd-bg);
-      border-radius: 50%;
-      transition: transform 120ms;
-    }
-
-    .power[aria-pressed="true"] {
-      background: var(--sd-accent);
-    }
-
-    .power[aria-pressed="true"]::after {
-      transform: translateX(16px);
-    }
-
-    .sites {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .site {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding-right: 14px;
-      background: var(--sd-surface);
-      border: 1px solid var(--sd-border);
-      border-radius: 12px;
-      transition: border-color 120ms;
-    }
-
-    .site:hover {
-      border-color: var(--sd-border-strong);
-    }
-
-    .site .open {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      min-width: 0;
-      padding: 12px 0 12px 14px;
-      text-align: start;
-    }
-
-    .site .name {
-      font-weight: 600;
-    }
-
-    .site .summary {
-      color: var(--sd-text-quiet);
-      font-size: 12px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .site:not(.on) .name {
-      color: var(--sd-text-quiet);
-    }
-
-    site-settings {
-      margin-top: 6px;
-      transition: opacity 120ms;
-    }
-
-    site-settings.off {
-      opacity: 0.45;
-    }
-
-    .error {
-      margin: 16px 0 0;
-      padding: 10px 12px;
-      color: var(--sd-danger);
-      border: 1px solid currentColor;
-      border-radius: 10px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .power,
-      .power::after,
-      .site,
       site-settings {
-        transition: none;
+        transition: opacity var(--sd-duration-fast) var(--sd-easing);
       }
-    }
-  `;
+
+      site-settings.off {
+        opacity: 0.5;
+      }
+    `
+  ];
 
   declare private settings: Settings;
   declare private error: string;
@@ -327,21 +259,20 @@ class SiteDeflufferPopup extends LitElement {
     return this.settings[site.enabled] === true;
   }
 
-  private renderPowerButton(site: PopupSiteDefinition) {
-    const on = this.isOn(site);
-
+  private renderSwitch(site: PopupSiteDefinition) {
     return html`
-      <button
-        class="power"
-        type="button"
-        aria-pressed=${on ? "true" : "false"}
+      <input
+        class="switch"
+        type="checkbox"
         aria-label="Site Defluffer on ${site.name}"
-        title="${on ? "Turn off" : "Turn on"} for ${site.name} (Alt+Shift+T)"
-        @click=${() => {
-          this.saveSettings({ [site.enabled]: !on });
+        title="Turn ${site.name} on or off (Alt+Shift+T on the site)"
+        .checked=${this.isOn(site)}
+        @change=${(event: Event) => {
+          if (event.currentTarget instanceof HTMLInputElement) {
+            this.saveSettings({ [site.enabled]: event.currentTarget.checked });
+          }
         }}
-      >
-</button>
+      />
     `;
   }
 
@@ -357,16 +288,17 @@ class SiteDeflufferPopup extends LitElement {
 
   private renderHome() {
     return html`
-      <div class="bar">
+      <header class="page-header row">
+        <span class="tile">${icon(mdiBroom)}</span>
         <div class="titles">
           <h1>Site Defluffer</h1>
-          <p class="subtitle">Pick a site to tune what gets hidden.</p>
+          <p class="description muted">Pick a site to tune what gets hidden.</p>
         </div>
-      </div>
-      <div class="sites">
+      </header>
+      <div class="grid sites">
         ${SITES.map(
           (site) => html`
-            <div class="site ${this.isOn(site) ? "on" : ""}">
+            <div class="card site">
               <button
                 class="open"
                 type="button"
@@ -374,10 +306,18 @@ class SiteDeflufferPopup extends LitElement {
                   this.siteName = site.name;
                 }}
               >
-                <span class="name">${site.name}</span>
-                <span class="summary">${this.renderSummary(site)}</span>
+                <span class="tile ${this.isOn(site) ? "" : "off"}">
+                  ${icon(site.icon)}
+                </span>
+                <span class="titles">
+                  <span class="name truncate">${site.name}</span>
+                  <span class="chip tabular ${this.isOn(site) ? "accent" : ""}">
+                    ${this.renderSummary(site)}
+                  </span>
+                </span>
+                <span class="chevron">${icon(mdiChevronRight)}</span>
               </button>
-              ${this.renderPowerButton(site)}
+              ${this.renderSwitch(site)}
             </div>
           `
         )}
@@ -387,9 +327,9 @@ class SiteDeflufferPopup extends LitElement {
 
   private renderSite(site: PopupSiteDefinition) {
     return html`
-      <div class="bar">
+      <header class="page-header row">
         <button
-          class="back"
+          class="button plain icon-only round"
           type="button"
           title="All sites (Alt+Left)"
           aria-label="Back to all sites"
@@ -397,14 +337,15 @@ class SiteDeflufferPopup extends LitElement {
             this.siteName = "";
           }}
         >
-          ${BACK_ICON}
+          ${icon(mdiChevronLeft)}
         </button>
+        <span class="tile ${this.isOn(site) ? "" : "off"}">${icon(site.icon)}</span>
         <div class="titles">
-          <h2>${site.name}</h2>
-          <p class="subtitle">${this.renderSummary(site)}</p>
+          <h1>${site.name}</h1>
+          <p class="description muted tabular">${this.renderSummary(site)}</p>
         </div>
-        ${this.renderPowerButton(site)}
-      </div>
+        ${this.renderSwitch(site)}
+      </header>
       <site-settings
         class=${this.isOn(site) ? "" : "off"}
         .settings=${site.settings}

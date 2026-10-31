@@ -1,3 +1,4 @@
+import { mdiTuneVariant } from "@mdi/js";
 import { css, html, LitElement } from "lit";
 import {
   countOn,
@@ -13,14 +14,16 @@ import {
 import { dispatchSettingChange } from "./setting-change.js";
 import "./setting-choice.js";
 import "./setting-tile.js";
+import { icon, shared } from "./shared-styles.js";
 
 interface SettingGroup {
   name: string;
+  icon: string;
   settings: PopupSettingDefinition[];
 }
 
 // Settings before the first named group go under this heading.
-const DEFAULT_GROUP_NAME = "Options";
+const DEFAULT_GROUP = { name: "Options", icon: mdiTuneVariant };
 
 function groupSettings(settings: readonly PopupSettingDefinition[]) {
   const groups: SettingGroup[] = [];
@@ -29,7 +32,11 @@ function groupSettings(settings: readonly PopupSettingDefinition[]) {
     const current = groups.at(-1);
 
     if (!current || setting.group) {
-      groups.push({ name: setting.group ?? DEFAULT_GROUP_NAME, settings: [setting] });
+      groups.push({
+        name: setting.group ?? DEFAULT_GROUP.name,
+        icon: setting.groupIcon ?? DEFAULT_GROUP.icon,
+        settings: [setting]
+      });
     } else {
       current.settings.push(setting);
     }
@@ -38,69 +45,53 @@ function groupSettings(settings: readonly PopupSettingDefinition[]) {
   return groups;
 }
 
+/** A site's settings, as cards of toggle tiles after System Bridge's `sb-card`. */
 export class SiteSettings extends LitElement {
   static properties = {
     settings: { attribute: false },
     values: { attribute: false }
   };
 
-  static styles = css`
-    :host {
-      display: grid;
-      gap: 18px;
-    }
+  static styles = [
+    shared,
+    css`
+      :host {
+        display: flex;
+        flex-direction: column;
+        gap: var(--sd-space-3);
+      }
 
-    header {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
+      .card {
+        gap: var(--sd-space-2);
+        padding: var(--sd-space-3);
+      }
 
-    h3 {
-      margin: 0;
-      color: var(--sd-text);
-      font-size: 14px;
-      font-weight: 600;
-    }
+      header {
+        --sd-row-gap: var(--sd-space-3);
+      }
 
-    .count {
-      flex: 1;
-      color: var(--sd-text-quiet);
-      font-size: 12px;
-      font-variant-numeric: tabular-nums;
-    }
+      .titles {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        min-width: 0;
+      }
 
-    .all {
-      padding: 2px 4px;
-      color: var(--sd-accent);
-      font: inherit;
-      font-size: 12px;
-      font-weight: 500;
-      background: none;
-      border: 0;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+      .subheading {
+        font-size: var(--sd-font-size-xs);
+      }
 
-    .all:hover {
-      text-decoration: underline;
-    }
+      .tiles {
+        --sd-grid-min: 9.5rem;
+        --sd-grid-gap: var(--sd-space-2);
+      }
 
-    .all:focus-visible {
-      outline: 2px solid var(--sd-accent);
-    }
-
-    .tiles {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
-      gap: 8px;
-    }
-
-    setting-choice {
-      grid-column: 1 / -1;
-    }
-  `;
+      setting-choice {
+        grid-column: 1 / -1;
+        padding-top: var(--sd-space-1);
+      }
+    `
+  ];
 
   declare settings: readonly PopupSettingDefinition[];
   declare values: Readonly<Settings>;
@@ -136,7 +127,7 @@ export class SiteSettings extends LitElement {
   private renderAllButton(keys: readonly SettingKey[], allOn: boolean) {
     return html`
       <button
-        class="all"
+        class="button plain small"
         type="button"
         @click=${() => {
           dispatchSettingChange(
@@ -155,17 +146,20 @@ export class SiteSettings extends LitElement {
     const onCount = countOn(switchKeys, this.values);
 
     return html`
-      <section>
-        <header>
-          <h3>${group.name}</h3>
-          <span class="count">
-            ${switchKeys.length > 0 ? `${onCount}/${switchKeys.length}` : ""}
+      <section class="card">
+        <header class="row">
+          <span class="tile small">${icon(group.icon)}</span>
+          <span class="titles">
+            <h3>${group.name}</h3>
+            <span class="subheading muted tabular">
+              ${onCount} of ${switchKeys.length} on
+            </span>
           </span>
           ${switchKeys.length > 1
             ? this.renderAllButton(switchKeys, onCount === switchKeys.length)
             : null}
         </header>
-        <div class="tiles">
+        <div class="grid tiles">
           ${group.settings.map((setting) => this.renderSetting(setting))}
         </div>
       </section>

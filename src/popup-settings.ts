@@ -1,3 +1,14 @@
+import {
+  mdiEyeOffOutline,
+  mdiHomeOutline,
+  mdiMovieOpenOutline,
+  mdiPatreon,
+  mdiTelevisionPlay,
+  mdiTwitch,
+  mdiTwitter,
+  mdiViewDashboardOutline,
+  mdiYoutube
+} from "@mdi/js";
 import { SETTING_CATALOG, type SettingKey, type Settings } from "./settings.js";
 
 // Choices have no on or off state, so only switches count and group switches
@@ -22,12 +33,15 @@ export interface PopupSettingDefinition {
   hint?: string;
   // Shown as a segmented control instead of a toggle tile.
   choices?: readonly PopupSettingChoice[];
-  // Starts a new section under this heading.
+  // Starts a new section under this heading, with this `@mdi/js` icon.
   group?: string;
+  groupIcon?: string;
 }
 
 export interface PopupSiteDefinition {
   name: string;
+  // An `@mdi/js` path.
+  icon: string;
   // Opens this site's view when the popup opens on one of these hosts.
   hosts: readonly string[];
   // Turns every change on the site on or off; Alt+Shift+T flips it too.
@@ -38,6 +52,7 @@ export interface PopupSiteDefinition {
 export const SITE_SETTINGS = [
   {
     name: "Corridor Digital",
+    icon: mdiMovieOpenOutline,
     hosts: ["www.corridordigital.com"],
     enabled: SETTING_CATALOG.corridorEnabled.key,
     settings: [
@@ -59,6 +74,7 @@ export const SITE_SETTINGS = [
   },
   {
     name: "Patreon",
+    icon: mdiPatreon,
     hosts: ["www.patreon.com"],
     enabled: SETTING_CATALOG.patreonEnabled.key,
     settings: [
@@ -80,6 +96,7 @@ export const SITE_SETTINGS = [
   },
   {
     name: "Twitch",
+    icon: mdiTwitch,
     hosts: ["www.twitch.tv"],
     enabled: SETTING_CATALOG.twitchEnabled.key,
     settings: [
@@ -100,6 +117,7 @@ export const SITE_SETTINGS = [
   },
   {
     name: "Twitter",
+    icon: mdiTwitter,
     hosts: ["x.com", "twitter.com"],
     enabled: SETTING_CATALOG.twitterEnabled.key,
     settings: [
@@ -107,7 +125,8 @@ export const SITE_SETTINGS = [
         key: SETTING_CATALOG.twitterFillWidth.key,
         label: "Fill width",
         hint: "Stretch the timeline into the free space",
-        group: "Layout"
+        group: "Layout",
+        groupIcon: mdiViewDashboardOutline
       },
       {
         key: SETTING_CATALOG.twitterHideSidebar.key,
@@ -136,7 +155,8 @@ export const SITE_SETTINGS = [
         key: SETTING_CATALOG.twitterOpenFollowing.key,
         label: "Open on Following",
         hint: "Switch away from For you when the page loads",
-        group: "Home timeline"
+        group: "Home timeline",
+        groupIcon: mdiHomeOutline
       },
       {
         key: SETTING_CATALOG.twitterSortRecent.key,
@@ -156,7 +176,8 @@ export const SITE_SETTINGS = [
         key: SETTING_CATALOG.twitterHideAds.key,
         label: "Ads",
         hint: "Promoted posts and trends",
-        group: "Hide"
+        group: "Hide",
+        groupIcon: mdiEyeOffOutline
       },
       {
         key: SETTING_CATALOG.twitterHideWhoToFollow.key,
@@ -213,6 +234,7 @@ export const SITE_SETTINGS = [
   },
   {
     name: "Viva+",
+    icon: mdiTelevisionPlay,
     hosts: ["vivaplus.tv"],
     enabled: SETTING_CATALOG.vivaplusEnabled.key,
     settings: [
@@ -233,6 +255,7 @@ export const SITE_SETTINGS = [
   },
   {
     name: "YouTube",
+    icon: mdiYoutube,
     hosts: ["www.youtube.com"],
     enabled: SETTING_CATALOG.youtubeEnabled.key,
     settings: [

@@ -23,6 +23,7 @@
     "typescript": "7.0.2"
   },
   "dependencies": {
+    "@mdi/js": "7.4.47",
     "lit": "3.3.3"
   }
 }
