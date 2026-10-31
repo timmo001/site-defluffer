@@ -1,4 +1,4 @@
-import type { SettingDefinition } from "./settings.js";
+import type { BooleanSettingDefinition as SettingDefinition } from "./settings.js";
 
 export const TOGGLE_EXTENSION_MESSAGE = "toggle-extension";
 

@@ -47,6 +47,95 @@ export const SETTING_CATALOG = {
     key: "twitchNarrowScrollbars",
     default: true
   },
+  twitterEnabled: {
+    key: "twitterEnabled",
+    default: true
+  },
+  twitterFillWidth: {
+    key: "twitterFillWidth",
+    default: true
+  },
+  twitterHideSidebar: {
+    key: "twitterHideSidebar",
+    default: true
+  },
+  twitterCompactNav: {
+    key: "twitterCompactNav",
+    default: true
+  },
+  twitterMediaSize: {
+    key: "twitterMediaSize",
+    default: "large",
+    options: ["fill", "window", "large", "medium"]
+  },
+  twitterOpenFollowing: {
+    key: "twitterOpenFollowing",
+    default: true
+  },
+  twitterSortRecent: {
+    key: "twitterSortRecent",
+    default: true
+  },
+  twitterHideSportsTabs: {
+    key: "twitterHideSportsTabs",
+    default: true
+  },
+  twitterHideComposer: {
+    key: "twitterHideComposer",
+    default: false
+  },
+  twitterHideAds: {
+    key: "twitterHideAds",
+    default: true
+  },
+  twitterHideWhoToFollow: {
+    key: "twitterHideWhoToFollow",
+    default: true
+  },
+  twitterHideDiscoverMore: {
+    key: "twitterHideDiscoverMore",
+    default: true
+  },
+  twitterHideExploreForYou: {
+    key: "twitterHideExploreForYou",
+    default: false
+  },
+  twitterHideSearchPrompts: {
+    key: "twitterHideSearchPrompts",
+    default: true
+  },
+  twitterHideWhatsHappening: {
+    key: "twitterHideWhatsHappening",
+    default: true
+  },
+  twitterHideNews: {
+    key: "twitterHideNews",
+    default: false
+  },
+  twitterHidePremium: {
+    key: "twitterHidePremium",
+    default: true
+  },
+  twitterHideGrok: {
+    key: "twitterHideGrok",
+    default: true
+  },
+  twitterHideChatDrawer: {
+    key: "twitterHideChatDrawer",
+    default: true
+  },
+  twitterHideNavExtras: {
+    key: "twitterHideNavExtras",
+    default: true
+  },
+  twitterHideViews: {
+    key: "twitterHideViews",
+    default: false
+  },
+  twitterNarrowScrollbars: {
+    key: "twitterNarrowScrollbars",
+    default: true
+  },
   vivaplusEnabled: {
     key: "vivaplusEnabled",
     default: true
@@ -85,17 +174,37 @@ export const SETTING_CATALOG = {
   }
 } as const;
 
-interface StorageSettingDefinition {
+export interface BooleanSettingDefinition {
   key: string;
   default: boolean;
 }
+
+interface ChoiceSettingDefinition {
+  key: string;
+  default: string;
+  options: readonly string[];
+}
+
+type StorageSettingDefinition = BooleanSettingDefinition | ChoiceSettingDefinition;
+
+type SettingValue<Definition> = Definition extends {
+  options: readonly (infer Option)[];
+}
+  ? Option
+  : boolean;
 
 export type SettingDefinition =
   (typeof SETTING_CATALOG)[keyof typeof SETTING_CATALOG];
 
 export type SettingKey = SettingDefinition["key"];
 
-export type Settings = Record<SettingKey, boolean>;
+export type SettingsFor<
+  Definitions extends readonly StorageSettingDefinition[]
+> = {
+  [Definition in Definitions[number] as Definition["key"]]: SettingValue<Definition>;
+};
+
+export type Settings = SettingsFor<readonly SettingDefinition[]>;
 
 export const ALL_SETTINGS: readonly SettingDefinition[] =
   Object.values(SETTING_CATALOG);
@@ -121,6 +230,31 @@ export const TWITCH_SETTINGS = [
   SETTING_CATALOG.twitchNarrowScrollbars
 ] as const;
 
+export const TWITTER_SETTINGS = [
+  SETTING_CATALOG.twitterEnabled,
+  SETTING_CATALOG.twitterFillWidth,
+  SETTING_CATALOG.twitterHideSidebar,
+  SETTING_CATALOG.twitterCompactNav,
+  SETTING_CATALOG.twitterMediaSize,
+  SETTING_CATALOG.twitterOpenFollowing,
+  SETTING_CATALOG.twitterSortRecent,
+  SETTING_CATALOG.twitterHideSportsTabs,
+  SETTING_CATALOG.twitterHideComposer,
+  SETTING_CATALOG.twitterHideAds,
+  SETTING_CATALOG.twitterHideWhoToFollow,
+  SETTING_CATALOG.twitterHideDiscoverMore,
+  SETTING_CATALOG.twitterHideExploreForYou,
+  SETTING_CATALOG.twitterHideSearchPrompts,
+  SETTING_CATALOG.twitterHideWhatsHappening,
+  SETTING_CATALOG.twitterHideNews,
+  SETTING_CATALOG.twitterHidePremium,
+  SETTING_CATALOG.twitterHideGrok,
+  SETTING_CATALOG.twitterHideChatDrawer,
+  SETTING_CATALOG.twitterHideNavExtras,
+  SETTING_CATALOG.twitterHideViews,
+  SETTING_CATALOG.twitterNarrowScrollbars
+] as const;
+
 export const VIVAPLUS_SETTINGS = [
   SETTING_CATALOG.vivaplusEnabled,
   SETTING_CATALOG.vivaplusHideHeader,
@@ -136,22 +270,27 @@ export const YOUTUBE_SETTINGS = [
   SETTING_CATALOG.youtubeNarrowScrollbars
 ] as const;
 
-export type SettingsFor<
-  Definitions extends readonly StorageSettingDefinition[]
-> =
-  Record<Definitions[number]["key"], boolean>;
-
 function hasSettingsFor<Definitions extends readonly StorageSettingDefinition[]>(
   definitions: Definitions,
-  value: Record<string, boolean>
+  value: Record<string, boolean | string>
 ): value is SettingsFor<Definitions> {
   return definitions.every((setting) => Object.hasOwn(value, setting.key));
+}
+
+// Stored values from older versions or other code fall back to the default.
+// oxlint-disable-next-line anti-slop/no-unknown-parameters -- This parser validates raw Chrome storage values.
+function decodeValue(setting: StorageSettingDefinition, value: unknown) {
+  if ("options" in setting) {
+    return setting.options.find((option) => option === value) ?? setting.default;
+  }
+
+  return value === true || value === false ? value : setting.default;
 }
 
 export function getDefaultSettings<
   const Definitions extends readonly StorageSettingDefinition[]
 >(definitions: Definitions): SettingsFor<Definitions> {
-  const settings = Object.fromEntries<boolean>(
+  const settings = Object.fromEntries<boolean | string>(
     definitions.map((setting) => [setting.key, setting.default])
   );
 
@@ -169,15 +308,11 @@ export function decodeSettings<
   // oxlint-disable-next-line anti-slop/no-unsafe-dictionary-type -- This parser validates raw Chrome storage values before returning settings.
   values: Readonly<Record<string, unknown>>
 ): SettingsFor<Definitions> {
-  const settings = Object.fromEntries<boolean>(
-    definitions.map((setting) => {
-      const value = values[setting.key];
-
-      return [
-        setting.key,
-        value === true || value === false ? value : setting.default
-      ];
-    })
+  const settings = Object.fromEntries<boolean | string>(
+    definitions.map((setting) => [
+      setting.key,
+      decodeValue(setting, values[setting.key])
+    ])
   );
 
   if (!hasSettingsFor(definitions, settings)) {
@@ -205,10 +340,7 @@ export function applyStorageChanges<
 
     next ??= { ...current };
     Object.assign(next, {
-      [setting.key]:
-        change.newValue === true || change.newValue === false
-          ? change.newValue
-          : setting.default
+      [setting.key]: decodeValue(setting, change.newValue)
     });
   }
 

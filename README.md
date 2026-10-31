@@ -26,6 +26,22 @@ that site without altering its individual settings.
 - Hide extra sidebar and chat panels.
 - Keep chat input controls on one line.
 
+### Twitter
+
+- Fill the window width so the timeline uses the free space, or hide the
+  sidebar entirely. A compact icon nav frees up more room on wide windows.
+- Choose a media size: fill the width, fit the window, or scale to ¾ or ½ of
+  the window height so videos made for small screens don't blow up.
+- Open Home on Following sorted by Recent when the page loads. Picking For you
+  or Popular afterwards sticks until the next load.
+- Hide the sports tabs pinned to Home, such as NFL and NBA, without touching
+  your own communities and lists.
+- Hide ads, Who to follow, Discover more under posts, suggested posts on
+  Explore, search feedback prompts, What's happening, Today's News, Premium
+  upsells, Grok, the floating Chat button, extra nav items and view counts.
+  Each is a separate toggle.
+- Use narrow scrollbars across Twitter.
+
 ### Viva+
 
 - Changes only apply on video pages in the desktop layout.

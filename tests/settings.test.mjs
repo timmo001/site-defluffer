@@ -5,6 +5,7 @@ import {
   decodeSettings,
   getDefaultSettings,
   TWITCH_SETTINGS,
+  TWITTER_SETTINGS,
   YOUTUBE_SETTINGS
 } from "../src/settings.ts";
 
@@ -53,6 +54,23 @@ await test("restores the declared default when a key is removed", () => {
       twitchMinifierCompactInputRow: true,
       twitchNarrowScrollbars: true
     }
+  );
+});
+
+await test("keeps known choices and restores the default for unknown ones", () => {
+  const [, , , , mediaSize] = TWITTER_SETTINGS;
+
+  assert.equal(
+    decodeSettings([mediaSize], { twitterMediaSize: "medium" }).twitterMediaSize,
+    "medium"
+  );
+  assert.equal(
+    decodeSettings([mediaSize], { twitterMediaSize: "huge" }).twitterMediaSize,
+    "large"
+  );
+  assert.equal(
+    decodeSettings([mediaSize], { twitterMediaSize: true }).twitterMediaSize,
+    "large"
   );
 });
 

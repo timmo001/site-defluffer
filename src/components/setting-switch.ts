@@ -5,7 +5,7 @@ import type { SettingKey } from "../settings.js";
 
 export interface SettingChangeDetail {
   key: SettingKey;
-  checked: boolean;
+  value: boolean | string;
 }
 
 export class SettingSwitch extends LitElement {
@@ -80,7 +80,7 @@ export class SettingSwitch extends LitElement {
         composed: true,
         detail: {
           key: this.settingKey,
-          checked: event.currentTarget.checked
+          value: event.currentTarget.checked
         }
       })
     );

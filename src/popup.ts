@@ -147,13 +147,13 @@ class SiteDeflufferPopup extends LitElement {
   }
 
   private handleSettingChange(event: CustomEvent<SettingChangeDetail>) {
-    const { key, checked } = event.detail;
+    const { key, value } = event.detail;
 
     const previousValue = this.settings[key];
-    this.settings = { ...this.settings, [key]: checked };
+    this.settings = decodeSettings(ALL_SETTINGS, { ...this.settings, [key]: value });
     this.error = "";
 
-    chrome.storage.local.set({ [key]: checked }, () => {
+    chrome.storage.local.set({ [key]: value }, () => {
       if (!chrome.runtime.lastError) {
         return;
       }

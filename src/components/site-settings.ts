@@ -5,6 +5,7 @@ import {
   type Settings
 } from "../settings.js";
 import type { PopupSettingDefinition } from "../popup-settings.js";
+import "./setting-select.js";
 import "./setting-switch.js";
 
 export class SiteSettings extends LitElement {
@@ -24,16 +25,28 @@ export class SiteSettings extends LitElement {
 
   render() {
     return html`
-      ${this.settings.map(
-        (setting) => html`
-          <setting-switch
-            setting-key=${setting.key}
-            label=${setting.label}
-            hint=${setting.hint ?? ""}
-            .checked=${this.values[setting.key]}
-          ></setting-switch>
-        `
-      )}
+      ${this.settings.map((setting) => {
+        const value = this.values[setting.key];
+
+        return setting.choices
+          ? html`
+              <setting-select
+                setting-key=${setting.key}
+                label=${setting.label}
+                hint=${setting.hint ?? ""}
+                .value=${String(value)}
+                .choices=${setting.choices}
+              ></setting-select>
+            `
+          : html`
+              <setting-switch
+                setting-key=${setting.key}
+                label=${setting.label}
+                hint=${setting.hint ?? ""}
+                .checked=${value === true}
+              ></setting-switch>
+            `;
+      })}
     `;
   }
 }
