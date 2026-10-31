@@ -2,6 +2,7 @@ import { mdiTuneVariant } from "@mdi/js";
 import { css, html, LitElement } from "lit";
 import {
   countOn,
+  getDefaultChanges,
   getSwitchKeys,
   type PopupSettingDefinition
 } from "../popup-settings.js";
@@ -141,6 +142,27 @@ export class SiteSettings extends LitElement {
     `;
   }
 
+  private renderDefaultsButton(group: SettingGroup) {
+    const changes = getDefaultChanges(
+      group.settings.map((setting) => setting.key),
+      this.values
+    );
+
+    return html`
+      <button
+        class="button plain small"
+        type="button"
+        title="Reset ${group.name} to its defaults"
+        ?disabled=${Object.keys(changes).length === 0}
+        @click=${() => {
+          dispatchSettingChange(this, changes);
+        }}
+      >
+        Reset to default
+      </button>
+    `;
+  }
+
   private renderGroup(group: SettingGroup) {
     const switchKeys = getSwitchKeys(group.settings);
     const onCount = countOn(switchKeys, this.values);
@@ -155,6 +177,7 @@ export class SiteSettings extends LitElement {
               ${onCount} of ${switchKeys.length} on
             </span>
           </span>
+          ${this.renderDefaultsButton(group)}
           ${switchKeys.length > 1
             ? this.renderAllButton(switchKeys, onCount === switchKeys.length)
             : null}

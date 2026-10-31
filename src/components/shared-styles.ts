@@ -156,6 +156,12 @@ export const shared = css`
     background: color-mix(in oklab, var(--sd-color-raised), var(--sd-color-text) 6%);
   }
 
+  .button:disabled {
+    cursor: default;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
   .button.plain {
     background: transparent;
     border-color: transparent;
@@ -170,6 +176,12 @@ export const shared = css`
     padding: 0 var(--sd-space-3);
     font-size: var(--sd-font-size-xs);
     --sd-icon-size: 1rem;
+  }
+
+  .button.danger {
+    color: var(--sd-color-danger);
+    background: var(--sd-color-danger-soft);
+    border-color: transparent;
   }
 
   /* Always square, so a round one is a circle */

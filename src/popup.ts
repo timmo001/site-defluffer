@@ -5,6 +5,7 @@ import { icon, shared } from "./components/shared-styles.js";
 import "./components/site-settings.js";
 import {
   countOn,
+  getDefaultChanges,
   getSwitchKeys,
   SITE_SETTINGS,
   type PopupSiteDefinition
@@ -26,7 +27,8 @@ class SiteDeflufferPopup extends LitElement {
   static properties = {
     settings: { state: true },
     error: { state: true },
-    siteName: { state: true }
+    siteName: { state: true },
+    confirmReset: { state: true }
   };
 
   static styles = [
@@ -155,12 +157,14 @@ class SiteDeflufferPopup extends LitElement {
   declare private settings: Settings;
   declare private error: string;
   declare private siteName: string;
+  declare private confirmReset: boolean;
 
   constructor() {
     super();
     this.settings = DEFAULT_SETTINGS;
     this.error = "";
     this.siteName = "";
+    this.confirmReset = false;
   }
 
   private readonly handleStorageChange = (
@@ -286,6 +290,40 @@ class SiteDeflufferPopup extends LitElement {
     return `${countOn(switchKeys, this.settings)} of ${switchKeys.length} on`;
   }
 
+  // Resets every site, so the first click only asks to be sure.
+  private renderResetAllButton() {
+    const changes = getDefaultChanges(
+      ALL_SETTINGS.map((setting) => setting.key),
+      this.settings
+    );
+
+    const count = Object.keys(changes).length;
+
+    return html`
+      <button
+        class="button small ${this.confirmReset ? "danger" : "plain"}"
+        type="button"
+        title="Reset every site to its defaults"
+        ?disabled=${count === 0}
+        @click=${() => {
+          if (this.confirmReset) {
+            this.confirmReset = false;
+            this.saveSettings(changes);
+          } else {
+            this.confirmReset = true;
+          }
+        }}
+        @blur=${() => {
+          this.confirmReset = false;
+        }}
+      >
+        ${this.confirmReset
+          ? `Reset ${count} ${count === 1 ? "change" : "changes"}?`
+          : "Reset to default"}
+      </button>
+    `;
+  }
+
   private renderHome() {
     return html`
       <header class="page-header row">
@@ -294,6 +332,7 @@ class SiteDeflufferPopup extends LitElement {
           <h1>Site Defluffer</h1>
           <p class="description muted">Pick a site to tune what gets hidden.</p>
         </div>
+        ${this.renderResetAllButton()}
       </header>
       <div class="grid sites">
         ${SITES.map(

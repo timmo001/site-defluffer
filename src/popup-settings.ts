@@ -9,7 +9,28 @@ import {
   mdiViewDashboardOutline,
   mdiYoutube
 } from "@mdi/js";
-import { SETTING_CATALOG, type SettingKey, type Settings } from "./settings.js";
+import {
+  ALL_SETTINGS,
+  getDefaultSettings,
+  SETTING_CATALOG,
+  type SettingKey,
+  type Settings
+} from "./settings.js";
+
+const DEFAULT_SETTINGS = getDefaultSettings(ALL_SETTINGS);
+
+// The values that put these keys back to their defaults, leaving out any
+// already there, so an empty result means nothing to reset.
+export function getDefaultChanges(
+  keys: readonly SettingKey[],
+  values: Readonly<Settings>
+): Partial<Record<SettingKey, boolean | string>> {
+  return Object.fromEntries(
+    keys.flatMap((key) =>
+      values[key] === DEFAULT_SETTINGS[key] ? [] : [[key, DEFAULT_SETTINGS[key]]]
+    )
+  );
+}
 
 // Choices have no on or off state, so only switches count and group switches
 // leave choices alone.
