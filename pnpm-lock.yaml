@@ -170,8 +170,8 @@ importers:
         specifier: 7.4.47
         version: 7.4.47
       '@timmo001/groundwork-tokens':
-        specifier: 0.9.16
-        version: 0.9.16
+        specifier: 0.9.28
+        version: 0.9.28
       '@timmo001/groundwork-ui':
         specifier: 0.9.16
         version: 0.9.16
@@ -598,8 +598,8 @@ packages:
     resolution: {integrity: sha512-FT0JJDNbj9oobVWHpAzFckHY/bx1ftPjulBx4UCMXqmDUGqVWOkbKe5bj4zdEL+D5Ud7y/RfioLwSvlHBMjI4w==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@timmo001/groundwork-tokens@0.9.16':
-    resolution: {integrity: sha512-QfmV+WKcaZquh/hEz7UKo71AFC3LyvwkBULfDIdnsZTF4InV98b9KeGFEZfYp+XfRI5MeVkWm3jrq0MAll+hbw==}
+  '@timmo001/groundwork-tokens@0.9.28':
+    resolution: {integrity: sha512-9WOTAmR9HhBEyaXqfbb4V+1Monib0bLXl9GZkuYq1Ir0M9/VAFixtKph0JqeY2wLplJqJH1cgLq99bvcUYWS1A==}
 
   '@timmo001/groundwork-ui@0.9.16':
     resolution: {integrity: sha512-D+Pfeve2F+8/Kd+Vy/3U26MxuyPHeZYGT4R/f7fg97Ce1MikAT/XFbzppM3A+rVRVNgQ8k5X1zPUC8Q16yDrpA==}
@@ -1285,8 +1285,9 @@ snapshots:
 
   '@oxlint/plugins@1.90.0': {}
 
-  '@timmo001/groundwork-tokens@0.9.16':
+  '@timmo001/groundwork-tokens@0.9.28':
     dependencies:
+      '@types/culori': 4.0.1
       culori: 4.0.2
       effect: 4.1.1
 
