@@ -1,6 +1,11 @@
 import { mdiBroom, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
+import "@timmo001/groundwork-ui/gw-alert.ts";
+import "@timmo001/groundwork-ui/gw-button.ts";
+import { GwSwitch } from "@timmo001/groundwork-ui/gw-checkbox.ts";
+import "@timmo001/groundwork-ui/gw-chip.ts";
+import "@timmo001/groundwork-ui/gw-page-header.ts";
 import { GwThemePicker } from "@timmo001/groundwork-ui/gw-theme-picker.ts";
-import { css, html, LitElement } from "lit";
+import { css, html, LitElement, nothing } from "lit";
 import { ref } from "lit/directives/ref.js";
 import type { SettingChangeDetail } from "./components/setting-change.js";
 import { icon, shared } from "./components/shared-styles.js";
@@ -62,8 +67,7 @@ class SiteDeflufferPopup extends LitElement {
         padding: 0 var(--sd-space-5) var(--sd-space-5);
       }
 
-      /* After System Bridge's page header: a tile, the titles, then actions
-         at the top right. Stays in view while the options scroll. */
+      /* Stays in view while the options scroll */
       .page-header {
         position: sticky;
         top: 0;
@@ -71,19 +75,11 @@ class SiteDeflufferPopup extends LitElement {
         margin-inline: calc(-1 * var(--sd-space-5));
         padding: var(--sd-space-4) var(--sd-space-5);
         background: var(--sd-color-bg);
-        --sd-row-gap: var(--sd-space-3);
       }
 
-      .page-header .titles {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        gap: var(--sd-space-0-5);
-        min-width: 0;
-      }
-
-      .description {
-        font-size: var(--sd-font-size-s);
+      .page-header.off::part(tile) {
+        color: var(--gw-color-text-secondary);
+        background: var(--gw-color-fill-neutral-resting);
       }
 
       .sites {
@@ -137,14 +133,6 @@ class SiteDeflufferPopup extends LitElement {
 
       .chevron {
         color: var(--sd-color-muted);
-      }
-
-      .error {
-        padding: var(--sd-space-3) var(--sd-space-4);
-        font-size: var(--sd-font-size-s);
-        color: var(--sd-color-danger);
-        background: var(--sd-color-danger-soft);
-        border-radius: var(--sd-radius-m);
       }
 
       site-settings {
@@ -278,20 +266,20 @@ class SiteDeflufferPopup extends LitElement {
     return this.settings[site.enabled] === true;
   }
 
-  private renderSwitch(site: PopupSiteDefinition) {
+  private renderSwitch(site: PopupSiteDefinition, slot?: string) {
     return html`
-      <input
-        class="switch"
-        type="checkbox"
-        aria-label="Site Defluffer on ${site.name}"
+      <gw-switch
+        slot=${slot ?? nothing}
+        label="Site Defluffer on ${site.name}"
+        label-hidden
         title="Turn ${site.name} on or off (Alt+Shift+T on the site)"
         .checked=${this.isOn(site)}
         @change=${(event: Event) => {
-          if (event.currentTarget instanceof HTMLInputElement) {
+          if (event.currentTarget instanceof GwSwitch) {
             this.saveSettings({ [site.enabled]: event.currentTarget.checked });
           }
         }}
-      />
+      ></gw-switch>
     `;
   }
 
@@ -315,9 +303,11 @@ class SiteDeflufferPopup extends LitElement {
     const count = Object.keys(changes).length;
 
     return html`
-      <button
-        class="button small ${this.confirmReset ? "danger" : "plain"}"
-        type="button"
+      <gw-button
+        slot="actions"
+        size="small"
+        variant=${this.confirmReset ? "danger" : "neutral"}
+        appearance=${this.confirmReset ? "filled" : "plain"}
         title="Reset every site to its defaults"
         ?disabled=${count === 0}
         @click=${() => {
@@ -335,21 +325,21 @@ class SiteDeflufferPopup extends LitElement {
         ${this.confirmReset
           ? `Reset ${count} ${count === 1 ? "change" : "changes"}?`
           : "Reset to default"}
-      </button>
+      </gw-button>
     `;
   }
 
   private renderHome() {
     return html`
-      <header class="page-header row">
-        <span class="tile">${icon(mdiBroom)}</span>
-        <div class="titles">
-          <h1>Site Defluffer</h1>
-          <p class="description muted">Pick a site to tune what gets hidden.</p>
-        </div>
+      <gw-page-header
+        class="page-header"
+        heading="Site Defluffer"
+        description="Pick a site to tune what gets hidden."
+        icon=${mdiBroom}
+      >
         ${this.renderResetAllButton()}
-        <gw-theme-picker ${ref(this.bindPicker)}></gw-theme-picker>
-      </header>
+        <gw-theme-picker slot="actions" ${ref(this.bindPicker)}></gw-theme-picker>
+      </gw-page-header>
       <div class="grid sites">
         ${SITES.map(
           (site) => html`
@@ -366,9 +356,13 @@ class SiteDeflufferPopup extends LitElement {
                 </span>
                 <span class="titles">
                   <span class="name truncate">${site.name}</span>
-                  <span class="chip tabular ${this.isOn(site) ? "accent" : ""}">
+                  <gw-chip
+                    class="tabular"
+                    size="small"
+                    tone=${this.isOn(site) ? "accent" : "neutral"}
+                  >
                     ${this.renderSummary(site)}
-                  </span>
+                  </gw-chip>
                 </span>
                 <span class="chevron">${icon(mdiChevronRight)}</span>
               </button>
@@ -382,25 +376,27 @@ class SiteDeflufferPopup extends LitElement {
 
   private renderSite(site: PopupSiteDefinition) {
     return html`
-      <header class="page-header row">
-        <button
-          class="button plain icon-only round"
-          type="button"
+      <gw-page-header
+        class="page-header tabular ${this.isOn(site) ? "" : "off"}"
+        heading=${site.name}
+        description=${this.renderSummary(site)}
+        icon=${site.icon}
+      >
+        <gw-button
+          slot="start"
+          variant="neutral"
+          appearance="plain"
+          labels="hide"
+          icon=${mdiChevronLeft}
           title="All sites (Alt+Left)"
-          aria-label="Back to all sites"
           @click=${() => {
             this.siteName = "";
           }}
         >
-          ${icon(mdiChevronLeft)}
-        </button>
-        <span class="tile ${this.isOn(site) ? "" : "off"}">${icon(site.icon)}</span>
-        <div class="titles">
-          <h1>${site.name}</h1>
-          <p class="description muted tabular">${this.renderSummary(site)}</p>
-        </div>
-        ${this.renderSwitch(site)}
-      </header>
+          Back to all sites
+        </gw-button>
+        ${this.renderSwitch(site, "actions")}
+      </gw-page-header>
       <site-settings
         class=${this.isOn(site) ? "" : "off"}
         .settings=${site.settings}
@@ -419,7 +415,9 @@ class SiteDeflufferPopup extends LitElement {
     return html`
       <main>
         ${site ? this.renderSite(site) : this.renderHome()}
-        ${this.error ? html`<p class="error" role="alert">${this.error}</p>` : null}
+        ${this.error
+          ? html`<gw-alert tone="danger" urgent>${this.error}</gw-alert>`
+          : null}
       </main>
     `;
   }

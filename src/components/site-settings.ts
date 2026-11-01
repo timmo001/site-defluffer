@@ -1,4 +1,6 @@
 import { mdiTuneVariant } from "@mdi/js";
+import "@timmo001/groundwork-ui/gw-button.ts";
+import "@timmo001/groundwork-ui/gw-card.ts";
 import { css, html, LitElement } from "lit";
 import {
   countOn,
@@ -62,12 +64,7 @@ export class SiteSettings extends LitElement {
         gap: var(--sd-space-3);
       }
 
-      .card {
-        gap: var(--sd-space-2);
-        padding: var(--sd-space-3);
-      }
-
-      header {
+      [slot="heading"] {
         --sd-row-gap: var(--sd-space-3);
       }
 
@@ -127,9 +124,11 @@ export class SiteSettings extends LitElement {
 
   private renderAllButton(keys: readonly SettingKey[], allOn: boolean) {
     return html`
-      <button
-        class="button plain small"
-        type="button"
+      <gw-button
+        slot="actions"
+        size="small"
+        variant="neutral"
+        appearance="plain"
         @click=${() => {
           dispatchSettingChange(
             this,
@@ -138,7 +137,7 @@ export class SiteSettings extends LitElement {
         }}
       >
         ${allOn ? "All off" : "All on"}
-      </button>
+      </gw-button>
     `;
   }
 
@@ -149,9 +148,11 @@ export class SiteSettings extends LitElement {
     );
 
     return html`
-      <button
-        class="button plain small"
-        type="button"
+      <gw-button
+        slot="actions"
+        size="small"
+        variant="neutral"
+        appearance="plain"
         title="Reset ${group.name} to its defaults"
         ?disabled=${Object.keys(changes).length === 0}
         @click=${() => {
@@ -159,7 +160,7 @@ export class SiteSettings extends LitElement {
         }}
       >
         Reset to default
-      </button>
+      </gw-button>
     `;
   }
 
@@ -168,8 +169,8 @@ export class SiteSettings extends LitElement {
     const onCount = countOn(switchKeys, this.values);
 
     return html`
-      <section class="card">
-        <header class="row">
+      <gw-card>
+        <span slot="heading" class="row">
           <span class="tile small">${icon(group.icon)}</span>
           <span class="titles">
             <h3>${group.name}</h3>
@@ -177,15 +178,15 @@ export class SiteSettings extends LitElement {
               ${onCount} of ${switchKeys.length} on
             </span>
           </span>
-          ${this.renderDefaultsButton(group)}
-          ${switchKeys.length > 1
-            ? this.renderAllButton(switchKeys, onCount === switchKeys.length)
-            : null}
-        </header>
+        </span>
+        ${this.renderDefaultsButton(group)}
+        ${switchKeys.length > 1
+          ? this.renderAllButton(switchKeys, onCount === switchKeys.length)
+          : null}
         <div class="grid tiles">
           ${group.settings.map((setting) => this.renderSetting(setting))}
         </div>
-      </section>
+      </gw-card>
     `;
   }
 

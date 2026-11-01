@@ -170,11 +170,11 @@ importers:
         specifier: 7.4.47
         version: 7.4.47
       '@timmo001/groundwork-tokens':
-        specifier: 0.9.11
-        version: 0.9.11
+        specifier: 0.9.12
+        version: 0.9.12
       '@timmo001/groundwork-ui':
-        specifier: 0.9.11
-        version: 0.9.11
+        specifier: 0.9.12
+        version: 0.9.12
       lit:
         specifier: 3.3.3
         version: 3.3.3
@@ -598,11 +598,11 @@ packages:
     resolution: {integrity: sha512-FT0JJDNbj9oobVWHpAzFckHY/bx1ftPjulBx4UCMXqmDUGqVWOkbKe5bj4zdEL+D5Ud7y/RfioLwSvlHBMjI4w==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@timmo001/groundwork-tokens@0.9.11':
-    resolution: {integrity: sha512-ce9LWxVAMZHS4PIe61sTm3/VxMi2s+VGmKDyL71qqJ8SuHLlryalwl3B3BinHUR19PcJ20Q+QbOCrOk9XEa8rA==}
+  '@timmo001/groundwork-tokens@0.9.12':
+    resolution: {integrity: sha512-Qf+i0cinFuiikFY07sMZXjfW3Diip9m9uPMT3blVTzzpKkCkbQbfpXUKTn0MM68W9Yy6KJRcE/ioheTYWwQs4Q==}
 
-  '@timmo001/groundwork-ui@0.9.11':
-    resolution: {integrity: sha512-/8m670t6mE9LvpRun3ce0zZe6OlkwR9SqlJoSK3T26KvtcRckfzKATVkdFApWkBHc+qpgOEUoLd3EucWMW/q1w==}
+  '@timmo001/groundwork-ui@0.9.12':
+    resolution: {integrity: sha512-OEOJz8xtkbk4rMJBT60TRrGxXmBJEp9LQb1tuT8V3LJI2odNdcMxRGf5qw3Eni4PrTg5kNi5xQ5kE0yVAm5c7w==}
 
   '@timmo001/oxlint-rules@0.6.3':
     resolution: {integrity: sha512-DxIid4Bu5t8bLuWcAIZlikLVLabSrJ1ai2siFB+E+7HdY3TPMgsUU44/Is+9RAQYVH8LEYjOQFVedH5MOXL5YQ==}
@@ -1285,12 +1285,12 @@ snapshots:
 
   '@oxlint/plugins@1.90.0': {}
 
-  '@timmo001/groundwork-tokens@0.9.11':
+  '@timmo001/groundwork-tokens@0.9.12':
     dependencies:
       culori: 4.0.2
       effect: 4.1.1
 
-  '@timmo001/groundwork-ui@0.9.11': {}
+  '@timmo001/groundwork-ui@0.9.12': {}
 
   '@timmo001/oxlint-rules@0.6.3(@oxlint/plugins@1.90.0)(oxlint@1.90.0(oxlint-tsgolint@7.0.2005))':
     dependencies:
