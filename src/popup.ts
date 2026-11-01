@@ -1,5 +1,7 @@
 import { mdiBroom, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
+import { GwThemePicker } from "@timmo001/groundwork-ui/gw-theme-picker.ts";
 import { css, html, LitElement } from "lit";
+import { ref } from "lit/directives/ref.js";
 import type { SettingChangeDetail } from "./components/setting-change.js";
 import { icon, shared } from "./components/shared-styles.js";
 import "./components/site-settings.js";
@@ -18,6 +20,7 @@ import {
   getDefaultSettings,
   type Settings
 } from "./settings.js";
+import { bindThemePicker } from "./theme.js";
 
 const DEFAULT_SETTINGS = getDefaultSettings(ALL_SETTINGS);
 
@@ -186,6 +189,18 @@ class SiteDeflufferPopup extends LitElement {
     }
   };
 
+  // Unbinds the header's theme picker when the view changes
+  private unbindTheme: (() => void) | undefined;
+
+  private readonly bindPicker = (element: Element | undefined) => {
+    this.unbindTheme?.();
+    this.unbindTheme = undefined;
+
+    if (element instanceof GwThemePicker) {
+      this.unbindTheme = bindThemePicker(element);
+    }
+  };
+
   private readonly handleKeydown = (event: KeyboardEvent) => {
     if (this.siteName && event.altKey && event.key === "ArrowLeft") {
       event.preventDefault();
@@ -333,6 +348,7 @@ class SiteDeflufferPopup extends LitElement {
           <p class="description muted">Pick a site to tune what gets hidden.</p>
         </div>
         ${this.renderResetAllButton()}
+        <gw-theme-picker ${ref(this.bindPicker)}></gw-theme-picker>
       </header>
       <div class="grid sites">
         ${SITES.map(

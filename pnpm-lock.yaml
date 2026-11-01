@@ -169,6 +169,12 @@ importers:
       '@mdi/js':
         specifier: 7.4.47
         version: 7.4.47
+      '@timmo001/groundwork-tokens':
+        specifier: 0.9.11
+        version: 0.9.11
+      '@timmo001/groundwork-ui':
+        specifier: 0.9.11
+        version: 0.9.11
       lit:
         specifier: 3.3.3
         version: 3.3.3
@@ -182,6 +188,9 @@ importers:
       '@types/chrome':
         specifier: 0.3.7
         version: 0.3.7
+      '@types/culori':
+        specifier: 4.0.1
+        version: 4.0.1
       '@types/node':
         specifier: 26.6.6
         version: 26.6.6
@@ -589,6 +598,12 @@ packages:
     resolution: {integrity: sha512-FT0JJDNbj9oobVWHpAzFckHY/bx1ftPjulBx4UCMXqmDUGqVWOkbKe5bj4zdEL+D5Ud7y/RfioLwSvlHBMjI4w==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
+  '@timmo001/groundwork-tokens@0.9.11':
+    resolution: {integrity: sha512-ce9LWxVAMZHS4PIe61sTm3/VxMi2s+VGmKDyL71qqJ8SuHLlryalwl3B3BinHUR19PcJ20Q+QbOCrOk9XEa8rA==}
+
+  '@timmo001/groundwork-ui@0.9.11':
+    resolution: {integrity: sha512-/8m670t6mE9LvpRun3ce0zZe6OlkwR9SqlJoSK3T26KvtcRckfzKATVkdFApWkBHc+qpgOEUoLd3EucWMW/q1w==}
+
   '@timmo001/oxlint-rules@0.6.3':
     resolution: {integrity: sha512-DxIid4Bu5t8bLuWcAIZlikLVLabSrJ1ai2siFB+E+7HdY3TPMgsUU44/Is+9RAQYVH8LEYjOQFVedH5MOXL5YQ==}
     engines: {node: '>=20'}
@@ -599,6 +614,9 @@ packages:
 
   '@types/chrome@0.3.7':
     resolution: {integrity: sha512-jWZgbHqWbTL1a5+PoyN0OJutNyejWgyZ5MdcvKo6iJE1TNRtXR3FxsC4WzNl52yZWPidfWC8NV/VUNZf+OFKcA==}
+
+  '@types/culori@4.0.1':
+    resolution: {integrity: sha512-43M51r/22CjhbOXyGT361GZ9vncSVQ39u62x5eJdBQFviI8zWp2X5jzqg7k4M6PVgDQAClpy2bUe2dtwEgEDVQ==}
 
   '@types/esrecurse@4.3.1':
     resolution: {integrity: sha512-xJBAbDifo5hpffDBuHl0Y8ywswbiAp/Wi7Y/GtAgSlZyIABppyurxVueOPE8LUQOxdlgi6Zqce7uoEpqNTeiUw==}
@@ -766,6 +784,10 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
+  culori@4.0.2:
+    resolution: {integrity: sha512-1+BhOB8ahCn4O0cep0Sh2l9KCOfOdY+BXJnKMHFFzDEouSr/el18QwXEMRlOj9UY5nCeA8UN3a/82rUWRBeyBw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
     engines: {node: '>=6.0'}
@@ -785,6 +807,9 @@ packages:
   domhandler@6.0.1:
     resolution: {integrity: sha512-gYzvtM72ZtxQO0T048kd6HWSbbGCNOUwcnfQ01cqIJ4X2IYKFFHZ5mKvrQETcFXxsRObZulDaKmy//R7TPtsBg==}
     engines: {node: '>=20.19.0'}
+
+  effect@4.1.1:
+    resolution: {integrity: sha512-XYu65BrcmNqu5i7PPvP4dqL+R5ma37zIsfuSPjcn78mog+6e5PkilNg7Xo+pBpjXJYlWEIpH4j91tMrfW05CMw==}
 
   entities@8.1.0:
     resolution: {integrity: sha512-kxL7msIffSuh9aaFAMD7rxAIuTRMAHMeBtgHW2yUdWw732ZNh4MehkF2gdjvtdmikkaIP9bFDDJOPlsvm7avrA==}
@@ -1260,6 +1285,13 @@ snapshots:
 
   '@oxlint/plugins@1.90.0': {}
 
+  '@timmo001/groundwork-tokens@0.9.11':
+    dependencies:
+      culori: 4.0.2
+      effect: 4.1.1
+
+  '@timmo001/groundwork-ui@0.9.11': {}
+
   '@timmo001/oxlint-rules@0.6.3(@oxlint/plugins@1.90.0)(oxlint@1.90.0(oxlint-tsgolint@7.0.2005))':
     dependencies:
       '@oxlint/plugins': 1.90.0
@@ -1268,6 +1300,8 @@ snapshots:
   '@types/chrome@0.3.7':
     dependencies:
       '@types/har-format': 1.2.16
+
+  '@types/culori@4.0.1': {}
 
   '@types/esrecurse@4.3.1': {}
 
@@ -1376,6 +1410,8 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
+  culori@4.0.2: {}
+
   debug@4.4.3:
     dependencies:
       ms: 2.1.3
@@ -1387,6 +1423,8 @@ snapshots:
   domhandler@6.0.1:
     dependencies:
       domelementtype: 3.0.0
+
+  effect@4.1.1: {}
 
   entities@8.1.0: {}
 

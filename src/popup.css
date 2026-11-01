@@ -1,21 +1,23 @@
 /*
- * Design tokens, after System Bridge's and Triage's web UIs (themselves after
- * Home Assistant's core and typography globals), in rem so everything follows
- * the browser's font size. Colours are System Bridge's Light and Dark themes,
- * following the system scheme like Triage. Components use these tokens
- * instead of raw values.
+ * Design tokens. The colours, type and shape come from the Groundwork theme
+ * picked in the header (Base by default), in light, dark or Darker, through
+ * its --gw-* roles; the --sd-* names are kept as aliases so the components
+ * read the same. Spacing stays in rem, so everything follows the browser's
+ * font size.
  */
+@import "@timmo001/groundwork-tokens/themes.css";
+
 :root {
-  --sd-color-bg: #f5f6f8;
-  --sd-color-surface: #ffffff;
-  --sd-color-raised: #ffffff;
-  --sd-color-sunken: #eceef2;
-  --sd-color-text: #17181c;
-  --sd-color-muted: #5f6170;
-  --sd-color-border: #dfe1e7;
-  --sd-color-accent: #2563eb;
-  --sd-color-on-accent: #ffffff;
-  --sd-color-danger: #dc2626;
+  --sd-color-bg: var(--gw-color-surface-default);
+  --sd-color-surface: var(--gw-color-surface-raised);
+  --sd-color-raised: var(--gw-color-surface-raised);
+  --sd-color-sunken: var(--gw-color-surface-lower);
+  --sd-color-text: var(--gw-color-text-strong);
+  --sd-color-muted: var(--gw-color-text-secondary);
+  --sd-color-border: var(--gw-color-border-normal);
+  --sd-color-accent: var(--gw-color-accent);
+  --sd-color-on-accent: var(--gw-color-on-accent);
+  --sd-color-danger: var(--gw-color-danger);
 
   /* Derived colours */
   --sd-color-hover: color-mix(in oklab, var(--sd-color-text) 7%, transparent);
@@ -29,10 +31,10 @@
     var(--sd-color-danger) 16%,
     transparent
   );
-  --sd-color-focus: color-mix(in oklab, var(--sd-color-accent) 60%, transparent);
+  --sd-color-focus: var(--gw-color-focus);
 
   /* Type */
-  --sd-font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --sd-font-body: var(--gw-font-sans);
   --sd-font-size-2xs: 0.6875rem;
   --sd-font-size-xs: 0.75rem;
   --sd-font-size-s: 0.875rem;
@@ -56,39 +58,18 @@
   --sd-space-6: 1.5rem;
 
   /* Shape */
-  --sd-radius-s: 0.375rem;
-  --sd-radius-m: 0.5rem;
-  --sd-radius-l: 0.75rem;
+  --sd-radius-s: var(--gw-radius-chip, 0.375rem);
+  --sd-radius-m: var(--gw-radius-control);
+  --sd-radius-l: var(--gw-radius-panel);
   --sd-radius-pill: 9999px;
 
   /* Layout: Chrome sizes the popup to the page, up to 800px wide */
   --sd-popup-width: 45rem;
   --sd-popup-height: 37.5rem;
 
-  /* Motion */
-  --sd-duration-fast: 120ms;
-  --sd-easing: cubic-bezier(0.2, 0, 0, 1);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --sd-color-bg: #0f1014;
-    --sd-color-surface: #17181e;
-    --sd-color-raised: #1f2028;
-    --sd-color-sunken: #0b0c0f;
-    --sd-color-text: #ececf1;
-    --sd-color-muted: #9a9cab;
-    --sd-color-border: #2a2b35;
-    --sd-color-accent: #60a5fa;
-    --sd-color-on-accent: #0b0c0f;
-    --sd-color-danger: #f87171;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --sd-duration-fast: 1ms;
-  }
+  /* Motion, which the theme cuts short for reduced motion */
+  --sd-duration-fast: var(--gw-motion-fast);
+  --sd-easing: var(--gw-motion-easing);
 }
 
 *,
