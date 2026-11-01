@@ -105,12 +105,6 @@ body {
   background: var(--sd-color-accent-soft);
 }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in oklab, var(--sd-color-muted) 60%, transparent)
-    transparent;
-}
-
 /* Hide custom elements until they upgrade, so nothing flashes unstyled */
 :not(:defined) {
   visibility: hidden;

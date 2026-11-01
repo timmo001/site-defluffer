@@ -46,6 +46,9 @@ class SiteDeflufferPopup extends LitElement {
         display: block;
         max-height: var(--sd-popup-height);
         overflow-y: auto;
+        /* Groundwork's scrollbar edges, so the thumb squares off at the ends */
+        animation: gw-scrollbar-edges-y linear both;
+        animation-timeline: scroll(self y);
       }
 
       /* Wider than any popup can be, so the page is open in a tab. */
