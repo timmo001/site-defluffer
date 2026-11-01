@@ -1,4 +1,4 @@
-/* node_modules/.pnpm/@timmo001+groundwork-tokens@0.9.16/node_modules/@timmo001/groundwork-tokens/generated/themes.css */
+/* node_modules/.pnpm/@timmo001+groundwork-tokens@0.9.28/node_modules/@timmo001/groundwork-tokens/generated/themes.css */
 :root {
   --gw-density: 1;
   --gw-control-scale: 1;
@@ -44,6 +44,7 @@
   --gw-motion-normal: 250ms;
   --gw-motion-slow: 350ms;
   --gw-motion-easing: cubic-bezier(0.2, 0, 0, 1);
+  --gw-motion-delay: 500ms;
   --gw-focus-width: 2px;
   --gw-focus-offset: 2px;
   --gw-content-width: 72rem;
