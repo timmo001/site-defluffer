@@ -170,8 +170,8 @@ importers:
         specifier: 7.4.47
         version: 7.4.47
       '@timmo001/groundwork-tokens':
-        specifier: 0.9.32
-        version: 0.9.32
+        specifier: 0.9.33
+        version: 0.9.33
       '@timmo001/groundwork-ui':
         specifier: 0.9.32
         version: 0.9.32
@@ -598,8 +598,8 @@ packages:
     resolution: {integrity: sha512-FT0JJDNbj9oobVWHpAzFckHY/bx1ftPjulBx4UCMXqmDUGqVWOkbKe5bj4zdEL+D5Ud7y/RfioLwSvlHBMjI4w==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@timmo001/groundwork-tokens@0.9.32':
-    resolution: {integrity: sha512-PjUNFW/eVmy6e/EvqLWqq9sS1yEBYvvh+qAY2Zb40EO3oV1egZcWRM/ojDvB/F4xvmMYLeNd82Fk73qf42D7sw==}
+  '@timmo001/groundwork-tokens@0.9.33':
+    resolution: {integrity: sha512-ooruER7dfIgzfkDTmM2sar/X4diIsntt3sZ2hRFq2VgcThZpFFjCOA3BCsreuxEf2PSKnHREeHLDH7qrebt9pA==}
 
   '@timmo001/groundwork-ui@0.9.32':
     resolution: {integrity: sha512-qcj1fa1SvxGRgH4/ryPANbF1P30Sy1KFz0+qXhsGKTCqaQsrT1vNq3rJlWVjvaBZiZNKD5wUkN5R7BdbDvEOJQ==}
@@ -808,8 +808,8 @@ packages:
     resolution: {integrity: sha512-gYzvtM72ZtxQO0T048kd6HWSbbGCNOUwcnfQ01cqIJ4X2IYKFFHZ5mKvrQETcFXxsRObZulDaKmy//R7TPtsBg==}
     engines: {node: '>=20.19.0'}
 
-  effect@4.1.1:
-    resolution: {integrity: sha512-XYu65BrcmNqu5i7PPvP4dqL+R5ma37zIsfuSPjcn78mog+6e5PkilNg7Xo+pBpjXJYlWEIpH4j91tMrfW05CMw==}
+  effect@4.1.2:
+    resolution: {integrity: sha512-d3Oah1WyKxFLFh19yWheS5IXIVaITzxZ71JkE1rkUozq/6EcJSU5nPk5bF2QrSygZ3SQoiNQB8TsxFriyMeMaQ==}
 
   entities@8.1.0:
     resolution: {integrity: sha512-kxL7msIffSuh9aaFAMD7rxAIuTRMAHMeBtgHW2yUdWw732ZNh4MehkF2gdjvtdmikkaIP9bFDDJOPlsvm7avrA==}
@@ -1285,11 +1285,11 @@ snapshots:
 
   '@oxlint/plugins@1.90.0': {}
 
-  '@timmo001/groundwork-tokens@0.9.32':
+  '@timmo001/groundwork-tokens@0.9.33':
     dependencies:
       '@types/culori': 4.0.1
       culori: 4.0.2
-      effect: 4.1.1
+      effect: 4.1.2
 
   '@timmo001/groundwork-ui@0.9.32': {}
 
@@ -1425,7 +1425,7 @@ snapshots:
     dependencies:
       domelementtype: 3.0.0
 
-  effect@4.1.1: {}
+  effect@4.1.2: {}
 
   entities@8.1.0: {}
 
