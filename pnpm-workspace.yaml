@@ -5,3 +5,7 @@ allowBuilds:
 # Renovate owns the default release delay and package-specific overrides.
 minimumReleaseAge: 0
 savePrefix: ""
+
+# eslint-plugin-lit only imports eslint for its types, and oxlint runs it.
+overrides:
+  eslint-plugin-lit>eslint: "-"
