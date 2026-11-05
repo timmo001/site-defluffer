@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@oxlint/plugins": "1.91.0",
-    "@timmo001/oxlint-rules": "0.6.3",
+    "@timmo001/oxlint-rules": "0.6.4",
     "@types/chrome": "0.3.7",
     "@types/culori": "4.0.1",
     "@types/node": "26.6.6",
