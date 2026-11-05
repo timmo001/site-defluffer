@@ -1,5 +1,6 @@
 node_modules/
 extension/background.js
 extension/popup.js
+extension/popup.css
 extension/sites/*/content.js
 extension/sites/*/main-world.js
