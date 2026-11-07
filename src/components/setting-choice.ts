@@ -1,5 +1,6 @@
+import "@timmo001/groundwork-ui/define/gw-segmented.ts";
 import { GwSegmented } from "@timmo001/groundwork-ui/gw-segmented.ts";
-import "@timmo001/groundwork-ui/gw-setting-row.ts";
+import "@timmo001/groundwork-ui/define/gw-setting-row.ts";
 import { css, html, LitElement } from "lit";
 import type { PopupSettingChoice } from "../popup-settings.js";
 import type { SettingKey } from "../settings.js";

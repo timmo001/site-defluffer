@@ -1,6 +1,6 @@
 import { mdiTuneVariant } from "@mdi/js";
-import "@timmo001/groundwork-ui/gw-button.ts";
-import "@timmo001/groundwork-ui/gw-card.ts";
+import "@timmo001/groundwork-ui/define/gw-button.ts";
+import "@timmo001/groundwork-ui/define/gw-card.ts";
 import { css, html, LitElement } from "lit";
 import {
   countOn,

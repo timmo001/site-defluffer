@@ -1,9 +1,11 @@
 import { mdiBroom, mdiChevronLeft, mdiChevronRight } from "@mdi/js";
-import "@timmo001/groundwork-ui/gw-alert.ts";
-import "@timmo001/groundwork-ui/gw-button.ts";
+import "@timmo001/groundwork-ui/define/gw-alert.ts";
+import "@timmo001/groundwork-ui/define/gw-button.ts";
+import "@timmo001/groundwork-ui/define/gw-checkbox.ts";
 import { GwSwitch } from "@timmo001/groundwork-ui/gw-checkbox.ts";
-import "@timmo001/groundwork-ui/gw-chip.ts";
-import "@timmo001/groundwork-ui/gw-page-header.ts";
+import "@timmo001/groundwork-ui/define/gw-chip.ts";
+import "@timmo001/groundwork-ui/define/gw-page-header.ts";
+import "@timmo001/groundwork-ui/define/gw-theme-picker.ts";
 import { GwThemePicker } from "@timmo001/groundwork-ui/gw-theme-picker.ts";
 import { css, html, LitElement, nothing } from "lit";
 import { ref } from "lit/directives/ref.js";
