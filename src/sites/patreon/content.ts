@@ -25,16 +25,15 @@ const CLASSES = {
   fillPageHeight: "site-defluffer-patreon-fill-page-height"
 };
 
-const VIDEO_PLAYER =
-  '[class*="VideoPlayer-module__"][class*="__aspectRatioContainer"]';
+const VIDEO_PLAYER = '[class*="_aspectRatioContainer"]';
 
 const VIDEO_POST_SELECTOR = `${VIDEO_PLAYER} video`;
 
 const VIDEO_POST = `:has(${VIDEO_POST_SELECTOR})`;
 
-const HEADER = '[class*="__stickyNav"]';
+const HEADER = '[class*="_stickyNav"]';
 
-const SIDEBAR = '[class*="__primaryNavigationWrapper"]';
+const SIDEBAR = '[class*="_primaryNavigationWrapper"]';
 
 // Patreon's page frame leaves 8px above and below, plus a 1px offset at the
 // top, and its sticky creator nav is 56px tall. The sidebar is 72px wide.
@@ -64,27 +63,27 @@ html.${CLASSES.hideSidebar}.${CLASSES.floating}${VIDEO_POST} ${SIDEBAR} {
   left: 0 !important;
 }
 
-html.${CLASSES.hideSidebar}${VIDEO_POST} [class*="__hasPrimaryNavigation"] {
+html.${CLASSES.hideSidebar}${VIDEO_POST} [class*="_hasPrimaryNavigation"] {
   padding-left: 8px !important;
 }
 
-html.${CLASSES.hideSidebar}${VIDEO_POST} [class*="__navigationOffset"] {
+html.${CLASSES.hideSidebar}${VIDEO_POST} [class*="_navigationOffset"] {
   margin-left: 0 !important;
 }
 
-html.${CLASSES.hideSidebar}${VIDEO_POST} [class*="__pageFrame"] {
+html.${CLASSES.hideSidebar}${VIDEO_POST} [class*="_pageFrame"] {
   left: 8px !important;
 }
 
-html.${CLASSES.fillPageHeight}${VIDEO_POST} [class*="__pageFrame"] {
+html.${CLASSES.fillPageHeight}${VIDEO_POST} [class*="_pageFrame"] {
   display: none !important;
 }
 
-html.${CLASSES.fillPageHeight}${VIDEO_POST} [class*="__hasPrimaryNavigation"] {
+html.${CLASSES.fillPageHeight}${VIDEO_POST} [class*="_hasPrimaryNavigation"] {
   padding: 0 !important;
 }
 
-html.${CLASSES.fillPageHeight}${VIDEO_POST} [class*="__navigationOffset"] {
+html.${CLASSES.fillPageHeight}${VIDEO_POST} [class*="_navigationOffset"] {
   margin-top: 0 !important;
 }
 
@@ -97,11 +96,11 @@ html.${CLASSES.fillPageHeight}.${CLASSES.hideHeader}.${CLASSES.floating}${VIDEO_
   right: 0 !important;
 }
 
-html.${CLASSES.fillPageHeight} [class*="__compactMediaWrapper"]:has(${VIDEO_POST_SELECTOR}) {
+html.${CLASSES.fillPageHeight} [class*="_compactMediaWrapper"]:has(${VIDEO_POST_SELECTOR}) {
   padding-top: 0 !important;
 }
 
-html.${CLASSES.fillPageHeight} :is([class*="__premiumPostContent"], [class*="__singleColumnContent"]):has(${VIDEO_POST_SELECTOR}) {
+html.${CLASSES.fillPageHeight} :is([class*="_premiumPostContent"], [class*="_singleColumnContent"], [class*="_fullPostContent"]):has(${VIDEO_POST_SELECTOR}) {
   max-width: none !important;
   padding: 0 !important;
 }
