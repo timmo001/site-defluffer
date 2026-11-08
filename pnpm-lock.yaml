@@ -176,8 +176,8 @@ importers:
         specifier: 0.12.0
         version: 0.12.0(redis@6.3.1)
       '@timmo001/groundwork-ui':
-        specifier: 0.11.3
-        version: 0.11.3
+        specifier: 0.12.0
+        version: 0.12.0
       lit:
         specifier: 3.3.3
         version: 3.3.3
@@ -599,8 +599,8 @@ packages:
     resolution: {integrity: sha512-aBtpO/eXBMKUuwoNcH/UYHtympaH667Mlri69WbQ50Bj125kcpXvk3jvDFqfmqtRPzjj6H1McNOoUzgtrl8BpA==}
     hasBin: true
 
-  '@timmo001/groundwork-ui@0.11.3':
-    resolution: {integrity: sha512-cmH7pSnfzyIaVxj8/r71IlE6lIq9Sa7ILd5rSLvsMbKVZtL00n2aIFCd+66whtIkYwo/5gBNJpngBUQdClxVWw==}
+  '@timmo001/groundwork-ui@0.12.0':
+    resolution: {integrity: sha512-5rZwIoaryRKBEeEajTfb1t2W7CGCDNaZSz0sPVvcbnITXlmDimTk9HBJ/RaZPV/9ICYUw0qSzQ85EoMipoqoKQ==}
 
   '@timmo001/oxlint-rules@0.6.4':
     resolution: {integrity: sha512-FHVvFrgyhw8JuE+eL+1/ABEWTynttmornkOU5a2WutAZeAkNQK38olP//u0OGOEKgtmHORTbUWD9jq9CmeJXmA==}
@@ -1172,7 +1172,7 @@ snapshots:
       - redis
       - utf-8-validate
 
-  '@timmo001/groundwork-ui@0.11.3':
+  '@timmo001/groundwork-ui@0.12.0':
     dependencies:
       '@tanstack/table-core': 9.3.1
       '@tanstack/virtual-core': 3.19.11
