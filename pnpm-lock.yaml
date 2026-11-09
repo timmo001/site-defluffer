@@ -176,8 +176,8 @@ importers:
         specifier: 0.20.0
         version: 0.20.0(redis@6.3.1)
       '@timmo001/groundwork-ui':
-        specifier: 0.20.0
-        version: 0.20.0
+        specifier: 0.20.2
+        version: 0.20.2
       lit:
         specifier: 3.3.3
         version: 3.3.3
@@ -632,8 +632,8 @@ packages:
     resolution: {integrity: sha512-mw16mv8ul3Ne1MdYgBOPherV0SrgtfwsYM0EPosU6mHJPyzPwiXw3AbkQd9nVCJdx82tAPFqyKAP5bHQkjNv/Q==}
     hasBin: true
 
-  '@timmo001/groundwork-ui@0.20.0':
-    resolution: {integrity: sha512-fOmFObIFClihjhCcClyPBNqDOOVWIqd5b8jQamArAeiYtEqaDq5IYH+lJH8Fr6KvNeo+QO7g52iPZx57EfmwGA==}
+  '@timmo001/groundwork-ui@0.20.2':
+    resolution: {integrity: sha512-WoGGe5MSN6XE34lPb010GxlPZ6yuGEXLn3aVDj0PC5TWTt+NyjF6d5L3+LT7C8kXgQw703gHunaQ4bianAY69A==}
 
   '@timmo001/oxlint-rules@0.6.4':
     resolution: {integrity: sha512-FHVvFrgyhw8JuE+eL+1/ABEWTynttmornkOU5a2WutAZeAkNQK38olP//u0OGOEKgtmHORTbUWD9jq9CmeJXmA==}
@@ -1266,7 +1266,7 @@ snapshots:
       - redis
       - utf-8-validate
 
-  '@timmo001/groundwork-ui@0.20.0':
+  '@timmo001/groundwork-ui@0.20.2':
     dependencies:
       '@codemirror/lang-json': 6.0.2
       '@codemirror/language': 6.13.1
