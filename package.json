@@ -25,8 +25,8 @@
   },
   "dependencies": {
     "@mdi/js": "7.4.47",
-    "@timmo001/groundwork-tokens": "0.17.1",
-    "@timmo001/groundwork-ui": "0.17.1",
+    "@timmo001/groundwork-tokens": "0.18.0",
+    "@timmo001/groundwork-ui": "0.18.0",
     "lit": "3.3.3"
   }
 }
