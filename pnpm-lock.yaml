@@ -173,11 +173,11 @@ importers:
         specifier: 7.4.47
         version: 7.4.47
       '@timmo001/groundwork-tokens':
-        specifier: 0.23.0
-        version: 0.23.0(redis@6.3.1)
+        specifier: 0.24.0
+        version: 0.24.0(redis@6.3.1)
       '@timmo001/groundwork-ui':
-        specifier: 0.23.0
-        version: 0.23.0
+        specifier: 0.24.0
+        version: 0.24.0
       lit:
         specifier: 3.3.3
         version: 3.3.3
@@ -233,17 +233,17 @@ packages:
   '@codemirror/view@6.43.15':
     resolution: {integrity: sha512-HHsfpqFeHyXLs983pSRe38Xajs0vFWZQ2BuX0m7Ki8w3jZ5iD8cuR3lBz2/5/X53Dhf32SBHKh6rtSTB6tKeGw==}
 
-  '@effect/platform-node-shared@4.1.2':
-    resolution: {integrity: sha512-wSwl9A/G1hcVvF8nLI+YfB3EyOIDvWS6+lsTZBkmgDnPBL7m8YWZF+1HD+mdEsb52SUGfukip46Q3gRwSdk3QA==}
+  '@effect/platform-node-shared@4.1.4':
+    resolution: {integrity: sha512-DWdfphHGOFJNj/mYadgpT3jIm8aRXDcPrQiGXFBH4p2H4XmA7iYMrPsI8NxVgZ7kNX0q1+FGJZJama0tINHRAg==}
     engines: {node: '>=22.19.0'}
     peerDependencies:
-      effect: ^4.1.2
+      effect: ^4.1.4
 
-  '@effect/platform-node@4.1.2':
-    resolution: {integrity: sha512-ye0UjxORdd5Qu3paZ1LljgGOALWHt7muP9VTpjUSCNfcesiB/Hm7wPJIvZeu4gnwpTe5BtEnO1VHngWqjJp8mA==}
+  '@effect/platform-node@4.1.4':
+    resolution: {integrity: sha512-h7QExTPq/RfYtHP/8tMlgfBvqYsuJKhxfkU6w0+NaF/ihqQ8Y3GH9t28ltupQjoqMM7P6W5gy8rOji7F0qVrmg==}
     engines: {node: '>=22.19.0'}
     peerDependencies:
-      effect: ^4.1.2
+      effect: ^4.1.4
       redis: '>=5.1.0 <7.0.0'
 
   '@esbuild/aix-ppc64@0.28.2':
@@ -628,12 +628,12 @@ packages:
   '@tanstack/virtual-core@3.19.11':
     resolution: {integrity: sha512-/5iHb0RHBvj8Di59FDs4ESNm45jls33aZAi4zccVXZjc/6ZvwQP6nzEYeT6weXjTf9E6/vrp2JhYWRyO+ZP13A==}
 
-  '@timmo001/groundwork-tokens@0.23.0':
-    resolution: {integrity: sha512-EVZdXwnSGopbnRNtyYS9a2LCzMiOM7lcSVKKJKhlviYxOlMkv+RuWeVxciK00lUJ3oLoDHAGmgC6/2fbypBVhw==}
+  '@timmo001/groundwork-tokens@0.24.0':
+    resolution: {integrity: sha512-1AHXaiNi+5qwNxtvL0HxCTeBVlF0cqP8wZpWx2L15X81T3ATPMbutYN31M0dB60JXe28s6CJa73IV23iSc9DuQ==}
     hasBin: true
 
-  '@timmo001/groundwork-ui@0.23.0':
-    resolution: {integrity: sha512-5ui5ZEmJZXuex2gijjBudqhfqgOACgMJZ3a5wa0z1sSGV4HLt+EqGr/CVnVMbAOOZ6roRTUvdvKkyOAxh/eW+A==}
+  '@timmo001/groundwork-ui@0.24.0':
+    resolution: {integrity: sha512-MUB5yUItAeu25uW4zfYb3kWOU3DFjO1iuMc8kdzo34aF8OrUH5Z7mGlVJ/bKEm1cn5ItDoLowKlgJXYoc0NlaQ==}
 
   '@timmo001/oxlint-rules@0.6.5':
     resolution: {integrity: sha512-BFDZ+yFyzT0jQA3A5Cgb533e5BwJBS4wWG4Z7JNQ+yjyZJspzssMLRRdoFk1bx7g1mWWvSFgl920vmtTXJJGZQ==}
@@ -824,8 +824,8 @@ packages:
     resolution: {integrity: sha512-gYzvtM72ZtxQO0T048kd6HWSbbGCNOUwcnfQ01cqIJ4X2IYKFFHZ5mKvrQETcFXxsRObZulDaKmy//R7TPtsBg==}
     engines: {node: '>=20.19.0'}
 
-  effect@4.1.2:
-    resolution: {integrity: sha512-d3Oah1WyKxFLFh19yWheS5IXIVaITzxZ71JkE1rkUozq/6EcJSU5nPk5bF2QrSygZ3SQoiNQB8TsxFriyMeMaQ==}
+  effect@4.1.4:
+    resolution: {integrity: sha512-Tgrv/9FN+TZYyOn8XSli+fVqAfwDrDAkiX5Uu9vztINb675VTQdhD0gWI5Kzvhlh9QqzjZvw72iugqw5pwoghQ==}
 
   entities@9.0.0:
     resolution: {integrity: sha512-oJFNDJg3kTPwAD1cNn2+WmUq4wFoo09npc3Ydf1D7ED4smRiWrsKnaLxykrTWgyGEcusc87P5dxlAleol9kpkg==}
@@ -1029,19 +1029,19 @@ snapshots:
       style-mod: 4.1.4
       w3c-keyname: 2.2.8
 
-  '@effect/platform-node-shared@4.1.2(effect@4.1.2)':
+  '@effect/platform-node-shared@4.1.4(effect@4.1.4)':
     dependencies:
       '@types/ws': 8.18.2
-      effect: 4.1.2
+      effect: 4.1.4
       ws: 8.22.2
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/platform-node@4.1.2(effect@4.1.2)(redis@6.3.1)':
+  '@effect/platform-node@4.1.4(effect@4.1.4)(redis@6.3.1)':
     dependencies:
-      '@effect/platform-node-shared': 4.1.2(effect@4.1.2)
-      effect: 4.1.2
+      '@effect/platform-node-shared': 4.1.4(effect@4.1.4)
+      effect: 4.1.4
       redis: 6.3.1
       undici: 8.12.4
     transitivePeerDependencies:
@@ -1255,18 +1255,18 @@ snapshots:
 
   '@tanstack/virtual-core@3.19.11': {}
 
-  '@timmo001/groundwork-tokens@0.23.0(redis@6.3.1)':
+  '@timmo001/groundwork-tokens@0.24.0(redis@6.3.1)':
     dependencies:
-      '@effect/platform-node': 4.1.2(effect@4.1.2)(redis@6.3.1)
+      '@effect/platform-node': 4.1.4(effect@4.1.4)(redis@6.3.1)
       '@types/culori': 4.0.1
       culori: 4.0.2
-      effect: 4.1.2
+      effect: 4.1.4
     transitivePeerDependencies:
       - bufferutil
       - redis
       - utf-8-validate
 
-  '@timmo001/groundwork-ui@0.23.0':
+  '@timmo001/groundwork-ui@0.24.0':
     dependencies:
       '@codemirror/lang-json': 6.0.2
       '@codemirror/language': 6.13.1
@@ -1396,7 +1396,7 @@ snapshots:
     dependencies:
       domelementtype: 3.0.0
 
-  effect@4.1.2: {}
+  effect@4.1.4: {}
 
   entities@9.0.0: {}
 
