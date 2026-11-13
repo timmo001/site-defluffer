@@ -20,7 +20,7 @@
     "esbuild": "0.28.2",
     "eslint-plugin-lit": "2.3.1",
     "oxlint": "1.93.0",
-    "oxlint-tsgolint": "7.0.2006",
+    "oxlint-tsgolint": "7.0.2007",
     "typescript": "7.0.2"
   },
   "dependencies": {
