@@ -195,8 +195,8 @@ importers:
         specifier: 1.93.0
         version: 1.93.0
       '@timmo001/oxlint-rules':
-        specifier: 0.6.4
-        version: 0.6.4(@oxlint/plugins@1.93.0)(oxlint@1.93.0(oxlint-tsgolint@7.0.2007))
+        specifier: 0.6.5
+        version: 0.6.5(@oxlint/plugins@1.93.0)(oxlint@1.93.0(oxlint-tsgolint@7.0.2007))
       '@types/chrome':
         specifier: 0.3.7
         version: 0.3.7
@@ -647,8 +647,8 @@ packages:
   '@timmo001/groundwork-ui@0.47.0':
     resolution: {integrity: sha512-bd4YlSbUgR8tDhDNu6NTnieMSNx4HRM3hwqdXSI2+Tgan11H7WxRGb6iOcS8PuRP+osVFXWg9ZzlAw4YaLUuxg==}
 
-  '@timmo001/oxlint-rules@0.6.4':
-    resolution: {integrity: sha512-FHVvFrgyhw8JuE+eL+1/ABEWTynttmornkOU5a2WutAZeAkNQK38olP//u0OGOEKgtmHORTbUWD9jq9CmeJXmA==}
+  '@timmo001/oxlint-rules@0.6.5':
+    resolution: {integrity: sha512-BFDZ+yFyzT0jQA3A5Cgb533e5BwJBS4wWG4Z7JNQ+yjyZJspzssMLRRdoFk1bx7g1mWWvSFgl920vmtTXJJGZQ==}
     engines: {node: '>=20'}
     hasBin: true
     peerDependencies:
@@ -1302,7 +1302,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@timmo001/oxlint-rules@0.6.4(@oxlint/plugins@1.93.0)(oxlint@1.93.0(oxlint-tsgolint@7.0.2007))':
+  '@timmo001/oxlint-rules@0.6.5(@oxlint/plugins@1.93.0)(oxlint@1.93.0(oxlint-tsgolint@7.0.2007))':
     dependencies:
       '@oxlint/plugins': 1.93.0
       oxlint: 1.93.0(oxlint-tsgolint@7.0.2007)
