@@ -13,6 +13,14 @@ run = "pnpm typecheck"
 depends = ["install"]
 run = "pnpm lint"
 
+[tasks.format]
+depends = ["install"]
+run = "pnpm format"
+
+[tasks."format:check"]
+depends = ["install"]
+run = "pnpm format:check"
+
 [tasks.test]
 depends = ["install"]
 run = "pnpm test"
@@ -22,4 +30,4 @@ depends = ["typecheck"]
 run = "pnpm build"
 
 [tasks.check]
-depends = ["lint", "typecheck", "test", "build"]
+depends = ["lint", "typecheck", "test", "format:check", "build"]

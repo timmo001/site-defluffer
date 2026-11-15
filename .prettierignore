@@ -1,0 +1,11 @@
+node_modules
+extension/background.js
+extension/popup.js
+extension/popup.css
+extension/sites
+AGENTS.md
+.agents/skills
+.opencode
+pnpm-lock.yaml
+mise.lock
+skills-lock.json
