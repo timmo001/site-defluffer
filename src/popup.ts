@@ -239,6 +239,7 @@ class SiteDeflufferPopup extends LitElement {
       }
 
       const { hostname } = new URL(url);
+
       const site = SITES.find((candidate) =>
         candidate.hosts.includes(hostname)
       );

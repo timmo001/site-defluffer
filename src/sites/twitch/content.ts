@@ -425,6 +425,7 @@ function cleanupLegacyArtifacts() {
   const selector = LEGACY_ATTRIBUTES.map((attribute) => `[${attribute}]`).join(
     ", "
   );
+
   const elements = new Set(document.querySelectorAll(selector));
 
   for (const element of elements) {
