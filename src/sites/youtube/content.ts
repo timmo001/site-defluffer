@@ -208,7 +208,8 @@ function applySettings() {
   ensureStyle();
 
   const hasMainPlayer =
-    document.querySelector("ytd-watch-flexy:not([hidden]) #movie_player") !== null;
+    document.querySelector("ytd-watch-flexy:not([hidden]) #movie_player") !==
+    null;
 
   if (hasMainPlayer) {
     stopWaitingForMainPlayer();
@@ -230,9 +231,7 @@ function applySettings() {
   );
   document.documentElement.classList.toggle(
     CLASSES.fillPageHeight,
-    hasMainPlayer &&
-      state[SITE_ENABLED.key] &&
-      state[FILL_PAGE_HEIGHT.key]
+    hasMainPlayer && state[SITE_ENABLED.key] && state[FILL_PAGE_HEIGHT.key]
   );
   document.documentElement.classList.toggle(
     CLASSES.fitChat,
@@ -264,7 +263,8 @@ document.addEventListener("keydown", (event) => {
     event.metaKey ||
     event.shiftKey ||
     event.repeat ||
-    document.querySelector("ytd-watch-flexy:not([hidden]) #movie_player") === null
+    document.querySelector("ytd-watch-flexy:not([hidden]) #movie_player") ===
+      null
   ) {
     return;
   }

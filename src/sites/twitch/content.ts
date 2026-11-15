@@ -422,11 +422,16 @@ function cleanupLegacyArtifacts() {
     document.getElementById(styleId)?.remove();
   }
 
-  const selector = LEGACY_ATTRIBUTES.map((attribute) => `[${attribute}]`).join(", ");
+  const selector = LEGACY_ATTRIBUTES.map((attribute) => `[${attribute}]`).join(
+    ", "
+  );
   const elements = new Set(document.querySelectorAll(selector));
 
   for (const element of elements) {
-    restoreLegacyStyle(element, "data-twitch-minifier-compact-inline-style-original");
+    restoreLegacyStyle(
+      element,
+      "data-twitch-minifier-compact-inline-style-original"
+    );
     restoreLegacyStyle(element, "data-twitch-minifier-original-style");
 
     for (const attribute of LEGACY_ATTRIBUTES) {
@@ -478,7 +483,9 @@ function getCompactTargets(root: HTMLElement | null): CompactTargets | null {
     .find(
       (child) =>
         child instanceof HTMLElement &&
-        child.querySelector('[data-test-selector="chat-input-buttons-container"]')
+        child.querySelector(
+          '[data-test-selector="chat-input-buttons-container"]'
+        )
     );
 
   if (!(row instanceof HTMLElement)) {
@@ -493,7 +500,9 @@ function getCompactTargets(root: HTMLElement | null): CompactTargets | null {
     return null;
   }
 
-  const inputContainer = Array.from(row.children).find((child) => child !== buttons);
+  const inputContainer = Array.from(row.children).find(
+    (child) => child !== buttons
+  );
 
   if (!(inputContainer instanceof HTMLElement)) {
     return null;
@@ -566,8 +575,8 @@ function markCompactTargets() {
 
 function isPointsPopupOpen() {
   return (
-    document.querySelector(COMPACT_POINTS_OPEN_SELECTOR) instanceof HTMLElement ||
-    getElementByXPath(COMPACT_POINTS_POPUP_XPATH) !== null
+    document.querySelector(COMPACT_POINTS_OPEN_SELECTOR) instanceof
+      HTMLElement || getElementByXPath(COMPACT_POINTS_POPUP_XPATH) !== null
   );
 }
 
@@ -580,9 +589,7 @@ function applyRootClasses() {
 
   root.classList.toggle(
     CLASSES.hideEnabled,
-    hasMainPlayer &&
-      state[SITE_ENABLED.key] &&
-      state[HIDE_PANELS.key]
+    hasMainPlayer && state[SITE_ENABLED.key] && state[HIDE_PANELS.key]
   );
   root.classList.toggle(
     CLASSES.compactEnabled,

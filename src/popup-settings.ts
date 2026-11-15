@@ -27,7 +27,9 @@ export function getDefaultChanges(
 ): Partial<Record<SettingKey, boolean | string>> {
   return Object.fromEntries(
     keys.flatMap((key) =>
-      values[key] === DEFAULT_SETTINGS[key] ? [] : [[key, DEFAULT_SETTINGS[key]]]
+      values[key] === DEFAULT_SETTINGS[key]
+        ? []
+        : [[key, DEFAULT_SETTINGS[key]]]
     )
   );
 }
@@ -38,7 +40,10 @@ export function getSwitchKeys(settings: readonly PopupSettingDefinition[]) {
   return settings.flatMap((setting) => (setting.choices ? [] : [setting.key]));
 }
 
-export function countOn(keys: readonly SettingKey[], values: Readonly<Settings>) {
+export function countOn(
+  keys: readonly SettingKey[],
+  values: Readonly<Settings>
+) {
   return keys.filter((key) => values[key] === true).length;
 }
 
@@ -167,7 +172,11 @@ export const SITE_SETTINGS = [
         label: "Media size",
         choices: [
           { value: "fill", label: "Fill", hint: "Fill the timeline width" },
-          { value: "window", label: "Window", hint: "Fit within the window height" },
+          {
+            value: "window",
+            label: "Window",
+            hint: "Fit within the window height"
+          },
           { value: "large", label: "¾", hint: "Up to ¾ of the window height" },
           { value: "medium", label: "½", hint: "Up to ½ of the window height" }
         ]

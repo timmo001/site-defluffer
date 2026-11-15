@@ -180,9 +180,11 @@ export class SiteSettings extends LitElement {
           </span>
         </span>
         ${this.renderDefaultsButton(group)}
-        ${switchKeys.length > 1
-          ? this.renderAllButton(switchKeys, onCount === switchKeys.length)
-          : null}
+        ${
+          switchKeys.length > 1
+            ? this.renderAllButton(switchKeys, onCount === switchKeys.length)
+            : null
+        }
         <div class="grid tiles">
           ${group.settings.map((setting) => this.renderSetting(setting))}
         </div>

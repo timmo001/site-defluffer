@@ -61,7 +61,8 @@ await test("keeps known choices and restores the default for unknown ones", () =
   const [, , , , mediaSize] = TWITTER_SETTINGS;
 
   assert.equal(
-    decodeSettings([mediaSize], { twitterMediaSize: "medium" }).twitterMediaSize,
+    decodeSettings([mediaSize], { twitterMediaSize: "medium" })
+      .twitterMediaSize,
     "medium"
   );
   assert.equal(

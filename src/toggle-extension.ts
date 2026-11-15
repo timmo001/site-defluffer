@@ -3,25 +3,26 @@ import type { BooleanSettingDefinition as SettingDefinition } from "./settings.j
 export const TOGGLE_EXTENSION_MESSAGE = "toggle-extension";
 
 export function toggleExtension(setting: SettingDefinition) {
-  chrome.storage.local.get(
-    { [setting.key]: setting.default },
-    (result) => {
-      if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError.message);
+  chrome.storage.local.get({ [setting.key]: setting.default }, (result) => {
+    if (chrome.runtime.lastError) {
+      console.error(chrome.runtime.lastError.message);
 
-        return;
-      }
-
-      const enabled: unknown = result[setting.key];
-
-      void chrome.storage.local.set({
-        [setting.key]: enabled === true || enabled === false ? !enabled : !setting.default
-      });
+      return;
     }
-  );
+
+    const enabled: unknown = result[setting.key];
+
+    void chrome.storage.local.set({
+      [setting.key]:
+        enabled === true || enabled === false ? !enabled : !setting.default
+    });
+  });
 }
 
-function handleToggleShortcut(event: KeyboardEvent, setting: SettingDefinition) {
+function handleToggleShortcut(
+  event: KeyboardEvent,
+  setting: SettingDefinition
+) {
   if (
     event.key.toLowerCase() !== "t" ||
     !event.altKey ||

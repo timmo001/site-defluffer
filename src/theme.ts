@@ -5,7 +5,11 @@
  * theme tools where the browser offers them. `bindThemePicker` connects the
  * header's picker to it.
  */
-import { coreThemeChoices, pageTheme, type ThemeMode } from "@timmo001/groundwork-tokens/page";
+import {
+  coreThemeChoices,
+  pageTheme,
+  type ThemeMode
+} from "@timmo001/groundwork-tokens/page";
 import type { GwThemePicker } from "@timmo001/groundwork-ui/gw-theme-picker.ts";
 import { on } from "@timmo001/groundwork-ui/on.ts";
 

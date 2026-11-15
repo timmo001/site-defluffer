@@ -239,7 +239,9 @@ class SiteDeflufferPopup extends LitElement {
       }
 
       const { hostname } = new URL(url);
-      const site = SITES.find((candidate) => candidate.hosts.includes(hostname));
+      const site = SITES.find((candidate) =>
+        candidate.hosts.includes(hostname)
+      );
 
       if (site) {
         this.siteName = site.name;
@@ -249,7 +251,10 @@ class SiteDeflufferPopup extends LitElement {
 
   private saveSettings(values: SettingChangeDetail["values"]) {
     const previousSettings = this.settings;
-    this.settings = decodeSettings(ALL_SETTINGS, { ...this.settings, ...values });
+    this.settings = decodeSettings(ALL_SETTINGS, {
+      ...this.settings,
+      ...values
+    });
     this.error = "";
 
     chrome.storage.local.set(values, () => {
@@ -327,9 +332,11 @@ class SiteDeflufferPopup extends LitElement {
           this.confirmReset = false;
         }}
       >
-        ${this.confirmReset
-          ? `Reset ${count} ${count === 1 ? "change" : "changes"}?`
-          : "Reset to default"}
+        ${
+          this.confirmReset
+            ? `Reset ${count} ${count === 1 ? "change" : "changes"}?`
+            : "Reset to default"
+        }
       </gw-button>
     `;
   }
@@ -343,7 +350,10 @@ class SiteDeflufferPopup extends LitElement {
         icon=${mdiBroom}
       >
         ${this.renderResetAllButton()}
-        <gw-theme-picker slot="actions" ${ref(this.bindPicker)}></gw-theme-picker>
+        <gw-theme-picker
+          slot="actions"
+          ${ref(this.bindPicker)}
+        ></gw-theme-picker>
       </gw-page-header>
       <div class="grid sites">
         ${SITES.map(
@@ -420,9 +430,11 @@ class SiteDeflufferPopup extends LitElement {
     return html`
       <main>
         ${site ? this.renderSite(site) : this.renderHome()}
-        ${this.error
-          ? html`<gw-alert tone="danger" urgent>${this.error}</gw-alert>`
-          : null}
+        ${
+          this.error
+            ? html`<gw-alert tone="danger" urgent>${this.error}</gw-alert>`
+            : null
+        }
       </main>
     `;
   }

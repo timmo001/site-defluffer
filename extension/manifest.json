@@ -9,10 +9,7 @@
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
   },
-  "permissions": [
-    "activeTab",
-    "storage"
-  ],
+  "permissions": ["activeTab", "storage"],
   "background": {
     "service_worker": "background.js"
   },
@@ -36,69 +33,39 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://www.corridordigital.com/*"
-      ],
-      "js": [
-        "sites/corridor/content.js"
-      ],
+      "matches": ["https://www.corridordigital.com/*"],
+      "js": ["sites/corridor/content.js"],
       "run_at": "document_idle"
     },
     {
-      "matches": [
-        "https://www.patreon.com/*"
-      ],
-      "js": [
-        "sites/patreon/content.js"
-      ],
+      "matches": ["https://www.patreon.com/*"],
+      "js": ["sites/patreon/content.js"],
       "run_at": "document_idle"
     },
     {
-      "matches": [
-        "https://www.twitch.tv/*"
-      ],
-      "js": [
-        "sites/twitch/content.js"
-      ],
+      "matches": ["https://www.twitch.tv/*"],
+      "js": ["sites/twitch/content.js"],
       "run_at": "document_idle"
     },
     {
-      "matches": [
-        "https://x.com/*",
-        "https://twitter.com/*"
-      ],
-      "js": [
-        "sites/twitter/main-world.js"
-      ],
+      "matches": ["https://x.com/*", "https://twitter.com/*"],
+      "js": ["sites/twitter/main-world.js"],
       "run_at": "document_start",
       "world": "MAIN"
     },
     {
-      "matches": [
-        "https://x.com/*",
-        "https://twitter.com/*"
-      ],
-      "js": [
-        "sites/twitter/content.js"
-      ],
+      "matches": ["https://x.com/*", "https://twitter.com/*"],
+      "js": ["sites/twitter/content.js"],
       "run_at": "document_start"
     },
     {
-      "matches": [
-        "https://vivaplus.tv/*"
-      ],
-      "js": [
-        "sites/vivaplus/content.js"
-      ],
+      "matches": ["https://vivaplus.tv/*"],
+      "js": ["sites/vivaplus/content.js"],
       "run_at": "document_idle"
     },
     {
-      "matches": [
-        "https://www.youtube.com/*"
-      ],
-      "js": [
-        "sites/youtube/content.js"
-      ],
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["sites/youtube/content.js"],
       "run_at": "document_idle"
     }
   ]

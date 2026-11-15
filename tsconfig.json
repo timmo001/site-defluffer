@@ -20,5 +20,11 @@
     "noUnusedParameters": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "scripts/**/*.mjs", "tests/**/*.mjs", "types/**/*.d.ts", "*.config.ts"]
+  "include": [
+    "src/**/*.ts",
+    "scripts/**/*.mjs",
+    "tests/**/*.mjs",
+    "types/**/*.d.ts",
+    "*.config.ts"
+  ]
 }

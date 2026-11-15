@@ -347,7 +347,9 @@ async function pickRecent(following: HTMLElement) {
 
     // Popular is listed first and Recent second; the active one has a tick.
     const recent = await waitFor(() => {
-      const item = document.querySelectorAll('[role="menu"] [role="menuitem"]')[1];
+      const item = document.querySelectorAll(
+        '[role="menu"] [role="menuitem"]'
+      )[1];
 
       return item instanceof HTMLElement ? item : null;
     });
@@ -385,13 +387,17 @@ function steerHomeTabs() {
 
   homeTabsHandled = true;
 
-  if (state[OPEN_FOLLOWING.key] && following.getAttribute("aria-selected") !== "true") {
+  if (
+    state[OPEN_FOLLOWING.key] &&
+    following.getAttribute("aria-selected") !== "true"
+  ) {
     following.click();
   }
 
   if (
     state[SORT_RECENT.key] &&
-    (state[OPEN_FOLLOWING.key] || following.getAttribute("aria-selected") === "true")
+    (state[OPEN_FOLLOWING.key] ||
+      following.getAttribute("aria-selected") === "true")
   ) {
     void pickRecent(following);
   }
@@ -401,7 +407,10 @@ function applyPageClasses() {
   const root = document.documentElement;
   const enabled = state[SITE_ENABLED.key];
 
-  root.classList.toggle(CLASSES.homePage, enabled && location.pathname === "/home");
+  root.classList.toggle(
+    CLASSES.homePage,
+    enabled && location.pathname === "/home"
+  );
   root.classList.toggle(
     CLASSES.explorePage,
     enabled && location.pathname.startsWith("/explore")
@@ -414,7 +423,10 @@ function applyPageClasses() {
 
 function measureMedia() {
   for (const box of document.querySelectorAll(MEDIA_BOX)) {
-    if (!(box instanceof HTMLElement) || box.style.getPropertyValue(MEDIA_RATIO_PROPERTY)) {
+    if (
+      !(box instanceof HTMLElement) ||
+      box.style.getPropertyValue(MEDIA_RATIO_PROPERTY)
+    ) {
       continue;
     }
 

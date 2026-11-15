@@ -49,7 +49,10 @@ function tag(elements: Iterable<Element>, attribute: string) {
 
 function tagAll() {
   tagQueued = false;
-  tag(document.querySelectorAll('[data-testid="cellInnerDiv"]'), ENTRY_ATTRIBUTE);
+  tag(
+    document.querySelectorAll('[data-testid="cellInnerDiv"]'),
+    ENTRY_ATTRIBUTE
+  );
   tag(
     document.querySelectorAll(
       '[data-testid="primaryColumn"] [role="tablist"] [role="tab"]'

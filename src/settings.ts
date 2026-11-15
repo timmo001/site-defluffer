@@ -185,7 +185,8 @@ interface ChoiceSettingDefinition {
   options: readonly string[];
 }
 
-type StorageSettingDefinition = BooleanSettingDefinition | ChoiceSettingDefinition;
+type StorageSettingDefinition =
+  BooleanSettingDefinition | ChoiceSettingDefinition;
 
 type SettingValue<Definition> = Definition extends {
   options: readonly (infer Option)[];
@@ -201,7 +202,9 @@ export type SettingKey = SettingDefinition["key"];
 export type SettingsFor<
   Definitions extends readonly StorageSettingDefinition[]
 > = {
-  [Definition in Definitions[number] as Definition["key"]]: SettingValue<Definition>;
+  [
+    Definition in Definitions[number] as Definition["key"]
+  ]: SettingValue<Definition>;
 };
 
 export type Settings = SettingsFor<readonly SettingDefinition[]>;
@@ -270,7 +273,9 @@ export const YOUTUBE_SETTINGS = [
   SETTING_CATALOG.youtubeNarrowScrollbars
 ] as const;
 
-function hasSettingsFor<Definitions extends readonly StorageSettingDefinition[]>(
+function hasSettingsFor<
+  Definitions extends readonly StorageSettingDefinition[]
+>(
   definitions: Definitions,
   value: Record<string, boolean | string>
 ): value is SettingsFor<Definitions> {
@@ -281,7 +286,9 @@ function hasSettingsFor<Definitions extends readonly StorageSettingDefinition[]>
 // oxlint-disable-next-line anti-slop/no-unknown-parameters -- This parser validates raw Chrome storage values.
 function decodeValue(setting: StorageSettingDefinition, value: unknown) {
   if ("options" in setting) {
-    return setting.options.find((option) => option === value) ?? setting.default;
+    return (
+      setting.options.find((option) => option === value) ?? setting.default
+    );
   }
 
   return value === true || value === false ? value : setting.default;
