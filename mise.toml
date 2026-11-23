@@ -1,6 +1,6 @@
 [tools]
 node = "26.13.1"
-"npm:pnpm" = "12.21.0"
+"npm:pnpm" = "12.23.0"
 # The hk pre-push hook and the linters it runs, matching CI.
 hk = "2.13.0"
 pkl = "0.33.1"
