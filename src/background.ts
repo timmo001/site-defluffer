@@ -14,8 +14,9 @@ chrome.commands.onCommand.addListener((command) => {
       return;
     }
 
-    chrome.tabs.sendMessage(tabId, { type: TOGGLE_EXTENSION_MESSAGE }, () => {
-      void chrome.runtime.lastError;
-    });
+    // Tabs without the content script reject, which is expected
+    chrome.tabs
+      .sendMessage(tabId, { type: TOGGLE_EXTENSION_MESSAGE })
+      .catch(() => undefined);
   });
 });
